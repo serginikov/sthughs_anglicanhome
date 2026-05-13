@@ -1,0 +1,3266 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>St Hugh's Anglican Home — Rose Hill, Mauritius</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ===== CSS VARIABLES – LIGHT MODE ===== */
+      :root {
+        --submit: #124848;
+        --submit-text: #c9b175;
+        --mission: #124848;
+        --teal-dark: #124848;
+        --teal-mid: #1b6b6b;
+        --teal-light: #2a9090;
+        --teal-pale: #c0dede;
+        --cream: #faf8f4;
+        --beige: #f0ebe0;
+        --beige-dark: #d8caaf;
+        --gold: #b8963e;
+        --gold-light: #d4af6a;
+        --text-dark: #0f2a2a;
+        --text-mid: #2e4a4a;
+        --text-light: #6a8888;
+        --white: #ffffff;
+        --bg-main: #faf8f4;
+        --bg-alt: #f0ebe0;
+        --card-bg: #ffffff;
+        --card-border: #d8caaf;
+        --shadow: 0 4px 32px rgba(18, 72, 72, 0.1);
+        --shadow-deep: 0 12px 48px rgba(18, 72, 72, 0.16);
+        --nav-bg-scroll: rgba(18, 72, 72, 0.97);
+      }
+
+      /* ===== DARK MODE ===== */
+      [data-theme="dark"] {
+        --mission: #032727;
+        --teal-dark: #ffdc7d;
+        --teal-mid: #1b6b6b;
+        --teal-light: #2a9090;
+        --teal-pale: #1a3d3d;
+        --cream: #0d1f1f;
+        --beige: #122a2a;
+        --beige-dark: #1e3a3a;
+        --gold: #b8963e;
+        --gold-light: #d4af6a;
+        --text-dark: #e8f4f4;
+        --text-mid: #b0cccc;
+        --text-light: #78a0a0;
+        --white: #e8f4f4;
+        --bg-main: #0d1f1f;
+        --bg-alt: #122a2a;
+        --card-bg: #182f2f;
+        --card-border: #1e3a3a;
+        --shadow: 0 4px 32px rgba(0, 0, 0, 0.35);
+        --shadow-deep: 0 12px 48px rgba(0, 0, 0, 0.45);
+        --nav-bg-scroll: rgba(10, 46, 46, 0.97);
+      }
+
+      /* ===== RESET & BASE ===== */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Jost", sans-serif;
+        background: var(--bg-main);
+        color: var(--text-dark);
+        overflow-x: hidden;
+        transition:
+          background 0.35s,
+          color 0.35s;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* ===== TYPOGRAPHY ===== */
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Cormorant Garamond", serif;
+        line-height: 1.15;
+      }
+
+      .section-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.75rem;
+      }
+      .section-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 600;
+        color: var(--teal-dark);
+        margin-bottom: 1.25rem;
+      }
+      .section-title em {
+        font-style: italic;
+        color: var(--teal-light);
+      }
+      .section-lead {
+        font-size: 1.05rem;
+        font-weight: 300;
+        color: var(--text-mid);
+        line-height: 1.8;
+        max-width: 680px;
+      }
+
+      /* ===== LAYOUT ===== */
+      .container {
+        width: min(1200px, 92vw);
+        margin: 0 auto;
+      }
+      .section-pad {
+        padding: 90px 0;
+      }
+      .deco-line {
+        display: inline-block;
+        width: 48px;
+        height: 2px;
+        background: var(--gold);
+        vertical-align: middle;
+        margin-right: 12px;
+      }
+
+      /* ===== NAVBAR ===== */
+      #navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        transition:
+          background 0.4s,
+          box-shadow 0.4s,
+          padding 0.3s;
+        padding: 16px 0;
+      }
+      #navbar.scrolled {
+        background: var(--nav-bg-scroll);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 24px rgba(0, 0, 0, 0.2);
+        padding: 10px 0;
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-logo-img {
+        height: 44px;
+        width: auto;
+        border-radius: 4px;
+        background: white;
+        padding: 3px;
+        object-fit: contain;
+      }
+      .nav-brand-text {
+        color: var(--white);
+      }
+      .nav-brand-text strong {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.15rem;
+        font-weight: 700;
+        display: block;
+      }
+      .nav-brand-text span {
+        font-size: 0.66rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.7;
+      }
+
+      /* Nav Controls */
+      .nav-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      /* Language selector */
+      .lang-selector {
+        position: relative;
+      }
+      .lang-btn {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: rgba(255, 255, 255, 0.9);
+        border-radius: 3px;
+        padding: 6px 10px;
+        font-family: "Jost", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: background 0.2s;
+        white-space: nowrap;
+      }
+      .lang-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      .lang-btn svg {
+        width: 12px;
+        height: 12px;
+        fill: currentColor;
+      }
+
+      .lang-dropdown {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 4px;
+        box-shadow: var(--shadow-deep);
+        min-width: 160px;
+        display: none;
+        z-index: 100;
+        overflow: hidden;
+      }
+      .lang-dropdown.open {
+        display: block;
+      }
+      .lang-option {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+        color: var(--text-dark);
+        cursor: pointer;
+        transition: background 0.15s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .lang-option:hover {
+        background: var(--beige);
+        color: var(--teal-mid);
+      }
+      .lang-option.active {
+        color: var(--teal-mid);
+        font-weight: 600;
+      }
+      .lang-flag {
+        font-size: 1.1rem;
+      }
+
+      /* Theme toggle */
+      .theme-toggle {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 3px;
+        width: 36px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s;
+        flex-shrink: 0;
+      }
+      .theme-toggle:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      .theme-toggle svg {
+        width: 16px;
+        height: 16px;
+      }
+      .icon-sun {
+        display: none;
+        fill: #ffffff;
+      }
+      .icon-moon {
+        display: block;
+        fill: rgba(255, 255, 255, 0.9);
+      }
+      [data-theme="dark"] .icon-sun {
+        display: block;
+      }
+      [data-theme="dark"] .icon-moon {
+        display: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.8rem;
+        list-style: none;
+      }
+      .nav-links a {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+        position: relative;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--gold-light);
+        transition: width 0.3s;
+      }
+      .nav-links a:hover {
+        color: var(--gold-light);
+      }
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+      .nav-cta {
+        background: var(--gold) !important;
+        color: var(--white) !important;
+        padding: 7px 18px;
+        border-radius: 2px;
+      }
+      .nav-cta:hover {
+        background: var(--gold-light) !important;
+      }
+      .nav-cta::after {
+        display: none !important;
+      }
+
+      .burger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 6px;
+      }
+      .burger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--white);
+        transition:
+          transform 0.3s,
+          opacity 0.3s;
+      }
+
+      /* ===== FLOATING APPOINTMENT BUTTON ===== */
+      #appt-btn {
+        position: fixed;
+        bottom: 5.5rem;
+        right: 2rem;
+        z-index: 900;
+        background: var(--teal-mid);
+        border: 2px solid var(--gold);
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 11px 18px;
+        color: var(--white);
+        font-family: "Jost", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 0 6px 24px rgba(18, 72, 72, 0.35);
+        transition:
+          transform 0.25s,
+          box-shadow 0.25s,
+          background 0.2s;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      #appt-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 32px rgba(18, 72, 72, 0.45);
+        background: var(--teal-dark);
+      }
+      #appt-btn svg {
+        width: 16px;
+        height: 16px;
+        fill: var(--gold-light);
+        flex-shrink: 0;
+      }
+      #appt-btn .pulse {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #4ade80;
+        flex-shrink: 0;
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
+        }
+        50% {
+          box-shadow: 0 0 0 5px rgba(74, 222, 128, 0);
+        }
+      }
+
+      /* ===== HERO ===== */
+      #hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        padding-left: 10%;
+      }
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(18, 72, 72, 0.93) 0%,
+          rgba(27, 107, 107, 0.82) 55%,
+          rgba(42, 144, 144, 0.72) 100%
+        );
+        z-index: 1;
+      }
+      .hero-bg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 60px,
+            rgba(255, 255, 255, 0.015) 60px,
+            rgba(255, 255, 255, 0.015) 61px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 60px,
+            rgba(255, 255, 255, 0.015) 60px,
+            rgba(255, 255, 255, 0.015) 61px
+          );
+      }
+      .hero-image-bg {
+        position: absolute;
+        inset: 0;
+        background: url("image_9.jpeg") center/cover no-repeat;
+        z-index: 0;
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+
+        gap: 3rem;
+        width: 100%;
+      }
+      .hero-text {
+        max-width: 640px;
+      }
+      .hero-armory {
+        flex-shrink: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero-armory img {
+        width: 200px;
+        height: auto;
+        filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.4));
+        animation: floatArm 4s ease-in-out infinite;
+        display: none;
+      }
+      @keyframes floatArm {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(184, 150, 62, 0.2);
+        border: 1px solid rgba(184, 150, 62, 0.4);
+        border-radius: 2px;
+        padding: 7px 18px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        margin-bottom: 2rem;
+        animation: fadeUp 0.8s ease both;
+      }
+      .hero-badge .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--gold);
+      }
+      .hero-title {
+        font-size: clamp(2.8rem, 6vw, 5rem);
+        font-weight: 600;
+        color: var(--white);
+        line-height: 1.05;
+        margin-bottom: 1.5rem;
+        animation: fadeUp 0.9s 0.1s ease both;
+      }
+      .hero-title em {
+        font-style: italic;
+        color: var(--gold-light);
+      }
+      .hero-tagline {
+        font-size: 1.1rem;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.7;
+        margin-bottom: 2.5rem;
+        animation: fadeUp 1s 0.2s ease both;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        animation: fadeUp 1s 0.3s ease both;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 30px;
+        font-family: "Jost", sans-serif;
+        font-size: 0.83rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+        transition: all 0.25s;
+        border-radius: 2px;
+      }
+      .btn-gold {
+        background: var(--gold);
+        color: var(--white);
+      }
+      .btn-gold:hover {
+        background: var(--gold-light);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(184, 150, 62, 0.35);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--white);
+        border: 1px solid rgba(255, 255, 255, 0.45);
+      }
+      .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--white);
+      }
+
+      .hero-scroll {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        animation: fadeUp 1s 0.5s ease both;
+      }
+      .scroll-line {
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.5),
+          transparent
+        );
+        animation: scrollPulse 2s infinite;
+      }
+
+      /* Stats bar */
+      .hero-stats {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 3;
+        background: rgba(18, 72, 72, 0.92);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid rgba(184, 150, 62, 0.3);
+      }
+      .stats-inner {
+        display: flex;
+        justify-content: center;
+        gap: 0;
+      }
+      .stat-item {
+        flex: 1;
+        max-width: 220px;
+        padding: 20px;
+        text-align: center;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .stat-item:last-child {
+        border-right: none;
+      }
+      .stat-num {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--gold-light);
+        line-height: 1;
+      }
+      .stat-label {
+        font-size: 0.7rem;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.55);
+        margin-top: 4px;
+      }
+
+      /* ===== ABOUT ===== */
+      #about {
+        background: var(--bg-main);
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+      }
+      .about-visual {
+        position: relative;
+      }
+      .about-img-wrap {
+        position: relative;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .about-img-wrap img {
+        width: 100%;
+        height: 460px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+      .about-img-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(18, 72, 72, 0.25),
+          transparent
+        );
+      }
+      .about-img-card {
+        position: absolute;
+        bottom: -24px;
+        right: -24px;
+        background: #124848;
+        color: var(--white);
+        padding: 22px 26px;
+        border-radius: 4px;
+        min-width: 190px;
+      }
+      .about-img-card .num {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--gold-light);
+        line-height: 1;
+      }
+      .about-img-card p {
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.7;
+        margin-top: 4px;
+      }
+      .about-text {
+        padding-top: 24px;
+      }
+      .about-text h2 {
+        margin-bottom: 1.5rem;
+      }
+      .about-text p {
+        font-size: 1rem;
+        line-height: 1.85;
+        color: var(--text-mid);
+        margin-bottom: 1.2rem;
+      }
+      .about-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 2rem;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 16px;
+        background: var(--beige);
+        border: 1px solid var(--beige-dark);
+        border-radius: 2px;
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--text-mid);
+      }
+      .pill .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--teal-light);
+      }
+
+      /* ===== MISSION ===== */
+      #mission {
+        background: var(--mission);
+        position: relative;
+        overflow: hidden;
+      }
+      #mission::before {
+        content: "";
+        position: absolute;
+        top: -120px;
+        right: -120px;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: rgba(42, 144, 144, 0.1);
+        pointer-events: none;
+      }
+      #mission::after {
+        content: "";
+        position: absolute;
+        bottom: -80px;
+        left: -80px;
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        background: rgba(184, 150, 62, 0.06);
+        pointer-events: none;
+      }
+      .mission-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+      .mission-header .section-title {
+        color: var(--white);
+      }
+      .mission-quote {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto 60px;
+      }
+      .mission-quote blockquote {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.4rem, 3vw, 2.1rem);
+        font-style: italic;
+        color: var(--gold-light);
+        line-height: 1.5;
+        position: relative;
+        padding: 0 30px;
+      }
+      .mission-quote blockquote::before,
+      .mission-quote blockquote::after {
+        content: '"';
+        font-size: 5rem;
+        color: var(--gold);
+        opacity: 0.3;
+        position: absolute;
+        line-height: 1;
+      }
+      .mission-quote blockquote::before {
+        top: -20px;
+        left: 0;
+      }
+      .mission-quote blockquote::after {
+        bottom: -50px;
+        right: 0;
+        content: '"';
+      }
+
+      .mvv-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        margin-bottom: 60px;
+      }
+      .mvv-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 40px 36px;
+        transition: background 0.3s;
+      }
+      .mvv-card:hover {
+        background: rgba(255, 255, 255, 0.07);
+      }
+      .mvv-card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 3px;
+        background: rgba(184, 150, 62, 0.15);
+        border: 1px solid rgba(184, 150, 62, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+      .mvv-card-icon svg {
+        width: 24px;
+        height: 24px;
+        stroke: var(--gold-light);
+        fill: none;
+        stroke-width: 1.5;
+      }
+      .mvv-card h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 1rem;
+      }
+      .mvv-card p {
+        font-size: 0.95rem;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.65);
+        line-height: 1.8;
+      }
+
+      .values-title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 36px;
+        font-family: "Cormorant Garamond", serif;
+      }
+      .values-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+      }
+      .value-card {
+        padding: 30px 26px;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        background: rgba(255, 255, 255, 0.03);
+        transition:
+          background 0.3s,
+          transform 0.3s;
+      }
+      .value-card:hover {
+        background: rgba(255, 255, 255, 0.07);
+        transform: translateY(-4px);
+      }
+      .value-num {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: rgb(255, 255, 255);
+        line-height: 1;
+        margin-bottom: 0.75rem;
+      }
+      .value-card h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--gold-light);
+        margin-bottom: 0.6rem;
+      }
+      .value-card p {
+        font-size: 0.88rem;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.55);
+        line-height: 1.75;
+      }
+
+      /* ===== HISTORY ===== */
+      #history {
+        background: var(--bg-alt);
+      }
+      .history-header {
+        margin-bottom: 56px;
+      }
+      .timeline {
+        position: relative;
+        padding-left: 80px;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          var(--teal-light),
+          var(--beige-dark)
+        );
+      }
+      .timeline-item {
+        position: relative;
+        margin-bottom: 44px;
+        opacity: 0;
+        transform: translateX(-20px);
+        transition:
+          opacity 0.6s,
+          transform 0.6s;
+      }
+      .timeline-item.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .timeline-dot {
+        position: absolute;
+        left: -68px;
+        top: 8px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--teal-dark);
+        border: 3px solid var(--bg-alt);
+        box-shadow: 0 0 0 2px var(--teal-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .timeline-dot svg {
+        width: 16px;
+        height: 16px;
+        fill: var(--gold-light);
+      }
+      .timeline-year {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--gold);
+        letter-spacing: 0.06em;
+        margin-bottom: 6px;
+      }
+      .timeline-card {
+        background: var(--card-bg);
+        border: 1px solid rgba(216, 202, 175, 0.5);
+        border-radius: 4px;
+        padding: 22px 26px;
+        box-shadow: 0 2px 16px rgba(18, 72, 72, 0.06);
+      }
+      .timeline-card h4 {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--teal-dark);
+        margin-bottom: 8px;
+      }
+      .timeline-card p {
+        font-size: 0.93rem;
+        line-height: 1.8;
+        color: var(--text-mid);
+      }
+
+      /* ===== SERVICES ===== */
+      #services {
+        background: var(--bg-main);
+      }
+      .services-header {
+        text-align: center;
+        margin-bottom: 56px;
+      }
+      .services-header .section-lead {
+        margin: 0 auto;
+      }
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+      }
+      .service-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 4px;
+        padding: 34px 28px;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .service-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--teal-light), var(--gold));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s;
+      }
+      .service-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow);
+      }
+      .service-card:hover::before {
+        transform: scaleX(1);
+      }
+      .service-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        background: var(--beige);
+        border: 2px solid var(--beige-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        transition: background 0.3s;
+      }
+      .service-card:hover .service-icon {
+        background: var(--teal-pale);
+      }
+      .service-icon svg {
+        width: 24px;
+        height: 24px;
+        stroke: var(--teal-dark);
+        fill: none;
+        stroke-width: 1.5;
+      }
+      .service-card h3 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: var(--teal-dark);
+        margin-bottom: 0.75rem;
+      }
+      .service-card p {
+        font-size: 0.91rem;
+        line-height: 1.8;
+        color: var(--text-mid);
+      }
+
+      /* ===== GALLERY ===== */
+      #gallery {
+        background: var(--bg-alt);
+      }
+      .gallery-header {
+        text-align: center;
+        margin-bottom: 52px;
+      }
+      .gallery-header .section-lead {
+        margin: 0 auto;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+        gap: 12px;
+      }
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 4px;
+        cursor: pointer;
+        background: var(--card-bg);
+      }
+      .gallery-item:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      .gallery-item:nth-child(4) {
+        grid-column: span 2;
+      }
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+        min-height: 240px;
+      }
+      .gallery-item:nth-child(1) img {
+        min-height: 320px;
+      }
+      .gallery-item:hover img {
+        transform: scale(1.06);
+      }
+      .gallery-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(18, 72, 72, 0.7),
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.35s;
+        display: flex;
+        align-items: flex-end;
+        padding: 20px;
+      }
+      .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+      }
+      .gallery-overlay span {
+        color: var(--white);
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* Lightbox */
+      #lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        background: rgba(0, 0, 0, 0.92);
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      #lightbox.open {
+        display: flex;
+      }
+      #lightbox img {
+        max-width: 90vw;
+        max-height: 88vh;
+        object-fit: contain;
+        border-radius: 4px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+      }
+      .lb-close {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+      }
+      .lb-close:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+      .lb-close svg {
+        width: 18px;
+        height: 18px;
+        stroke: white;
+        fill: none;
+        stroke-width: 2;
+      }
+      .lb-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+      }
+      .lb-nav:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+      .lb-nav svg {
+        width: 18px;
+        height: 18px;
+        stroke: white;
+        fill: none;
+        stroke-width: 2;
+      }
+      .lb-prev {
+        left: 1.5rem;
+      }
+      .lb-next {
+        right: 1.5rem;
+      }
+
+      /* ===== CONTACT ===== */
+      #contact {
+        background: var(--bg-alt);
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.4fr;
+        gap: 72px;
+        align-items: start;
+      }
+      .contact-info h2 {
+        margin-bottom: 1.25rem;
+      }
+      .contact-info p {
+        font-size: 0.97rem;
+        line-height: 1.8;
+        color: var(--text-mid);
+        margin-bottom: 2rem;
+      }
+      .contact-details {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .contact-item-icon {
+        width: 42px;
+        height: 42px;
+        background: transparent;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .contact-item-icon svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--gold);
+        fill: none;
+        stroke-width: 1.5;
+      }
+      .contact-item-body {
+        padding-top: 2px;
+      }
+      .contact-item-body strong {
+        display: block;
+        font-size: 0.76rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-light);
+        margin-bottom: 2px;
+      }
+      .contact-item-body span {
+        font-size: 0.95rem;
+        color: var(--text-dark);
+      }
+      .contact-item-body a {
+        color: var(--teal-mid);
+        transition: color 0.2s;
+      }
+      .contact-item-body a:hover {
+        color: var(--gold);
+      }
+
+      .contact-form-wrap {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 4px;
+        padding: 40px 36px;
+        box-shadow: var(--shadow);
+      }
+      .contact-form-wrap h3 {
+        font-size: 1.5rem;
+        color: var(--teal-dark);
+        margin-bottom: 1.8rem;
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .form-group {
+        margin-bottom: 18px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-light);
+        margin-bottom: 6px;
+      }
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 11px 14px;
+        background: var(--bg-main);
+        border: 1px solid var(--card-border);
+        border-radius: 2px;
+        font-family: "Jost", sans-serif;
+        font-size: 0.93rem;
+        color: var(--text-dark);
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        outline: none;
+      }
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        border-color: var(--teal-light);
+        box-shadow: 0 0 0 3px rgba(42, 144, 144, 0.12);
+      }
+      .form-group textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+      .form-submit {
+        width: 100%;
+        padding: 14px;
+        background: var(--submit);
+        color: var(--submit-text);
+        font-family: "Jost", sans-serif;
+        font-size: 0.83rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+        transition:
+          background 0.25s,
+          transform 0.2s;
+        margin-top: 6px;
+      }
+      .form-submit:hover {
+        background: var(--submit-text);
+        transform: translateY(-1px);
+        color: var(--submit);
+      }
+      #form-success {
+        display: none;
+        background: rgba(42, 144, 144, 0.1);
+        border: 1px solid var(--teal-pale);
+        border-radius: 2px;
+        padding: 12px 16px;
+        font-size: 0.88rem;
+        color: var(--teal-mid);
+        margin-top: 14px;
+        text-align: center;
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        background: #061414;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .footer-top {
+        padding: 60px 0 44px;
+        display: grid;
+        grid-template-columns: 1.6fr 1fr 1fr 1fr;
+        gap: 44px;
+      }
+      .footer-brand strong {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.35rem;
+        color: var(--white);
+        display: block;
+        margin-bottom: 4px;
+      }
+      .footer-brand em {
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        font-style: normal;
+      }
+      .footer-brand p {
+        font-size: 0.88rem;
+        line-height: 1.75;
+        margin-top: 14px;
+      }
+      .footer-social {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .footer-social a {
+        width: 36px;
+        height: 36px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.7);
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .footer-social a:hover {
+        background: var(--teal-mid);
+        color: white;
+      }
+      .footer-social a svg {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+      }
+
+      .footer-col h5 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 1rem;
+      }
+      .footer-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .footer-col ul a {
+        font-size: 0.86rem;
+        color: rgba(255, 255, 255, 0.5);
+        transition: color 0.2s;
+      }
+      .footer-col ul a:hover {
+        color: var(--gold-light);
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        padding: 18px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.8rem;
+      }
+      .footer-bottom a {
+        color: var(--gold-light);
+      }
+
+      /* ===== SCROLL TO TOP ===== */
+      #scroll-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 900;
+        width: 44px;
+        height: 44px;
+        background: #124848;
+        border: 1px solid rgba(184, 150, 62, 0.3);
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+      #scroll-top.show {
+        opacity: 1;
+        pointer-events: all;
+      }
+      #scroll-top:hover {
+        transform: translateY(-3px);
+        background: var(--teal-mid);
+      }
+      #scroll-top svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--gold-light);
+        fill: none;
+        stroke-width: 2;
+      }
+
+      /* ===== ANIMATIONS ===== */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes scrollPulse {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s,
+          transform 0.7s;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ===== MOBILE ===== */
+      @media (max-width: 1024px) {
+        .hero-armory img {
+          display: none;
+        }
+      }
+      @media (max-width: 900px) {
+        .nav-links {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          bottom: 0;
+          width: 280px;
+          background: var(--teal-dark);
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+          padding: 2rem;
+          gap: 1.5rem;
+          transition: right 0.35s ease;
+          z-index: 999;
+        }
+        .nav-links.open {
+          right: 0;
+        }
+        .nav-links a {
+          font-size: 1rem;
+        }
+        .burger {
+          display: flex;
+          z-index: 1001;
+        }
+        .hero-content {
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        .hero-armory {
+          order: -1;
+        }
+        .hero-armory img {
+          width: 120px;
+        }
+        .stats-inner {
+          flex-wrap: wrap;
+        }
+        .stat-item {
+          max-width: none;
+          flex: 1 1 50%;
+        }
+        .about-grid,
+        .contact-grid {
+          grid-template-columns: 1fr;
+          gap: 36px;
+        }
+        .about-img-card {
+          right: 0;
+        }
+        .mvv-grid {
+          grid-template-columns: 1fr;
+        }
+        .values-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .services-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .gallery-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .gallery-item:nth-child(1) {
+          grid-column: span 2;
+        }
+        .gallery-item:nth-child(4) {
+          grid-column: span 1;
+        }
+        .footer-top {
+          grid-template-columns: 1fr 1fr;
+        }
+        #appt-btn span.appt-label {
+          display: none;
+        }
+        #appt-btn {
+          padding: 11px 14px;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+        }
+        #appt-btn .pulse {
+          display: none;
+        }
+      }
+      @media (max-width: 640px) {
+        .section-pad {
+          padding: 60px 0;
+        }
+        .values-grid,
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+        .gallery-grid {
+          grid-template-columns: 1fr;
+        }
+        .gallery-item:nth-child(1),
+        .gallery-item:nth-child(4) {
+          grid-column: span 1;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        .footer-top {
+          grid-template-columns: 1fr;
+        }
+        .footer-bottom {
+          flex-direction: column;
+          gap: 8px;
+          text-align: center;
+        }
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        .lang-btn .lang-label {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav id="navbar">
+      <div class="container nav-inner">
+        <a href="#" class="nav-brand">
+          <img
+            src="logo.png"
+            alt="St Hugh's Anglican Home Logo"
+            class="nav-logo-img"
+          />
+          <div class="nav-brand-text">
+            <strong>St Hugh's Anglican Home</strong>
+            <span>Diocese of Mauritius</span>
+          </div>
+        </a>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#about" data-i18n="nav.about">About</a></li>
+          <li><a href="#mission" data-i18n="nav.mission">Mission</a></li>
+          <li><a href="#history" data-i18n="nav.history">History</a></li>
+          <li><a href="#services" data-i18n="nav.services">Services</a></li>
+          <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
+          <li>
+            <a href="#contact" class="nav-cta" data-i18n="nav.contact"
+              >Contact</a
+            >
+          </li>
+        </ul>
+
+        <div class="nav-controls">
+          <!-- Language selector -->
+          <div class="lang-selector" id="lang-selector">
+            <button
+              class="lang-btn"
+              id="lang-btn"
+              onclick="toggleLangDropdown()"
+              aria-label="Select language"
+            >
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+                />
+              </svg>
+              <span class="lang-label" id="lang-label">EN</span>
+              <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" /></svg>
+            </button>
+            <div class="lang-dropdown" id="lang-dropdown">
+              <div class="lang-option active" onclick="setLanguage('en')">
+                <span class="lang-flag">🇬🇧</span> English
+              </div>
+              <div class="lang-option" onclick="setLanguage('fr')">
+                <span class="lang-flag">🇫🇷</span> Français
+              </div>
+              <div class="lang-option" onclick="setLanguage('zh')">
+                <span class="lang-flag">🇨🇳</span> 中文
+              </div>
+              <div class="lang-option" onclick="setLanguage('mu')">
+                <span class="lang-flag">🇲🇺</span> Morisyen
+              </div>
+            </div>
+          </div>
+
+          <!-- Theme toggle -->
+          <button
+            class="theme-toggle"
+            id="theme-toggle"
+            onclick="toggleTheme()"
+            aria-label="Toggle dark/light mode"
+          >
+            <!-- Sun icon (shown in dark mode) -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="icon-sun"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8.5 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 11a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m5-5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m-11 0a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m9.743-4.036a.5.5 0 1 1-.707-.707.5.5 0 0 1 .707.707m-7.779 7.779a.5.5 0 1 1-.707-.707.5.5 0 0 1 .707.707m7.072 0a.5.5 0 1 1 .707-.707.5.5 0 0 1-.707.707M3.757 4.464a.5.5 0 1 1 .707-.707.5.5 0 0 1-.707.707"
+              />
+            </svg>
+            <!-- Moon icon (shown in light mode) -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="icon-moon"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"
+              />
+            </svg>
+          </button>
+
+          <div class="burger" id="burger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- FLOATING APPOINTMENT BUTTON -->
+    <a href="tel:4641124" id="appt-btn" title="Book an appointment / Call us">
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.76a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+        />
+      </svg>
+      <span class="pulse"></span>
+      <span class="appt-label" data-i18n="appt.btn">Book Appointment</span>
+    </a>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-image-bg"></div>
+      <div class="hero-bg"></div>
+      <div class="container hero-content">
+        <div class="hero-text">
+          <div class="hero-badge">
+            <span class="dot"></span>
+            <span data-i18n="hero.badge">Anglican Diocese of Mauritius</span>
+          </div>
+          <h1 class="hero-title">Hope, Dignity<br /><em>&amp; Respect</em></h1>
+          <p class="hero-tagline" data-i18n="hero.tagline">
+            Providing high quality, compassionate care to the elderly<br />
+            in the name of our Lord Jesus Christ — Rose Hill, Mauritius.
+          </p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-gold">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <span data-i18n="hero.cta1">Resident Enquiry</span>
+            </a>
+            <a href="#about" class="btn btn-outline" data-i18n="hero.cta2"
+              >Learn More</a
+            >
+          </div>
+        </div>
+        <div class="hero-armory">
+          <img src="armoirie.jpeg" alt="Diocese of Mauritius Coat of Arms" />
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="container stats-inner">
+          <div class="stat-item">
+            <div class="stat-num">56</div>
+            <div class="stat-label" data-i18n="stats.capacity">
+              Resident Capacity
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">60+</div>
+            <div class="stat-label" data-i18n="stats.years">
+              Years of Service
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">24/7</div>
+            <div class="stat-label" data-i18n="stats.care">
+              Care &amp; Support
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">6</div>
+            <div class="stat-label" data-i18n="stats.values">Core Values</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        <span data-i18n="hero.scroll">Scroll</span>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section-pad">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-visual reveal">
+            <div class="about-img-wrap">
+              <img
+                src="image_6.jpg"
+                alt="Caring for elderly residents at St Hugh's"
+              />
+              <div class="about-img-overlay"></div>
+            </div>
+            <div class="about-img-card">
+              <div class="num">1962</div>
+              <p data-i18n="about.founded">Founded in Rose Hill</p>
+            </div>
+          </div>
+          <div class="about-text reveal">
+            <p class="section-label">
+              <span class="deco-line"></span
+              ><span data-i18n="about.label">Who We Are</span>
+            </p>
+            <h2 class="section-title">Welcome to <em>St Hugh's Home</em></h2>
+            <p data-i18n="about.p1">
+              St Hugh's Home is a charitable institution of the Anglican Diocese
+              of Mauritius. It is a 56-bed elderly home providing long-term care
+              in a positive, compassionate, and unique setting.
+            </p>
+            <p data-i18n="about.p2">
+              Ideally located in Rose Hill, we have a large garden, easy access
+              to public transport and local amenities. We cater for residents
+              aged 60 and over — both private and government-supported.
+            </p>
+            <p data-i18n="about.p3">
+              Since 2005, the home has enacted the Residential Care Home Act and
+              the Protection for the Elderly Act, put in place by the Mauritian
+              government.
+            </p>
+            <div class="about-pills">
+              <span class="pill"
+                ><span class="dot"></span
+                ><span data-i18n="pill.care">Long-term Care</span></span
+              >
+              <span class="pill"
+                ><span class="dot"></span>Rose Hill, Mauritius</span
+              >
+              <span class="pill"
+                ><span class="dot"></span
+                ><span data-i18n="pill.values">Christian Values</span></span
+              >
+              <span class="pill"
+                ><span class="dot"></span
+                ><span data-i18n="pill.gov">Government Supported</span></span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <section id="mission" class="section-pad">
+      <div class="container">
+        <div class="mission-header reveal">
+          <p class="section-label">
+            <span class="deco-line"></span
+            ><span data-i18n="mission.label">Our Purpose</span>
+          </p>
+          <h2 class="section-title" style="color: var(--white)">
+            Mission, Vision
+            <em style="color: var(--gold-light)">&amp; Values</em>
+          </h2>
+        </div>
+        <div class="mission-quote reveal">
+          <blockquote data-i18n="mission.quote">
+            Hope, Dignity and Respect to our residents in the name of the Lord.
+          </blockquote>
+        </div>
+        <div class="mvv-grid reveal">
+          <div class="mvv-card">
+            <div class="mvv-card-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v8M8 12h8" />
+              </svg>
+            </div>
+            <h3 data-i18n="vision.title">Our Vision</h3>
+            <p data-i18n="vision.text">
+              To provide high quality care and services to the geriatric
+              population based on Christian principles, ensuring every resident
+              lives with dignity, purpose, and joy.
+            </p>
+          </div>
+          <div class="mvv-card">
+            <div class="mvv-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-10" /></svg>
+            </div>
+            <h3 data-i18n="mission.title">Our Mission</h3>
+            <p data-i18n="mission.text">
+              To provide high quality care efficiently and effectively, meeting
+              the physical, emotional, spiritual and social needs of our
+              residents — treating them with dignity and respect for the glory
+              and in the name of our Lord Jesus Christ.
+            </p>
+          </div>
+        </div>
+        <p class="values-title reveal" data-i18n="values.title">
+          Our Core Values
+        </p>
+        <div class="values-grid reveal">
+          <div class="value-card">
+            <div class="value-num">01</div>
+            <h4 data-i18n="v1.title">Good Stewardship</h4>
+            <p data-i18n="v1.text">
+              We provide high quality care and services by being good stewards
+              of all the resources entrusted to us.
+            </p>
+          </div>
+          <div class="value-card">
+            <div class="value-num">02</div>
+            <h4 data-i18n="v2.title">Dignity</h4>
+            <p data-i18n="v2.text">
+              We treat all our residents with all the dignity and respect that
+              we would wish for ourselves.
+            </p>
+          </div>
+          <div class="value-card">
+            <div class="value-num">03</div>
+            <h4 data-i18n="v3.title">Compassion</h4>
+            <p data-i18n="v3.text">
+              We treat all our residents with compassion in the name of our Lord
+              Jesus Christ.
+            </p>
+          </div>
+          <div class="value-card">
+            <div class="value-num">04</div>
+            <h4 data-i18n="v4.title">Individuality</h4>
+            <p data-i18n="v4.text">
+              We respect and treat each resident as a unique individual with a
+              unique life experience, caring for their individual needs.
+            </p>
+          </div>
+          <div class="value-card">
+            <div class="value-num">05</div>
+            <h4 data-i18n="v5.title">Honesty</h4>
+            <p data-i18n="v5.text">
+              We conduct all aspects of our work in a transparent and truthful
+              manner at all times.
+            </p>
+          </div>
+          <div class="value-card">
+            <div class="value-num">06</div>
+            <h4 data-i18n="v6.title">Transparency</h4>
+            <p data-i18n="v6.text">
+              We are transparent and fair in all our undertakings, fostering
+              trust with residents, families, and the community.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="history" class="section-pad">
+      <div class="container">
+        <div class="history-header reveal">
+          <p class="section-label">
+            <span class="deco-line"></span
+            ><span data-i18n="history.label">Our Story</span>
+          </p>
+          <h2 class="section-title">A Rich <em>History of Service</em></h2>
+          <p class="section-lead" data-i18n="history.lead">
+            From humble beginnings sheltering orphans and vulnerable women, St
+            Hugh's has evolved over decades into a leading residential care home
+            for the elderly in Mauritius.
+          </p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                />
+              </svg>
+            </div>
+            <div class="timeline-year">Early Years</div>
+            <div class="timeline-card">
+              <h4>Anglican Diocese Shelters</h4>
+              <p>
+                The Anglican Diocese ran shelters for orphans, children from
+                poor families and single women. In spite of limited funds, the
+                Diocese kept these shelters running to serve the most vulnerable
+                in the community.
+              </p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                />
+              </svg>
+            </div>
+            <div class="timeline-year">1960</div>
+            <div class="timeline-card">
+              <h4>Relocation After Cyclone Carol</h4>
+              <p>
+                After Cyclone Carol, the boys' orphanage was relocated to
+                Ambrose Street at the former St Paul's Theological College.
+                Girls and women were sheltered at the Rose Belle orphanage.
+              </p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                />
+              </svg>
+            </div>
+            <div class="timeline-year">1962</div>
+            <div class="timeline-card">
+              <h4>Rose Hill Campus Established</h4>
+              <p>
+                During the episcopacy of Bishop Rogers, a building was erected
+                at Sir Edgar Laurent Street, Rose Hill for boys. In 1965,
+                another building was erected for girls.
+              </p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                />
+              </svg>
+            </div>
+            <div class="timeline-year">1975</div>
+            <div class="timeline-card">
+              <h4>Cyclone Gervaise &amp; Consolidation</h4>
+              <p>
+                Cyclone Gervaise destroyed the Rose Belle orphanage building.
+                The women moved to Rose Hill to share the girls' block. The
+                Rachel and Evelyn Blocks were later constructed, named after two
+                devoted ladies.
+              </p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                />
+              </svg>
+            </div>
+            <div class="timeline-year">1980s</div>
+            <div class="timeline-card">
+              <h4>Focus Shifts to the Elderly</h4>
+              <p>
+                As demand for elderly shelter grew, the Diocese decided to
+                convert existing buildings into residential blocks for paying
+                residents. Rainbow Nursery School was also established in 1980
+                to serve working-class families.
+              </p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                />
+              </svg>
+            </div>
+            <div class="timeline-year">2010</div>
+            <div class="timeline-card">
+              <h4>Martha &amp; Mary Flats</h4>
+              <p>
+                In June 2010, during the episcopacy of Archbishop Ian Ernest,
+                four self-care flats were built. On 5th July 2014 they were
+                named Martha and Mary by Mrs Caroline Welby, wife of Archbishop
+                Justin Welby of Canterbury.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="section-pad">
+      <div class="container">
+        <div class="services-header reveal">
+          <p class="section-label">
+            <span class="deco-line"></span
+            ><span data-i18n="services.label">What We Offer</span>
+          </p>
+          <h2 class="section-title">Our <em>Care Services</em></h2>
+          <p class="section-lead" data-i18n="services.lead">
+            We offer a comprehensive range of services tailored to the
+            individual needs of each resident, ensuring a comfortable and
+            fulfilling life.
+          </p>
+        </div>
+        <div class="services-grid">
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                />
+              </svg>
+            </div>
+            <h3 data-i18n="s1.title">Residential Long-Term Care</h3>
+            <p data-i18n="s1.text">
+              Full-time residential care in a warm, home-like environment with
+              24/7 professional support for up to 56 residents.
+            </p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <h3 data-i18n="s2.title">Personal Care Assistance</h3>
+            <p data-i18n="s2.text">
+              Daily living support including bathing, dressing, grooming, and
+              mobility assistance delivered with dignity and respect.
+            </p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+                <line x1="6" y1="1" x2="6" y2="4" />
+                <line x1="10" y1="1" x2="10" y2="4" />
+                <line x1="14" y1="1" x2="14" y2="4" />
+              </svg>
+            </div>
+            <h3 data-i18n="s3.title">Nutritional Meals</h3>
+            <p data-i18n="s3.text">
+              Balanced, nutritious meals prepared daily with attention to
+              individual dietary requirements and preferences.
+            </p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+            </div>
+            <h3 data-i18n="s4.title">Self-Care Flats</h3>
+            <p data-i18n="s4.text">
+              Independent self-care flats (Martha &amp; Mary blocks) for
+              residents who maintain greater autonomy within our supportive
+              community.
+            </p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h3 data-i18n="s5.title">Spiritual &amp; Pastoral Care</h3>
+            <p data-i18n="s5.text">
+              Regular worship services, pastoral visits, and spiritual support
+              aligned with Anglican Christian principles and values.
+            </p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="17" cy="21" r="1" />
+                <circle cx="9" cy="21" r="1" />
+                <path
+                  d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                />
+              </svg>
+            </div>
+            <h3 data-i18n="s6.title">Social &amp; Recreational Activities</h3>
+            <p data-i18n="s6.text">
+              Engaging social programmes, recreational activities, and community
+              events to nurture mental and emotional wellbeing.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="section-pad">
+      <div class="container">
+        <div class="gallery-header reveal">
+          <p class="section-label">
+            <span class="deco-line"></span
+            ><span data-i18n="gallery.label">Our Residence</span>
+          </p>
+          <h2 class="section-title">Life at <em>St Hugh's</em></h2>
+          <p class="section-lead" data-i18n="gallery.lead">
+            A glimpse into the warm, vibrant community we have built — where
+            every day is lived with purpose, joy, and dignity.
+          </p>
+        </div>
+        <div class="gallery-grid">
+          <div class="gallery-item reveal" onclick="openLightbox(0)">
+            <img
+              src="image_1.jpg"
+              alt="Residents sharing a meal together"
+              loading="lazy"
+            />
+            <div class="gallery-overlay">
+              <span data-i18n="g1">Community Dining</span>
+            </div>
+          </div>
+          <div class="gallery-item reveal" onclick="openLightbox(1)">
+            <img src="image_2.jpg" alt="Care and interaction" loading="lazy" />
+            <div class="gallery-overlay">
+              <span data-i18n="g2">Pastoral Care</span>
+            </div>
+          </div>
+          <div class="gallery-item reveal" onclick="openLightbox(2)">
+            <img src="image_3.jpg" alt="Creative activities" loading="lazy" />
+            <div class="gallery-overlay">
+              <span data-i18n="g3">Creative Activities</span>
+            </div>
+          </div>
+          <div class="gallery-item reveal" onclick="openLightbox(3)">
+            <img
+              src="image_4.jpg"
+              alt="Staff caring for residents"
+              loading="lazy"
+            />
+            <div class="gallery-overlay">
+              <span data-i18n="g4">Compassionate Care</span>
+            </div>
+          </div>
+          <div class="gallery-item reveal" onclick="openLightbox(4)">
+            <img src="image_5.jpg" alt="Group photo outdoors" loading="lazy" />
+            <div class="gallery-overlay">
+              <span data-i18n="g5">Community Life</span>
+            </div>
+          </div>
+          <div class="gallery-item reveal" onclick="openLightbox(5)">
+            <img
+              src="image_6.jpg"
+              alt="St Hugh's building entrance"
+              loading="lazy"
+            />
+            <div class="gallery-overlay">
+              <span data-i18n="g6">Our Home</span>
+            </div>
+          </div>
+          <div class="gallery-item reveal" onclick="openLightbox(6)">
+            <img
+              src="image_7.jpg"
+              alt="Training and staff development"
+              loading="lazy"
+            />
+            <div class="gallery-overlay">
+              <span data-i18n="g7">Staff Training</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" role="dialog" aria-modal="true">
+      <button class="lb-close" onclick="closeLightbox()" aria-label="Close">
+        <svg viewBox="0 0 24 24">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <button class="lb-nav lb-prev" onclick="lbNav(-1)" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6" /></svg>
+      </button>
+      <img id="lb-img" src="" alt="" />
+      <button class="lb-nav lb-next" onclick="lbNav(1)" aria-label="Next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" /></svg>
+      </button>
+    </div>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section-pad">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-info reveal">
+            <p class="section-label">
+              <span class="deco-line"></span
+              ><span data-i18n="contact.label">Get In Touch</span>
+            </p>
+            <h2 class="section-title">We'd Love to <em>Hear From You</em></h2>
+            <p data-i18n="contact.intro">
+              Whether you are enquiring for yourself or a loved one, our team is
+              ready to welcome you and answer all your questions with warmth and
+              care.
+            </p>
+            <div class="contact-details">
+              <div class="contact-item">
+                <div class="contact-item-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </div>
+                <div class="contact-item-body">
+                  <strong data-i18n="c.address">Address</strong>
+                  <span>6, Sir Edgar Laurent Street, Rose Hill, Mauritius</span>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-item-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.76a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"
+                    />
+                  </svg>
+                </div>
+                <div class="contact-item-body">
+                  <strong data-i18n="c.phone">Phone</strong>
+                  <span><a href="tel:4641124">464 1124</a></span>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-item-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                    />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                </div>
+                <div class="contact-item-body">
+                  <strong>Email</strong>
+                  <span
+                    ><a href="mailto:sthughanglican@gmail.com"
+                      >sthughanglican@gmail.com</a
+                    ></span
+                  >
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-item-icon">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                </div>
+                <div class="contact-item-body">
+                  <strong data-i18n="c.admission">Admission</strong>
+                  <span data-i18n="c.admission.text"
+                    >Open year-round — contact us to arrange a visit</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="contact-form-wrap reveal">
+            <h3 data-i18n="form.title">Send Us a Message</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fname" data-i18n="form.fname">First Name</label>
+                <input type="text" id="fname" placeholder="Your first name" />
+              </div>
+              <div class="form-group">
+                <label for="lname" data-i18n="form.lname">Last Name</label>
+                <input type="text" id="lname" placeholder="Your last name" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email" data-i18n="form.email">Email Address</label>
+              <input type="email" id="email" placeholder="you@example.com" />
+            </div>
+            <div class="form-group">
+              <label for="phone" data-i18n="form.phone">Phone Number</label>
+              <input type="tel" id="phone" placeholder="+230 xxx xxxx" />
+            </div>
+            <div class="form-group">
+              <label for="enquiry" data-i18n="form.enquiry"
+                >Type of Enquiry</label
+              >
+              <select id="enquiry">
+                <option value="" data-i18n="form.select">
+                  Select an option…
+                </option>
+                <option value="resident" data-i18n="form.opt1">
+                  Resident Admission
+                </option>
+                <option value="visit" data-i18n="form.opt2">
+                  Schedule a Visit
+                </option>
+                <option value="volunteer" data-i18n="form.opt3">
+                  Volunteering
+                </option>
+                <option value="donation" data-i18n="form.opt4">
+                  Donation / Support
+                </option>
+                <option value="other" data-i18n="form.opt5">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message" data-i18n="form.message">Message</label>
+              <textarea
+                id="message"
+                placeholder="How can we help you?"
+              ></textarea>
+            </div>
+            <button
+              type="button"
+              class="form-submit"
+              onclick="submitForm()"
+              data-i18n="form.submit"
+            >
+              Send Message
+            </button>
+            <div id="form-success" data-i18n="form.success">
+              ✓ Thank you for reaching out. We will get back to you shortly.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <strong>St Hugh's Anglican Home</strong>
+            <em>Anglican Diocese of Mauritius</em>
+            <p data-i18n="footer.about">
+              Providing hope, dignity and compassionate care to the elderly of
+              Mauritius since 1962, guided by Christian values.
+            </p>
+            <div class="footer-social">
+              <!-- Facebook -->
+              <a
+                href="https://www.facebook.com/p/St-Hughs-Anglican-Home-100086221878186/"
+                target="_blank"
+                rel="noopener"
+                aria-label="Facebook"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+                  />
+                </svg>
+              </a>
+              <!-- Email -->
+              <a href="mailto:sthughanglican@gmail.com" aria-label="Email">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+              </a>
+              <!-- Phone -->
+              <a href="tel:4641124" aria-label="Phone">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.76a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h5 data-i18n="footer.links">Quick Links</h5>
+            <ul>
+              <li><a href="#about" data-i18n="nav.about">About Us</a></li>
+              <li>
+                <a href="#mission" data-i18n="nav.mission"
+                  >Mission &amp; Values</a
+                >
+              </li>
+              <li>
+                <a href="#history" data-i18n="nav.history">Our History</a>
+              </li>
+              <li><a href="#services" data-i18n="nav.services">Services</a></li>
+              <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
+              <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5 data-i18n="footer.services">Our Services</h5>
+            <ul>
+              <li>
+                <a href="#services" data-i18n="s1.title">Residential Care</a>
+              </li>
+              <li>
+                <a href="#services" data-i18n="s2.title">Personal Assistance</a>
+              </li>
+              <li>
+                <a href="#services" data-i18n="s3.title">Nutritional Meals</a>
+              </li>
+              <li>
+                <a href="#services" data-i18n="s5.title">Spiritual Care</a>
+              </li>
+              <li>
+                <a href="#services" data-i18n="s6.title">Social Activities</a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5 data-i18n="footer.contact">Contact</h5>
+            <ul>
+              <li><a href="tel:4641124">Tel: 464 1124</a></li>
+              <li>
+                <a href="mailto:sthughanglican@gmail.com"
+                  >sthughanglican@gmail.com</a
+                >
+              </li>
+              <li><a href="#">6, Sir Edgar Laurent St</a></li>
+              <li><a href="#">Rose Hill, Mauritius</a></li>
+              <li>
+                <a
+                  href="https://www.facebook.com/p/St-Hughs-Anglican-Home-100086221878186/"
+                  target="_blank"
+                  >Facebook</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2025 St Hugh's Anglican Home. All rights reserved.</span>
+          <span
+            >Charitable Institution of the
+            <a href="#">Anglican Diocese of Mauritius</a></span
+          >
+        </div>
+      </div>
+    </footer>
+
+    <!-- SCROLL TO TOP -->
+    <button
+      id="scroll-top"
+      aria-label="Scroll to top"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
+    </button>
+
+    <script>
+      // ── TRANSLATIONS ─────────────────────────────────────
+      const i18n = {
+        en: {
+          "nav.about": "About",
+          "nav.mission": "Mission",
+          "nav.history": "History",
+          "nav.services": "Services",
+          "nav.gallery": "Gallery",
+          "nav.contact": "Contact Us",
+          "appt.btn": "Book Appointment",
+          "hero.badge": "Anglican Diocese of Mauritius",
+          "hero.tagline":
+            "Providing high quality, compassionate care to the elderly\nin the name of our Lord Jesus Christ — Rose Hill, Mauritius.",
+          "hero.cta1": "Resident Enquiry",
+          "hero.cta2": "Learn More",
+          "hero.scroll": "Scroll",
+          "stats.capacity": "Resident Capacity",
+          "stats.years": "Years of Service",
+          "stats.care": "Care & Support",
+          "stats.values": "Core Values",
+          "about.label": "Who We Are",
+          "about.founded": "Founded in Rose Hill",
+          "about.p1":
+            "St Hugh's Home is a charitable institution of the Anglican Diocese of Mauritius. It is a 56-bed elderly home providing long-term care in a positive, compassionate, and unique setting.",
+          "about.p2":
+            "Ideally located in Rose Hill, we have a large garden, easy access to public transport and local amenities. We cater for residents aged 60 and over — both private and government-supported.",
+          "about.p3":
+            "Since 2005, the home has enacted the Residential Care Home Act and the Protection for the Elderly Act, put in place by the Mauritian government.",
+          "pill.care": "Long-term Care",
+          "pill.values": "Christian Values",
+          "pill.gov": "Government Supported",
+          "mission.label": "Our Purpose",
+          "mission.quote":
+            "Hope, Dignity and Respect to our residents in the name of the Lord.",
+          "vision.title": "Our Vision",
+          "vision.text":
+            "To provide high quality care and services to the geriatric population based on Christian principles, ensuring every resident lives with dignity, purpose, and joy.",
+          "mission.title": "Our Mission",
+          "mission.text":
+            "To provide high quality care efficiently and effectively, meeting the physical, emotional, spiritual and social needs of our residents — treating them with dignity and respect for the glory and in the name of our Lord Jesus Christ.",
+          "values.title": "Our Core Values",
+          "v1.title": "Good Stewardship",
+          "v1.text":
+            "We provide high quality care and services by being good stewards of all the resources entrusted to us.",
+          "v2.title": "Dignity",
+          "v2.text":
+            "We treat all our residents with all the dignity and respect that we would wish for ourselves.",
+          "v3.title": "Compassion",
+          "v3.text":
+            "We treat all our residents with compassion in the name of our Lord Jesus Christ.",
+          "v4.title": "Individuality",
+          "v4.text":
+            "We respect and treat each resident as a unique individual with a unique life experience, caring for their individual needs.",
+          "v5.title": "Honesty",
+          "v5.text":
+            "We conduct all aspects of our work in a transparent and truthful manner at all times.",
+          "v6.title": "Transparency",
+          "v6.text":
+            "We are transparent and fair in all our undertakings, fostering trust with residents, families, and the community.",
+          "history.label": "Our Story",
+          "history.lead":
+            "From humble beginnings sheltering orphans and vulnerable women, St Hugh's has evolved over decades into a leading residential care home for the elderly in Mauritius.",
+          "services.label": "What We Offer",
+          "services.lead":
+            "We offer a comprehensive range of services tailored to the individual needs of each resident, ensuring a comfortable and fulfilling life.",
+          "s1.title": "Residential Long-Term Care",
+          "s1.text":
+            "Full-time residential care in a warm, home-like environment with 24/7 professional support for up to 56 residents.",
+          "s2.title": "Personal Care Assistance",
+          "s2.text":
+            "Daily living support including bathing, dressing, grooming, and mobility assistance delivered with dignity and respect.",
+          "s3.title": "Nutritional Meals",
+          "s3.text":
+            "Balanced, nutritious meals prepared daily with attention to individual dietary requirements and preferences.",
+          "s4.title": "Self-Care Flats",
+          "s4.text":
+            "Independent self-care flats (Martha & Mary blocks) for residents who maintain greater autonomy within our supportive community.",
+          "s5.title": "Spiritual & Pastoral Care",
+          "s5.text":
+            "Regular worship services, pastoral visits, and spiritual support aligned with Anglican Christian principles and values.",
+          "s6.title": "Social & Recreational Activities",
+          "s6.text":
+            "Engaging social programmes, recreational activities, and community events to nurture mental and emotional wellbeing.",
+          "gallery.label": "Our Residence",
+          "gallery.lead":
+            "A glimpse into the warm, vibrant community we have built — where every day is lived with purpose, joy, and dignity.",
+          g1: "Community Dining",
+          g2: "Pastoral Care",
+          g3: "Creative Activities",
+          g4: "Compassionate Care",
+          g5: "Community Life",
+          g6: "Our Home",
+          g7: "Staff Training",
+          "contact.label": "Get In Touch",
+          "contact.intro":
+            "Whether you are enquiring for yourself or a loved one, our team is ready to welcome you and answer all your questions with warmth and care.",
+          "c.address": "Address",
+          "c.phone": "Phone",
+          "c.admission": "Admission",
+          "c.admission.text": "Open year-round — contact us to arrange a visit",
+          "form.title": "Send Us a Message",
+          "form.fname": "First Name",
+          "form.lname": "Last Name",
+          "form.email": "Email Address",
+          "form.phone": "Phone Number",
+          "form.enquiry": "Type of Enquiry",
+          "form.select": "Select an option…",
+          "form.opt1": "Resident Admission",
+          "form.opt2": "Schedule a Visit",
+          "form.opt3": "Volunteering",
+          "form.opt4": "Donation / Support",
+          "form.opt5": "Other",
+          "form.message": "Message",
+          "form.submit": "Send Message",
+          "form.success":
+            "✓ Thank you for reaching out. We will get back to you shortly.",
+          "footer.about":
+            "Providing hope, dignity and compassionate care to the elderly of Mauritius since 1962, guided by Christian values.",
+          "footer.links": "Quick Links",
+          "footer.services": "Our Services",
+          "footer.contact": "Contact",
+        },
+        fr: {
+          "nav.about": "À Propos",
+          "nav.mission": "Mission",
+          "nav.history": "Histoire",
+          "nav.services": "Services",
+          "nav.gallery": "Galerie",
+          "nav.contact": "Nous Contacter",
+          "appt.btn": "Prendre Rendez-vous",
+          "hero.badge": "Diocèse Anglican de Maurice",
+          "hero.tagline":
+            "Fournir des soins de qualité aux personnes âgées\nau nom de notre Seigneur Jésus-Christ — Rose Hill, Maurice.",
+          "hero.cta1": "Renseignement Résident",
+          "hero.cta2": "En Savoir Plus",
+          "hero.scroll": "Défiler",
+          "stats.capacity": "Capacité de Résidents",
+          "stats.years": "Années de Service",
+          "stats.care": "Soins 24h/24",
+          "stats.values": "Valeurs Fondamentales",
+          "about.label": "Qui Sommes-Nous",
+          "about.founded": "Fondé à Rose Hill",
+          "about.p1":
+            "St Hugh's Home est une institution caritative du Diocèse Anglican de Maurice. C'est un home pour personnes âgées de 56 lits offrant des soins de longue durée dans un cadre positif et unique.",
+          "about.p2":
+            "Idéalement situé à Rose Hill, nous disposons d'un grand jardin et d'un accès facile aux transports en commun. Nous accueillons les résidents âgés de 60 ans et plus.",
+          "about.p3":
+            "Depuis 2005, le home applique la Loi sur les Maisons de Soins Résidentiels et la Loi sur la Protection des Personnes Âgées.",
+          "pill.care": "Soins de Longue Durée",
+          "pill.values": "Valeurs Chrétiennes",
+          "pill.gov": "Soutenu par le Gouvernement",
+          "mission.label": "Notre Objectif",
+          "mission.quote":
+            "Espoir, Dignité et Respect à nos résidents au nom du Seigneur.",
+          "vision.title": "Notre Vision",
+          "vision.text":
+            "Fournir des soins et services de haute qualité à la population gériatrique selon des principes chrétiens, en veillant à ce que chaque résident vive avec dignité et joie.",
+          "mission.title": "Notre Mission",
+          "mission.text":
+            "Fournir des soins de haute qualité de manière efficace, en répondant aux besoins physiques, émotionnels, spirituels et sociaux de nos résidents — les traitant avec dignité et respect pour la gloire de notre Seigneur Jésus-Christ.",
+          "values.title": "Nos Valeurs Fondamentales",
+          "v1.title": "Bonne Gérance",
+          "v1.text":
+            "Nous fournissons des soins de haute qualité en étant de bons gestionnaires de toutes les ressources qui nous sont confiées.",
+          "v2.title": "Dignité",
+          "v2.text":
+            "Nous traitons tous nos résidents avec toute la dignité et le respect que nous souhaiterions pour nous-mêmes.",
+          "v3.title": "Compassion",
+          "v3.text":
+            "Nous traitons tous nos résidents avec compassion au nom de notre Seigneur Jésus-Christ.",
+          "v4.title": "Individualité",
+          "v4.text":
+            "Nous respectons et traitons chaque résident comme un individu unique avec une expérience de vie unique.",
+          "v5.title": "Honnêteté",
+          "v5.text":
+            "Nous conduisons tous les aspects de notre travail de manière transparente et véridique.",
+          "v6.title": "Transparence",
+          "v6.text":
+            "Nous sommes transparents et équitables dans toutes nos entreprises, favorisant la confiance avec les résidents, les familles et la communauté.",
+          "history.label": "Notre Histoire",
+          "history.lead":
+            "De modestes débuts abritant des orphelins et des femmes vulnérables, St Hugh's a évolué pour devenir un des premiers homes de soins résidentiels pour personnes âgées à Maurice.",
+          "services.label": "Ce Que Nous Offrons",
+          "services.lead":
+            "Nous offrons une gamme complète de services adaptés aux besoins individuels de chaque résident.",
+          "s1.title": "Soins Résidentiels de Longue Durée",
+          "s1.text":
+            "Soins résidentiels à plein temps dans un environnement chaleureux avec un soutien professionnel 24h/24 pour jusqu'à 56 résidents.",
+          "s2.title": "Aide aux Soins Personnels",
+          "s2.text":
+            "Soutien quotidien incluant le bain, l'habillage, le toilettage et l'aide à la mobilité.",
+          "s3.title": "Repas Nutritifs",
+          "s3.text":
+            "Repas équilibrés et nutritifs préparés quotidiennement en tenant compte des besoins alimentaires individuels.",
+          "s4.title": "Appartements Autonomes",
+          "s4.text":
+            "Appartements autonomes (blocs Martha & Mary) pour les résidents qui maintiennent une plus grande autonomie.",
+          "s5.title": "Soins Spirituels & Pastoraux",
+          "s5.text":
+            "Services de culte réguliers, visites pastorales et soutien spirituel selon les principes chrétiens anglicans.",
+          "s6.title": "Activités Sociales & Récréatives",
+          "s6.text":
+            "Programmes sociaux engageants, activités récréatives et événements communautaires.",
+          "gallery.label": "Notre Résidence",
+          "gallery.lead":
+            "Un aperçu de la communauté chaleureuse et dynamique que nous avons construite.",
+          g1: "Repas Communautaire",
+          g2: "Soins Pastoraux",
+          g3: "Activités Créatives",
+          g4: "Soins Compassionnés",
+          g5: "Vie Communautaire",
+          g6: "Notre Maison",
+          g7: "Formation du Personnel",
+          "contact.label": "Nous Contacter",
+          "contact.intro":
+            "Que vous vous renseigniez pour vous-même ou pour un proche, notre équipe est prête à vous accueillir.",
+          "c.address": "Adresse",
+          "c.phone": "Téléphone",
+          "c.admission": "Admission",
+          "c.admission.text":
+            "Ouvert toute l'année — contactez-nous pour organiser une visite",
+          "form.title": "Envoyez-nous un Message",
+          "form.fname": "Prénom",
+          "form.lname": "Nom",
+          "form.email": "Adresse Email",
+          "form.phone": "Numéro de Téléphone",
+          "form.enquiry": "Type de Demande",
+          "form.select": "Sélectionnez une option…",
+          "form.opt1": "Admission Résident",
+          "form.opt2": "Planifier une Visite",
+          "form.opt3": "Bénévolat",
+          "form.opt4": "Don / Soutien",
+          "form.opt5": "Autre",
+          "form.message": "Message",
+          "form.submit": "Envoyer le Message",
+          "form.success":
+            "✓ Merci de nous avoir contactés. Nous vous répondrons sous peu.",
+          "footer.about":
+            "Fournir espoir, dignité et soins compassionnels aux personnes âgées de Maurice depuis 1962.",
+          "footer.links": "Liens Rapides",
+          "footer.services": "Nos Services",
+          "footer.contact": "Contact",
+        },
+        zh: {
+          "nav.about": "关于我们",
+          "nav.mission": "使命",
+          "nav.history": "历史",
+          "nav.services": "服务",
+          "nav.gallery": "图库",
+          "nav.contact": "联系我们",
+          "appt.btn": "预约",
+          "hero.badge": "毛里求斯英国圣公会教区",
+          "hero.tagline":
+            "以主耶稣基督之名，为老人提供高质量、富有同情心的关怀\n— 毛里求斯玫瑰山。",
+          "hero.cta1": "居民咨询",
+          "hero.cta2": "了解更多",
+          "hero.scroll": "向下滚动",
+          "stats.capacity": "居民容量",
+          "stats.years": "服务年限",
+          "stats.care": "全天候护理",
+          "stats.values": "核心价值观",
+          "about.label": "关于我们",
+          "about.founded": "创立于玫瑰山",
+          "about.p1":
+            "圣休之家是毛里求斯英国圣公会教区的慈善机构，是一所拥有56个床位的老年护理院，提供积极、富有同情心的长期护理。",
+          "about.p2":
+            "位于玫瑰山，我们拥有宽阔的花园，交通便利。我们接收60岁及以上的居民——包括自费和政府资助。",
+          "about.p3":
+            "自2005年起，本院执行毛里求斯政府制定的《住宅护理院法》和《老年人保护法》。",
+          "pill.care": "长期护理",
+          "pill.values": "基督教价值观",
+          "pill.gov": "政府支持",
+          "mission.label": "我们的目标",
+          "mission.quote": "以主之名，给予居民希望、尊严与尊重。",
+          "vision.title": "我们的愿景",
+          "vision.text":
+            "基于基督教原则，为老年群体提供高质量护理和服务，确保每位居民有尊严、有目标、快乐地生活。",
+          "mission.title": "我们的使命",
+          "mission.text":
+            "高效提供高质量护理，满足居民的身体、情感、精神和社会需求——以尊严和尊重对待他们，为主耶稣基督的荣耀。",
+          "values.title": "我们的核心价值观",
+          "v1.title": "良好管理",
+          "v1.text": "我们善用托付给我们的所有资源，提供高质量的护理和服务。",
+          "v2.title": "尊严",
+          "v2.text":
+            "我们以希望自己被对待的方式对待所有居民，给予充分的尊严和尊重。",
+          "v3.title": "同情心",
+          "v3.text": "我们以主耶稣基督之名，以同情心对待所有居民。",
+          "v4.title": "个性",
+          "v4.text":
+            "我们将每位居民视为独特的个体，尊重其独特的人生经历，照顾其个人需求。",
+          "v5.title": "诚实",
+          "v5.text": "我们以透明和真实的方式处理工作的方方面面。",
+          "v6.title": "透明度",
+          "v6.text":
+            "我们在所有工作中保持透明和公平，与居民、家属和社区建立信任。",
+          "history.label": "我们的故事",
+          "history.lead":
+            "从最初收容孤儿和弱势妇女的简陋机构，圣休之家历经数十年发展，成为毛里求斯领先的老年人住宅护理机构。",
+          "services.label": "我们的服务",
+          "services.lead":
+            "我们提供全面的服务，根据每位居民的个人需求量身定制，确保舒适充实的生活。",
+          "s1.title": "住宅长期护理",
+          "s1.text":
+            "在温馨的家庭式环境中提供全职住宅护理，24/7专业支持，最多可容纳56名居民。",
+          "s2.title": "个人护理协助",
+          "s2.text":
+            "日常生活支持，包括洗浴、穿衣、梳洗和行动协助，以尊严和尊重方式提供。",
+          "s3.title": "营养膳食",
+          "s3.text": "每日准备均衡营养的膳食，注重个人饮食需求和偏好。",
+          "s4.title": "自理公寓",
+          "s4.text":
+            "玛大和玛利亚公寓区为在支持性社区中保持更大自主权的居民提供独立公寓。",
+          "s5.title": "灵性与牧灵关怀",
+          "s5.text":
+            "定期礼拜服务、牧灵探访和灵性支持，符合英国圣公会基督教原则和价值观。",
+          "s6.title": "社交和娱乐活动",
+          "s6.text": "丰富的社交计划、娱乐活动和社区活动，培育精神和情感健康。",
+          "gallery.label": "我们的居所",
+          "gallery.lead":
+            "一瞥我们所建立的温暖、充满活力的社区——每天都充满目标、快乐和尊严。",
+          g1: "社区用餐",
+          g2: "牧灵关怀",
+          g3: "创意活动",
+          g4: "富有同情心的护理",
+          g5: "社区生活",
+          g6: "我们的家",
+          g7: "员工培训",
+          "contact.label": "联系我们",
+          "contact.intro":
+            "无论您是为自己还是为亲人咨询，我们的团队都准备好以温暖和关怀欢迎您，解答您的所有问题。",
+          "c.address": "地址",
+          "c.phone": "电话",
+          "c.admission": "入住",
+          "c.admission.text": "全年开放——请联系我们安排参观",
+          "form.title": "发送消息",
+          "form.fname": "名",
+          "form.lname": "姓",
+          "form.email": "电子邮件",
+          "form.phone": "电话号码",
+          "form.enquiry": "咨询类型",
+          "form.select": "请选择…",
+          "form.opt1": "居民入住",
+          "form.opt2": "预约参观",
+          "form.opt3": "志愿服务",
+          "form.opt4": "捐款/支持",
+          "form.opt5": "其他",
+          "form.message": "留言",
+          "form.submit": "发送消息",
+          "form.success": "✓ 感谢您的联系。我们将尽快回复您。",
+          "footer.about":
+            "自1962年起，在基督教价值观的指引下，为毛里求斯老年人提供希望、尊严和富有同情心的关怀。",
+          "footer.links": "快速链接",
+          "footer.services": "我们的服务",
+          "footer.contact": "联系方式",
+        },
+        MU: {
+          "nav.about": "Lor Nou",
+          "nav.mission": "Misyon",
+          "nav.history": "Listwar",
+          "nav.services": "Servis",
+          "nav.gallery": "Galeri",
+          "nav.contact": "Kontakte Nou",
+          "appt.btn": "Pran Randevou",
+          "hero.badge": "Dioses Anglikan Moris",
+          "hero.tagline":
+            "Ofrir swen kalite ek konpasyon pou bann vie dimoune\ndan nom Bondie Jezikri nou — Rose Hill, Moris.",
+          "hero.cta1": "Demande Rezidan",
+          "hero.cta2": "Aprann Plis",
+          "hero.scroll": "Desann",
+          "stats.capacity": "Kapasite Rezidan",
+          "stats.years": "Banné Servis",
+          "stats.care": "Swen 24/7",
+          "stats.values": "Valer Fondamantal",
+          "about.label": "Ki Nou Ete",
+          "about.founded": "Fonn dan Rose Hill",
+          "about.p1":
+            "St Hugh's Home se enn institisyon saritable Dioses Anglikan Moris. Se enn om pou vié dimoune ek 56 lili ki ofrir swen alontèrm dan enn lanvironman pozitif ek inik.",
+          "about.p2":
+            "Bien sité dan Rose Hill, nou ena enn gran zardin ek fasil aksé transpor piblik. Nou aksepte rezidan azé 60 an ek plis.",
+          "about.p3":
+            "Depi 2005, lom applik Lalwa Maison de Soins Rezidansiel ek Lalwa Proteksion Vié Dimoune.",
+          "pill.care": "Swen Alontèrm",
+          "pill.values": "Valer Kretyen",
+          "pill.gov": "Sipor Gouvernman",
+          "mission.label": "Not Bi",
+          "mission.quote":
+            "Lesper, Dinyite ek Respe pou nos rezidan dan nom Bondie.",
+          "vision.title": "Not Vizion",
+          "vision.text":
+            "Ofrir swen ek servis kalite élevé pou popilasyon zeriatrik baze lor prinsip kretyen, veye ki sak rezidan viv ek dinyite ek lazwa.",
+          "mission.title": "Not Misyon",
+          "mission.text":
+            "Ofrir swen kalite éficacement, réponn bezwen fizik, emosionel, spiritiel ek sosial nos rezidan — tret zot ek dinyite ek respe pou laglwar Jezikri.",
+          "values.title": "Not Valer Fondamantal",
+          "v1.title": "Bon Gestion",
+          "v1.text":
+            "Nou ofrir swen kalite ek nou bien zere tou resours ki konfié ar nou.",
+          "v2.title": "Dinyite",
+          "v2.text":
+            "Nou tret tou nos rezidan ek tou dinyite ek respe ki nou ti voulé pou nou-mem.",
+          "v3.title": "Konpasyon",
+          "v3.text": "Nou tret tou nos rezidan ek konpasyon dan nom Jezikri.",
+          "v4.title": "Individualite",
+          "v4.text":
+            "Nou respekte ek tret sak rezidan koman enn individi inik ek so prop eksperyans lavi.",
+          "v5.title": "Onèteté",
+          "v5.text":
+            "Nou fer tou travay dan maniér transparent ek vréman tou letan.",
+          "v6.title": "Transparans",
+          "v6.text":
+            "Nou transparent ek ékitab dan tou not aksion, fonn konfians ek rezidan, famiy ek kominoté.",
+          "history.label": "Not Listwar",
+          "history.lead":
+            "Depi modést koumansman protez orfelin ek fam vilnerab, St Hugh's finn évolié pou vinn enn nom rezidansiel pou vié dimoune dan Moris.",
+          "services.label": "Sa Ki Nou Ofrir",
+          "services.lead":
+            "Nou ofrir enn gam konplet servis adapté pou bezwen individiel sak rezidan.",
+          "s1.title": "Swen Rezidansiel Alontèrm",
+          "s1.text":
+            "Swen rezidansiel plenn-tan dan enn lanvironman saler ek sipor profesionel 24/7 pou jiska 56 rezidan.",
+          "s2.title": "Ed Swen Personel",
+          "s2.text":
+            "Sipor kotidyen inkli bain, abiyé, toilette ek ed mobilite ek dinyite ek respe.",
+          "s3.title": "Repa Nitritif",
+          "s3.text":
+            "Repa ekilibré ek nitritif, preparet toulezour ek atansion pou bezwen alimenter individiel.",
+          "s4.title": "Apartman Ottonom",
+          "s4.text":
+            "Apartman otonom (blok Martha & Mary) pou rezidan ki gard plis autonomi dan not kominoté.",
+          "s5.title": "Swen Spiritiel & Pastoral",
+          "s5.text":
+            "Servis adorasyon régulié, vizit pastoral ek sipor spiritiel konforme ek prinsip anglikan.",
+          "s6.title": "Aktivite Sosial & Rekreatif",
+          "s6.text":
+            "Programe sosial, aktivite rekreatif ek événman kominoté pou nouri santé mantal ek emosionel.",
+          "gallery.label": "Not Rezidans",
+          "gallery.lead":
+            "Enn ti koud zié lor kominoté saler ek dinamik ki nou finn konstrir — kot sak zour viv ek bi, lazwa ek dinyite.",
+          g1: "Repa Kominoté",
+          g2: "Swen Pastoral",
+          g3: "Aktivite Kreatif",
+          g4: "Swen Konpasionné",
+          g5: "Lavi Kominoté",
+          g6: "Not Lakaz",
+          g7: "Formasion Staff",
+          "contact.label": "Kontakte Nou",
+          "contact.intro":
+            "Swa ou pe demannd pou ou-mem ou pou enn ser, not lekin, not léquipe prê pou akeyir ou ek reponn tout ou kestion.",
+          "c.address": "Adres",
+          "c.phone": "Telefonn",
+          "c.admission": "Admision",
+          "c.admission.text":
+            "Ouver tou-lonné — kontakte nou pou organize enn vizit",
+          "form.title": "Anvoye Nou enn Mesaz",
+          "form.fname": "Prenon",
+          "form.lname": "Non",
+          "form.email": "Adres Email",
+          "form.phone": "Nimerot Telefonn",
+          "form.enquiry": "Tip Demand",
+          "form.select": "Seleksione enn opsion…",
+          "form.opt1": "Admision Rezidan",
+          "form.opt2": "Organiz Vizit",
+          "form.opt3": "Volontariat",
+          "form.opt4": "Don / Sipor",
+          "form.opt5": "Lot",
+          "form.message": "Mesaz",
+          "form.submit": "Anvoye Mesaz",
+          "form.success": "✓ Mersi pou kontakter nou. Nou pou reverter biento.",
+          "footer.about":
+            "Ofrir lesper, dinyite ek swen konpasioné pou vié dimoune Moris depi 1962, giid par valer kretyen.",
+          "footer.links": "Lien Rapid",
+          "footer.services": "Not Servis",
+          "footer.contact": "Kontakt",
+        },
+      };
+
+      let currentLang = "en";
+
+      function applyTranslations(lang) {
+        const t = i18n[lang];
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (t[key] !== undefined) {
+            el.textContent = t[key];
+          }
+        });
+      }
+
+      function setLanguage(lang) {
+        currentLang = lang;
+        const labels = { en: "EN", fr: "FR", zh: "中文", MU: "MU" };
+        document.getElementById("lang-label").textContent = labels[lang];
+        document
+          .querySelectorAll(".lang-option")
+          .forEach((o) => o.classList.remove("active"));
+        document
+          .querySelector(`.lang-option[onclick="setLanguage('${lang}')"]`)
+          ?.classList.add("active");
+        applyTranslations(lang);
+        closeLangDropdown();
+      }
+
+      function toggleLangDropdown() {
+        document.getElementById("lang-dropdown").classList.toggle("open");
+      }
+      function closeLangDropdown() {
+        document.getElementById("lang-dropdown").classList.remove("open");
+      }
+      document.addEventListener("click", (e) => {
+        if (!document.getElementById("lang-selector").contains(e.target))
+          closeLangDropdown();
+      });
+
+      // ── THEME TOGGLE ─────────────────────────────────────
+      function toggleTheme() {
+        const html = document.documentElement;
+        const isDark = html.getAttribute("data-theme") === "dark";
+        html.setAttribute("data-theme", isDark ? "light" : "dark");
+        localStorage.setItem("theme", isDark ? "light" : "dark");
+      }
+      // Restore saved theme
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme)
+        document.documentElement.setAttribute("data-theme", savedTheme);
+
+      // ── NAVBAR SCROLL ──────────────────────────────────
+      const navbar = document.getElementById("navbar");
+      const scrollTopBtn = document.getElementById("scroll-top");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 60) {
+          navbar.classList.add("scrolled");
+          scrollTopBtn.classList.add("show");
+        } else {
+          navbar.classList.remove("scrolled");
+          scrollTopBtn.classList.remove("show");
+        }
+      });
+
+      // ── BURGER MENU ────────────────────────────────────
+      const burger = document.getElementById("burger");
+      const navLinks = document.getElementById("nav-links");
+      burger.addEventListener("click", () => navLinks.classList.toggle("open"));
+      navLinks
+        .querySelectorAll("a")
+        .forEach((a) =>
+          a.addEventListener("click", () => navLinks.classList.remove("open")),
+        );
+
+      // ── SCROLL REVEAL ──────────────────────────────────
+      const revealEls = document.querySelectorAll(".reveal, .timeline-item");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      revealEls.forEach((el) => observer.observe(el));
+      document.querySelectorAll(".timeline-item").forEach((el, i) => {
+        el.style.transitionDelay = `${i * 0.08}s`;
+      });
+
+      // ── SMOOTH ANCHOR SCROLL ───────────────────────────
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const target = document.querySelector(a.getAttribute("href"));
+          if (target) {
+            e.preventDefault();
+            window.scrollTo({
+              top: target.offsetTop - navbar.offsetHeight - 16,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+
+      // ── GALLERY LIGHTBOX ───────────────────────────────
+      const galleryImages = [
+        { src: "image_1.jpg", alt: "Residents sharing a meal together" },
+        { src: "image_2.jpg", alt: "Care and interaction" },
+        { src: "image_3.jpg", alt: "Creative activities" },
+        { src: "image_4.jpg", alt: "Staff caring for residents" },
+        { src: "image_5.jpg", alt: "Group photo outdoors" },
+        { src: "image_6.jpg", alt: "St Hugh's building entrance" },
+        { src: "image_7.jpg", alt: "Training and staff development" },
+      ];
+      let currentLbIdx = 0;
+
+      function openLightbox(idx) {
+        currentLbIdx = idx;
+        const lb = document.getElementById("lightbox");
+        const img = document.getElementById("lb-img");
+        img.src = galleryImages[idx].src;
+        img.alt = galleryImages[idx].alt;
+        lb.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeLightbox() {
+        document.getElementById("lightbox").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function lbNav(dir) {
+        currentLbIdx =
+          (currentLbIdx + dir + galleryImages.length) % galleryImages.length;
+        openLightbox(currentLbIdx);
+      }
+      document.getElementById("lightbox").addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) closeLightbox();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (!document.getElementById("lightbox").classList.contains("open"))
+          return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") lbNav(-1);
+        if (e.key === "ArrowRight") lbNav(1);
+      });
+
+      // ── FORM SUBMIT ────────────────────────────────────
+      function submitForm() {
+        const fname = document.getElementById("fname").value.trim();
+        const email = document.getElementById("email").value.trim();
+        if (!fname || !email) {
+          alert("Please enter your name and email address.");
+          return;
+        }
+        const success = document.getElementById("form-success");
+        success.style.display = "block";
+        ["fname", "lname", "email", "phone", "enquiry", "message"].forEach(
+          (id) => {
+            const el = document.getElementById(id);
+            if (el) el.value = "";
+          },
+        );
+        setTimeout(() => {
+          success.style.display = "none";
+        }, 6000);
+      }
+    </script>
+  </body>
+</html>
