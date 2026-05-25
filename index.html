@@ -218,14 +218,12 @@
         opacity: 0.7;
       }
 
-      /* Nav Controls */
       .nav-controls {
         display: flex;
         align-items: center;
         gap: 0.5rem;
       }
 
-      /* Language selector */
       .lang-selector {
         position: relative;
       }
@@ -293,7 +291,6 @@
         font-size: 1.1rem;
       }
 
-      /* Theme toggle */
       .theme-toggle {
         background: rgba(255, 255, 255, 0.12);
         border: 1px solid rgba(255, 255, 255, 0.25);
@@ -458,13 +455,13 @@
       .hero-bg {
         position: absolute;
         inset: 0;
+        z-index: 1;
         background: linear-gradient(
           135deg,
           rgba(18, 72, 72, 0.93) 0%,
           rgba(27, 107, 107, 0.82) 55%,
           rgba(42, 144, 144, 0.72) 100%
         );
-        z-index: 1;
       }
       .hero-bg::before {
         content: "";
@@ -497,7 +494,6 @@
         z-index: 2;
         display: flex;
         align-items: center;
-
         gap: 3rem;
         width: 100%;
       }
@@ -1108,10 +1104,11 @@
         margin: 0 auto;
       }
 
+      /* Dynamic gallery grid */
       .gallery-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: auto;
+        grid-auto-rows: auto;
         gap: 12px;
       }
       .gallery-item {
@@ -1121,11 +1118,8 @@
         cursor: pointer;
         background: var(--card-bg);
       }
-      .gallery-item:nth-child(1) {
-        grid-column: span 2;
-        grid-row: span 1;
-      }
-      .gallery-item:nth-child(4) {
+      /* Span rules applied via JS based on index */
+      .gallery-item.span-2-col {
         grid-column: span 2;
       }
       .gallery-item img {
@@ -1135,7 +1129,7 @@
         transition: transform 0.5s ease;
         min-height: 240px;
       }
-      .gallery-item:nth-child(1) img {
+      .gallery-item.span-2-col img {
         min-height: 320px;
       }
       .gallery-item:hover img {
@@ -1164,6 +1158,35 @@
         font-weight: 500;
         letter-spacing: 0.1em;
         text-transform: uppercase;
+      }
+
+      /* Gallery empty / loading states */
+      .gallery-empty {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 64px 24px;
+        color: var(--text-light);
+        font-size: 0.95rem;
+      }
+      .gallery-skeleton {
+        border-radius: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--beige) 25%,
+          var(--beige-dark) 50%,
+          var(--beige) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.4s infinite;
+        min-height: 240px;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
       }
 
       /* Lightbox */
@@ -1385,11 +1408,20 @@
           background 0.25s,
           transform 0.2s;
         margin-top: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
       }
       .form-submit:hover {
         background: var(--submit-text);
         transform: translateY(-1px);
         color: var(--submit);
+      }
+      .form-submit:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+        transform: none;
       }
       #form-success {
         display: none;
@@ -1399,6 +1431,17 @@
         padding: 12px 16px;
         font-size: 0.88rem;
         color: var(--teal-mid);
+        margin-top: 14px;
+        text-align: center;
+      }
+      #form-error {
+        display: none;
+        background: rgba(192, 57, 43, 0.08);
+        border: 1px solid rgba(192, 57, 43, 0.3);
+        border-radius: 2px;
+        padding: 12px 16px;
+        font-size: 0.88rem;
+        color: #c0392b;
         margin-top: 14px;
         text-align: center;
       }
@@ -1461,7 +1504,6 @@
         height: 16px;
         fill: currentColor;
       }
-
       .footer-col h5 {
         font-family: "Cormorant Garamond", serif;
         font-size: 1.05rem;
@@ -1483,7 +1525,6 @@
       .footer-col ul a:hover {
         color: var(--gold-light);
       }
-
       .footer-bottom {
         border-top: 1px solid rgba(255, 255, 255, 0.07);
         padding: 18px 0;
@@ -1565,6 +1606,22 @@
         transform: none;
       }
 
+      /* ===== SPINNER ===== */
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(201, 177, 117, 0.3);
+        border-top-color: var(--submit-text);
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        display: inline-block;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
       /* ===== MOBILE ===== */
       @media (max-width: 1024px) {
         .hero-armory img {
@@ -1601,12 +1658,6 @@
           flex-direction: column;
           gap: 1.5rem;
         }
-        .hero-armory {
-          order: -1;
-        }
-        .hero-armory img {
-          width: 120px;
-        }
         .stats-inner {
           flex-wrap: wrap;
         }
@@ -1634,11 +1685,8 @@
         .gallery-grid {
           grid-template-columns: 1fr 1fr;
         }
-        .gallery-item:nth-child(1) {
+        .gallery-item.span-2-col {
           grid-column: span 2;
-        }
-        .gallery-item:nth-child(4) {
-          grid-column: span 1;
         }
         .footer-top {
           grid-template-columns: 1fr 1fr;
@@ -1667,8 +1715,7 @@
         .gallery-grid {
           grid-template-columns: 1fr;
         }
-        .gallery-item:nth-child(1),
-        .gallery-item:nth-child(4) {
+        .gallery-item.span-2-col {
           grid-column: span 1;
         }
         .form-row {
@@ -1721,7 +1768,6 @@
         </ul>
 
         <div class="nav-controls">
-          <!-- Language selector -->
           <div class="lang-selector" id="lang-selector">
             <button
               class="lang-btn"
@@ -1752,15 +1798,12 @@
               </div>
             </div>
           </div>
-
-          <!-- Theme toggle -->
           <button
             class="theme-toggle"
             id="theme-toggle"
             onclick="toggleTheme()"
             aria-label="Toggle dark/light mode"
           >
-            <!-- Sun icon (shown in dark mode) -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -1773,7 +1816,6 @@
                 d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8.5 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 11a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m5-5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m-11 0a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m9.743-4.036a.5.5 0 1 1-.707-.707.5.5 0 0 1 .707.707m-7.779 7.779a.5.5 0 1 1-.707-.707.5.5 0 0 1 .707.707m7.072 0a.5.5 0 1 1 .707-.707.5.5 0 0 1-.707.707M3.757 4.464a.5.5 0 1 1 .707-.707.5.5 0 0 1-.707.707"
               />
             </svg>
-            <!-- Moon icon (shown in light mode) -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -1787,7 +1829,6 @@
               />
             </svg>
           </button>
-
           <div class="burger" id="burger" aria-label="Toggle menu">
             <span></span><span></span><span></span>
           </div>
@@ -1813,13 +1854,13 @@
       <div class="container hero-content">
         <div class="hero-text">
           <div class="hero-badge">
-            <span class="dot"></span>
-            <span data-i18n="hero.badge">Anglican Diocese of Mauritius</span>
+            <span class="dot"></span
+            ><span data-i18n="hero.badge">Anglican Diocese of Mauritius</span>
           </div>
           <h1 class="hero-title">Hope, Dignity<br /><em>&amp; Respect</em></h1>
           <p class="hero-tagline" data-i18n="hero.tagline">
-            Providing high quality, compassionate care to the elderly<br />
-            in the name of our Lord Jesus Christ — Rose Hill, Mauritius.
+            Providing high quality, compassionate care to the elderly<br />in
+            the name of our Lord Jesus Christ — Rose Hill, Mauritius.
           </p>
           <div class="hero-actions">
             <a href="#contact" class="btn btn-gold">
@@ -1845,7 +1886,6 @@
           <img src="armoirie.jpeg" alt="Diocese of Mauritius Coat of Arms" />
         </div>
       </div>
-
       <div class="hero-stats">
         <div class="container stats-inner">
           <div class="stat-item">
@@ -1872,7 +1912,6 @@
           </div>
         </div>
       </div>
-
       <div class="hero-scroll">
         <div class="scroll-line"></div>
         <span data-i18n="hero.scroll">Scroll</span>
@@ -2278,7 +2317,7 @@
       </div>
     </section>
 
-    <!-- GALLERY -->
+    <!-- GALLERY — dynamically loaded from Supabase -->
     <section id="gallery" class="section-pad">
       <div class="container">
         <div class="gallery-header reveal">
@@ -2292,65 +2331,11 @@
             every day is lived with purpose, joy, and dignity.
           </p>
         </div>
-        <div class="gallery-grid">
-          <div class="gallery-item reveal" onclick="openLightbox(0)">
-            <img
-              src="image_1.jpg"
-              alt="Residents sharing a meal together"
-              loading="lazy"
-            />
-            <div class="gallery-overlay">
-              <span data-i18n="g1">Community Dining</span>
-            </div>
-          </div>
-          <div class="gallery-item reveal" onclick="openLightbox(1)">
-            <img src="image_2.jpg" alt="Care and interaction" loading="lazy" />
-            <div class="gallery-overlay">
-              <span data-i18n="g2">Pastoral Care</span>
-            </div>
-          </div>
-          <div class="gallery-item reveal" onclick="openLightbox(2)">
-            <img src="image_3.jpg" alt="Creative activities" loading="lazy" />
-            <div class="gallery-overlay">
-              <span data-i18n="g3">Creative Activities</span>
-            </div>
-          </div>
-          <div class="gallery-item reveal" onclick="openLightbox(3)">
-            <img
-              src="image_4.jpg"
-              alt="Staff caring for residents"
-              loading="lazy"
-            />
-            <div class="gallery-overlay">
-              <span data-i18n="g4">Compassionate Care</span>
-            </div>
-          </div>
-          <div class="gallery-item reveal" onclick="openLightbox(4)">
-            <img src="image_5.jpg" alt="Group photo outdoors" loading="lazy" />
-            <div class="gallery-overlay">
-              <span data-i18n="g5">Community Life</span>
-            </div>
-          </div>
-          <div class="gallery-item reveal" onclick="openLightbox(5)">
-            <img
-              src="image_6.jpg"
-              alt="St Hugh's building entrance"
-              loading="lazy"
-            />
-            <div class="gallery-overlay">
-              <span data-i18n="g6">Our Home</span>
-            </div>
-          </div>
-          <div class="gallery-item reveal" onclick="openLightbox(6)">
-            <img
-              src="image_7.jpg"
-              alt="Training and staff development"
-              loading="lazy"
-            />
-            <div class="gallery-overlay">
-              <span data-i18n="g7">Staff Training</span>
-            </div>
-          </div>
+        <!-- Gallery grid populated by loadGallery() -->
+        <div class="gallery-grid" id="gallery-grid">
+          <div class="gallery-skeleton"></div>
+          <div class="gallery-skeleton"></div>
+          <div class="gallery-skeleton"></div>
         </div>
       </div>
     </section>
@@ -2396,8 +2381,10 @@
                   </svg>
                 </div>
                 <div class="contact-item-body">
-                  <strong data-i18n="c.address">Address</strong>
-                  <span>6, Sir Edgar Laurent Street, Rose Hill, Mauritius</span>
+                  <strong data-i18n="c.address">Address</strong
+                  ><span
+                    >6, Sir Edgar Laurent Street, Rose Hill, Mauritius</span
+                  >
                 </div>
               </div>
               <div class="contact-item">
@@ -2409,8 +2396,8 @@
                   </svg>
                 </div>
                 <div class="contact-item-body">
-                  <strong data-i18n="c.phone">Phone</strong>
-                  <span><a href="tel:4641124">464 1124</a></span>
+                  <strong data-i18n="c.phone">Phone</strong
+                  ><span><a href="tel:4641124">464 1124</a></span>
                 </div>
               </div>
               <div class="contact-item">
@@ -2423,8 +2410,8 @@
                   </svg>
                 </div>
                 <div class="contact-item-body">
-                  <strong>Email</strong>
-                  <span
+                  <strong>Email</strong
+                  ><span
                     ><a href="mailto:sthughanglican@gmail.com"
                       >sthughanglican@gmail.com</a
                     ></span
@@ -2441,8 +2428,8 @@
                   </svg>
                 </div>
                 <div class="contact-item-body">
-                  <strong data-i18n="c.admission">Admission</strong>
-                  <span data-i18n="c.admission.text"
+                  <strong data-i18n="c.admission">Admission</strong
+                  ><span data-i18n="c.admission.text"
                     >Open year-round — contact us to arrange a visit</span
                   >
                 </div>
@@ -2453,21 +2440,21 @@
             <h3 data-i18n="form.title">Send Us a Message</h3>
             <div class="form-row">
               <div class="form-group">
-                <label for="fname" data-i18n="form.fname">First Name</label>
-                <input type="text" id="fname" placeholder="Your first name" />
+                <label for="fname" data-i18n="form.fname">First Name</label
+                ><input type="text" id="fname" placeholder="Your first name" />
               </div>
               <div class="form-group">
-                <label for="lname" data-i18n="form.lname">Last Name</label>
-                <input type="text" id="lname" placeholder="Your last name" />
+                <label for="lname" data-i18n="form.lname">Last Name</label
+                ><input type="text" id="lname" placeholder="Your last name" />
               </div>
             </div>
             <div class="form-group">
-              <label for="email" data-i18n="form.email">Email Address</label>
-              <input type="email" id="email" placeholder="you@example.com" />
+              <label for="email" data-i18n="form.email">Email Address</label
+              ><input type="email" id="email" placeholder="you@example.com" />
             </div>
             <div class="form-group">
-              <label for="phone" data-i18n="form.phone">Phone Number</label>
-              <input type="tel" id="phone" placeholder="+230 xxx xxxx" />
+              <label for="phone" data-i18n="form.phone">Phone Number</label
+              ><input type="tel" id="phone" placeholder="+230 xxx xxxx" />
             </div>
             <div class="form-group">
               <label for="enquiry" data-i18n="form.enquiry"
@@ -2493,8 +2480,8 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="message" data-i18n="form.message">Message</label>
-              <textarea
+              <label for="message" data-i18n="form.message">Message</label
+              ><textarea
                 id="message"
                 placeholder="How can we help you?"
               ></textarea>
@@ -2502,6 +2489,7 @@
             <button
               type="button"
               class="form-submit"
+              id="form-submit-btn"
               onclick="submitForm()"
               data-i18n="form.submit"
             >
@@ -2509,6 +2497,9 @@
             </button>
             <div id="form-success" data-i18n="form.success">
               ✓ Thank you for reaching out. We will get back to you shortly.
+            </div>
+            <div id="form-error">
+              ✕ Something went wrong. Please try again or call us directly.
             </div>
           </div>
         </div>
@@ -2527,36 +2518,29 @@
               Mauritius since 1962, guided by Christian values.
             </p>
             <div class="footer-social">
-              <!-- Facebook -->
               <a
                 href="https://www.facebook.com/p/St-Hughs-Anglican-Home-100086221878186/"
                 target="_blank"
                 rel="noopener"
                 aria-label="Facebook"
-              >
-                <svg viewBox="0 0 24 24">
+                ><svg viewBox="0 0 24 24">
                   <path
                     d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
-                  />
-                </svg>
-              </a>
-              <!-- Email -->
-              <a href="mailto:sthughanglican@gmail.com" aria-label="Email">
-                <svg viewBox="0 0 24 24">
+                  /></svg
+              ></a>
+              <a href="mailto:sthughanglican@gmail.com" aria-label="Email"
+                ><svg viewBox="0 0 24 24">
                   <path
                     d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
                   />
-                  <polyline points="22,6 12,13 2,6" />
-                </svg>
-              </a>
-              <!-- Phone -->
-              <a href="tel:4641124" aria-label="Phone">
-                <svg viewBox="0 0 24 24">
+                  <polyline points="22,6 12,13 2,6" /></svg
+              ></a>
+              <a href="tel:4641124" aria-label="Phone"
+                ><svg viewBox="0 0 24 24">
                   <path
                     d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.76a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-                  />
-                </svg>
-              </a>
+                  /></svg
+              ></a>
             </div>
           </div>
           <div class="footer-col">
@@ -2618,7 +2602,11 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <span>&copy; 2025 St Hugh's Anglican Home. All rights reserved.</span>
+          <!-- ✦ Dynamic year — updates automatically every year ✦ -->
+          <span
+            >&copy; <span id="footer-year"></span> St Hugh's Anglican Home. All
+            rights reserved.</span
+          >
           <span
             >Charitable Institution of the
             <a href="#">Anglican Diocese of Mauritius</a></span
@@ -2636,8 +2624,198 @@
       <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
     </button>
 
+    <!-- ============================================================
+         JAVASCRIPT
+    ============================================================ -->
     <script>
-      // ── TRANSLATIONS ─────────────────────────────────────
+      // ── SUPABASE CONFIG ──────────────────────────────────────
+      const SUPABASE_URL = "https://mgbfcznrpiwobsxxryhl.supabase.co";
+      const ANON_KEY = "sb_publishable_S9-EBPoyhWf6Biaf1jgtMQ_fi7qtH9-";
+
+      function sbFetch(path, opts = {}, prefer = "return=minimal") {
+        return fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+          ...opts,
+          headers: {
+            apikey: ANON_KEY,
+            Authorization: `Bearer ${ANON_KEY}`,
+            "Content-Type": "application/json",
+            Prefer: prefer,
+            ...(opts.headers || {}),
+          },
+        });
+      }
+
+      // ── DYNAMIC COPYRIGHT YEAR ───────────────────────────────
+      document.getElementById("footer-year").textContent =
+        new Date().getFullYear();
+
+      // ── GALLERY – DYNAMIC LOAD FROM SUPABASE ────────────────
+      let galleryImages = [];
+      let currentLbIdx = 0;
+
+      // Span pattern: images at index 0, 3, 6, … get span-2-col
+      // (mirrors original static layout for any count)
+      const SPAN_INDICES = new Set([0, 3, 6, 9, 12]);
+
+      async function loadGallery() {
+        const grid = document.getElementById("gallery-grid");
+
+        try {
+          const res = await sbFetch(
+            "gallery_images?select=id,image_url,title,description&is_active=eq.true&order=display_order.asc",
+          );
+          const data = await res.json();
+
+          galleryImages = data;
+
+          if (!Array.isArray(data) || data.length === 0) {
+            grid.innerHTML =
+              '<div class="gallery-empty">No gallery images yet. Check back soon!</div>';
+            return;
+          }
+
+          grid.innerHTML = "";
+          data.forEach((img, i) => {
+            const item = document.createElement("div");
+            item.className =
+              "gallery-item reveal" +
+              (SPAN_INDICES.has(i) ? " span-2-col" : "");
+            item.onclick = () => openLightbox(i);
+            item.innerHTML = `
+              <img
+                src="${escAttr(img.image_url)}"
+                alt="${escAttr(img.title || "Gallery image")}"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <span>${escHtml(img.title || "")}</span>
+              </div>`;
+            grid.appendChild(item);
+          });
+
+          // Trigger reveal observer on new elements
+          grid
+            .querySelectorAll(".reveal")
+            .forEach((el) => observer.observe(el));
+        } catch (err) {
+          console.error("Gallery load error:", err);
+          grid.innerHTML =
+            '<div class="gallery-empty">Gallery temporarily unavailable.</div>';
+        }
+      }
+
+      // ── LIGHTBOX ─────────────────────────────────────────────
+      function openLightbox(idx) {
+        currentLbIdx = idx;
+        const img = galleryImages[idx];
+        document.getElementById("lb-img").src = img.image_url;
+        document.getElementById("lb-img").alt = img.title || "";
+        document.getElementById("lightbox").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeLightbox() {
+        document.getElementById("lightbox").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function lbNav(dir) {
+        if (!galleryImages.length) return;
+        currentLbIdx =
+          (currentLbIdx + dir + galleryImages.length) % galleryImages.length;
+        openLightbox(currentLbIdx);
+      }
+      document.getElementById("lightbox").addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) closeLightbox();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (!document.getElementById("lightbox").classList.contains("open"))
+          return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") lbNav(-1);
+        if (e.key === "ArrowRight") lbNav(1);
+      });
+
+      // ── CONTACT FORM — SAVES TO SUPABASE ────────────────────
+      async function submitForm() {
+        const fname = document.getElementById("fname").value.trim();
+        const lname = document.getElementById("lname").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const enquiry = document.getElementById("enquiry").value;
+        const message = document.getElementById("message").value.trim();
+        const success = document.getElementById("form-success");
+        const errorBox = document.getElementById("form-error");
+        const btn = document.getElementById("form-submit-btn");
+
+        success.style.display = "none";
+        errorBox.style.display = "none";
+
+        if (!fname || !email) {
+          errorBox.textContent = "Please enter your name and email address.";
+          errorBox.style.display = "block";
+          return;
+        }
+
+        // Loading state
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Sending…';
+
+        try {
+          const res = await sbFetch(
+            "contact_messages",
+            {
+              method: "POST",
+              body: JSON.stringify({
+                first_name: fname,
+                last_name: lname,
+                email: email,
+                phone: phone,
+                enquiry_type: enquiry || "other",
+                message: message,
+              }),
+            },
+            "return=minimal",
+          );
+
+          if (!res.ok && res.status !== 201)
+            throw new Error("Server error " + res.status);
+
+          // Success
+          success.style.display = "block";
+          ["fname", "lname", "email", "phone", "enquiry", "message"].forEach(
+            (id) => {
+              const el = document.getElementById(id);
+              if (el) el.value = "";
+            },
+          );
+          setTimeout(() => {
+            success.style.display = "none";
+          }, 7000);
+        } catch (err) {
+          console.error("Form error:", err);
+          errorBox.textContent =
+            "✕ Something went wrong. Please try again or call us directly on 464 1124.";
+          errorBox.style.display = "block";
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = '<span data-i18n="form.submit">Send Message</span>';
+          // Re-apply translation if needed
+          const t = i18n[currentLang];
+          if (t && t["form.submit"])
+            btn.querySelector("[data-i18n]").textContent = t["form.submit"];
+        }
+      }
+
+      // ── UTILITIES ────────────────────────────────────────────
+      function escHtml(str) {
+        const d = document.createElement("div");
+        d.appendChild(document.createTextNode(String(str)));
+        return d.innerHTML;
+      }
+      function escAttr(str) {
+        return String(str).replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+      }
+
+      // ── TRANSLATIONS ─────────────────────────────────────────
       const i18n = {
         en: {
           "nav.about": "About",
@@ -2796,7 +2974,7 @@
             "Fournir des soins et services de haute qualité à la population gériatrique selon des principes chrétiens, en veillant à ce que chaque résident vive avec dignité et joie.",
           "mission.title": "Notre Mission",
           "mission.text":
-            "Fournir des soins de haute qualité de manière efficace, en répondant aux besoins physiques, émotionnels, spirituels et sociaux de nos résidents — les traitant avec dignité et respect pour la gloire de notre Seigneur Jésus-Christ.",
+            "Fournir des soins de haute qualité de manière efficace, en répondant aux besoins physiques, émotionnels, spirituels et sociaux de nos résidents.",
           "values.title": "Nos Valeurs Fondamentales",
           "v1.title": "Bonne Gérance",
           "v1.text":
@@ -2843,13 +3021,6 @@
           "gallery.label": "Notre Résidence",
           "gallery.lead":
             "Un aperçu de la communauté chaleureuse et dynamique que nous avons construite.",
-          g1: "Repas Communautaire",
-          g2: "Soins Pastoraux",
-          g3: "Activités Créatives",
-          g4: "Soins Compassionnés",
-          g5: "Vie Communautaire",
-          g6: "Notre Maison",
-          g7: "Formation du Personnel",
           "contact.label": "Nous Contacter",
           "contact.intro":
             "Que vous vous renseigniez pour vous-même ou pour un proche, notre équipe est prête à vous accueillir.",
@@ -2958,13 +3129,6 @@
           "gallery.label": "我们的居所",
           "gallery.lead":
             "一瞥我们所建立的温暖、充满活力的社区——每天都充满目标、快乐和尊严。",
-          g1: "社区用餐",
-          g2: "牧灵关怀",
-          g3: "创意活动",
-          g4: "富有同情心的护理",
-          g5: "社区生活",
-          g6: "我们的家",
-          g7: "员工培训",
           "contact.label": "联系我们",
           "contact.intro":
             "无论您是为自己还是为亲人咨询，我们的团队都准备好以温暖和关怀欢迎您，解答您的所有问题。",
@@ -3030,7 +3194,7 @@
             "Ofrir swen ek servis kalite élevé pou popilasyon zeriatrik baze lor prinsip kretyen, veye ki sak rezidan viv ek dinyite ek lazwa.",
           "mission.title": "Not Misyon",
           "mission.text":
-            "Ofrir swen kalite éficacement, réponn bezwen fizik, emosionel, spiritiel ek sosial nos rezidan — tret zot ek dinyite ek respe pou laglwar Jezikri.",
+            "Ofrir swen kalite éficacement, réponn bezwen fizik, emosionel, spiritiel ek sosial nos rezidan.",
           "values.title": "Not Valer Fondamantal",
           "v1.title": "Bon Gestion",
           "v1.text":
@@ -3075,17 +3239,10 @@
             "Programe sosial, aktivite rekreatif ek événman kominoté pou nouri santé mantal ek emosionel.",
           "gallery.label": "Not Rezidans",
           "gallery.lead":
-            "Enn ti koud zié lor kominoté saler ek dinamik ki nou finn konstrir — kot sak zour viv ek bi, lazwa ek dinyite.",
-          g1: "Repa Kominoté",
-          g2: "Swen Pastoral",
-          g3: "Aktivite Kreatif",
-          g4: "Swen Konpasionné",
-          g5: "Lavi Kominoté",
-          g6: "Not Lakaz",
-          g7: "Formasion Staff",
+            "Enn ti koud zié lor kominoté saler ek dinamik ki nou finn konstrir.",
           "contact.label": "Kontakte Nou",
           "contact.intro":
-            "Swa ou pe demannd pou ou-mem ou pou enn ser, not lekin, not léquipe prê pou akeyir ou ek reponn tout ou kestion.",
+            "Swa ou pe demannd pou ou-mem ou pou enn ser, not léquipe prê pou akeyir ou ek reponn tout ou kestion.",
           "c.address": "Adres",
           "c.phone": "Telefonn",
           "c.admission": "Admision",
@@ -3120,12 +3277,9 @@
         const t = i18n[lang];
         document.querySelectorAll("[data-i18n]").forEach((el) => {
           const key = el.getAttribute("data-i18n");
-          if (t[key] !== undefined) {
-            el.textContent = t[key];
-          }
+          if (t[key] !== undefined) el.textContent = t[key];
         });
       }
-
       function setLanguage(lang) {
         currentLang = lang;
         const labels = { en: "EN", fr: "FR", zh: "中文", mu: "MU" };
@@ -3139,7 +3293,6 @@
         applyTranslations(lang);
         closeLangDropdown();
       }
-
       function toggleLangDropdown() {
         document.getElementById("lang-dropdown").classList.toggle("open");
       }
@@ -3151,22 +3304,20 @@
           closeLangDropdown();
       });
 
-      // ── THEME TOGGLE ─────────────────────────────────────
+      // ── THEME TOGGLE ──────────────────────────────────────────
       function toggleTheme() {
         const html = document.documentElement;
         const isDark = html.getAttribute("data-theme") === "dark";
         html.setAttribute("data-theme", isDark ? "light" : "dark");
         localStorage.setItem("theme", isDark ? "light" : "dark");
       }
-      // Restore saved theme
       const savedTheme = localStorage.getItem("theme");
       if (savedTheme)
         document.documentElement.setAttribute("data-theme", savedTheme);
 
-      // ── NAVBAR SCROLL ──────────────────────────────────
+      // ── NAVBAR SCROLL ─────────────────────────────────────────
       const navbar = document.getElementById("navbar");
       const scrollTopBtn = document.getElementById("scroll-top");
-
       window.addEventListener("scroll", () => {
         if (window.scrollY > 60) {
           navbar.classList.add("scrolled");
@@ -3177,7 +3328,7 @@
         }
       });
 
-      // ── BURGER MENU ────────────────────────────────────
+      // ── BURGER MENU ───────────────────────────────────────────
       const burger = document.getElementById("burger");
       const navLinks = document.getElementById("nav-links");
       burger.addEventListener("click", () => navLinks.classList.toggle("open"));
@@ -3187,8 +3338,7 @@
           a.addEventListener("click", () => navLinks.classList.remove("open")),
         );
 
-      // ── SCROLL REVEAL ──────────────────────────────────
-      const revealEls = document.querySelectorAll(".reveal, .timeline-item");
+      // ── SCROLL REVEAL ─────────────────────────────────────────
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -3200,12 +3350,15 @@
         },
         { threshold: 0.1 },
       );
-      revealEls.forEach((el) => observer.observe(el));
+
+      document
+        .querySelectorAll(".reveal, .timeline-item")
+        .forEach((el) => observer.observe(el));
       document.querySelectorAll(".timeline-item").forEach((el, i) => {
         el.style.transitionDelay = `${i * 0.08}s`;
       });
 
-      // ── SMOOTH ANCHOR SCROLL ───────────────────────────
+      // ── SMOOTH ANCHOR SCROLL ──────────────────────────────────
       document.querySelectorAll('a[href^="#"]').forEach((a) => {
         a.addEventListener("click", (e) => {
           const target = document.querySelector(a.getAttribute("href"));
@@ -3219,67 +3372,8 @@
         });
       });
 
-      // ── GALLERY LIGHTBOX ───────────────────────────────
-      const galleryImages = [
-        { src: "image_1.jpg", alt: "Residents sharing a meal together" },
-        { src: "image_2.jpg", alt: "Care and interaction" },
-        { src: "image_3.jpg", alt: "Creative activities" },
-        { src: "image_4.jpg", alt: "Staff caring for residents" },
-        { src: "image_5.jpg", alt: "Group photo outdoors" },
-        { src: "image_6.jpg", alt: "St Hugh's building entrance" },
-        { src: "image_7.jpg", alt: "Training and staff development" },
-      ];
-      let currentLbIdx = 0;
-
-      function openLightbox(idx) {
-        currentLbIdx = idx;
-        const lb = document.getElementById("lightbox");
-        const img = document.getElementById("lb-img");
-        img.src = galleryImages[idx].src;
-        img.alt = galleryImages[idx].alt;
-        lb.classList.add("open");
-        document.body.style.overflow = "hidden";
-      }
-      function closeLightbox() {
-        document.getElementById("lightbox").classList.remove("open");
-        document.body.style.overflow = "";
-      }
-      function lbNav(dir) {
-        currentLbIdx =
-          (currentLbIdx + dir + galleryImages.length) % galleryImages.length;
-        openLightbox(currentLbIdx);
-      }
-      document.getElementById("lightbox").addEventListener("click", (e) => {
-        if (e.target === e.currentTarget) closeLightbox();
-      });
-      document.addEventListener("keydown", (e) => {
-        if (!document.getElementById("lightbox").classList.contains("open"))
-          return;
-        if (e.key === "Escape") closeLightbox();
-        if (e.key === "ArrowLeft") lbNav(-1);
-        if (e.key === "ArrowRight") lbNav(1);
-      });
-
-      // ── FORM SUBMIT ────────────────────────────────────
-      function submitForm() {
-        const fname = document.getElementById("fname").value.trim();
-        const email = document.getElementById("email").value.trim();
-        if (!fname || !email) {
-          alert("Please enter your name and email address.");
-          return;
-        }
-        const success = document.getElementById("form-success");
-        success.style.display = "block";
-        ["fname", "lname", "email", "phone", "enquiry", "message"].forEach(
-          (id) => {
-            const el = document.getElementById(id);
-            if (el) el.value = "";
-          },
-        );
-        setTimeout(() => {
-          success.style.display = "none";
-        }, 6000);
-      }
+      // ── INITIALISE ────────────────────────────────────────────
+      loadGallery();
     </script>
   </body>
 </html>
