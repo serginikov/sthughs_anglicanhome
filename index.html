@@ -1859,8 +1859,9 @@
           </div>
           <h1 class="hero-title">Hope, Dignity<br /><em>&amp; Respect</em></h1>
           <p class="hero-tagline" data-i18n="hero.tagline">
-            Providing high quality, compassionate care to the elderly<br />in
-            the name of our Lord Jesus Christ — Rose Hill, Mauritius.
+            A warm and compassionate home for the elderly — where every resident
+            is treated with hope, dignity, and respect, in the name of our Lord
+            Jesus Christ. Rose Hill, Mauritius.
           </p>
           <div class="hero-actions">
             <a href="#contact" class="btn btn-gold">
@@ -1888,25 +1889,25 @@
       </div>
       <div class="hero-stats">
         <div class="container stats-inner">
-          <div class="stat-item">
-            <div class="stat-num">56</div>
+          <div class="stat-item" data-stat="residents">
+            <div class="stat-num">64</div>
             <div class="stat-label" data-i18n="stats.capacity">
-              Resident Capacity
+              Residents
             </div>
           </div>
-          <div class="stat-item">
+          <div class="stat-item" data-stat="years">
             <div class="stat-num">60+</div>
             <div class="stat-label" data-i18n="stats.years">
               Years of Service
             </div>
           </div>
-          <div class="stat-item">
+          <div class="stat-item" data-stat="care">
             <div class="stat-num">24/7</div>
             <div class="stat-label" data-i18n="stats.care">
               Care &amp; Support
             </div>
           </div>
-          <div class="stat-item">
+          <div class="stat-item" data-stat="values">
             <div class="stat-num">6</div>
             <div class="stat-label" data-i18n="stats.values">Core Values</div>
           </div>
@@ -1930,10 +1931,6 @@
               />
               <div class="about-img-overlay"></div>
             </div>
-            <div class="about-img-card">
-              <div class="num">1962</div>
-              <p data-i18n="about.founded">Founded in Rose Hill</p>
-            </div>
           </div>
           <div class="about-text reveal">
             <p class="section-label">
@@ -1943,18 +1940,22 @@
             <h2 class="section-title">Welcome to <em>St Hugh's Home</em></h2>
             <p data-i18n="about.p1">
               St Hugh's Home is a charitable institution of the Anglican Diocese
-              of Mauritius. It is a 56-bed elderly home providing long-term care
-              in a positive, compassionate, and unique setting.
+              of Mauritius. We are a warm residential care home providing
+              compassionate, long-term care for our elderly community —
+              welcoming residents aged 60 and over in a loving and supportive
+              environment.
             </p>
             <p data-i18n="about.p2">
-              Ideally located in Rose Hill, we have a large garden, easy access
-              to public transport and local amenities. We cater for residents
-              aged 60 and over — both private and government-supported.
+              Ideally located in Rose Hill, we have a beautiful garden, easy
+              access to public transport and local amenities. We welcome both
+              private and government-supported residents, offering a safe,
+              dignified, and fulfilling home.
             </p>
             <p data-i18n="about.p3">
-              Since 2005, the home has enacted the Residential Care Home Act and
-              the Protection for the Elderly Act, put in place by the Mauritian
-              government.
+              Since 2005, we proudly uphold the Residential Care Home Act and
+              the Protection for the Elderly Act, ensuring the highest standards
+              of care, safety, and transparency for every resident and their
+              family.
             </p>
             <div class="about-pills">
               <span class="pill"
@@ -2130,24 +2131,6 @@
                 After Cyclone Carol, the boys' orphanage was relocated to
                 Ambrose Street at the former St Paul's Theological College.
                 Girls and women were sheltered at the Rose Belle orphanage.
-              </p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                />
-              </svg>
-            </div>
-            <div class="timeline-year">1962</div>
-            <div class="timeline-card">
-              <h4>Rose Hill Campus Established</h4>
-              <p>
-                During the episcopacy of Bishop Rogers, a building was erected
-                at Sir Edgar Laurent Street, Rose Hill for boys. In 1965,
-                another building was erected for girls.
               </p>
             </div>
           </div>
@@ -2460,7 +2443,7 @@
               <label for="enquiry" data-i18n="form.enquiry"
                 >Type of Enquiry</label
               >
-              <select id="enquiry">
+              <select id="enquiry" onchange="toggleVisitTime(this.value)">
                 <option value="" data-i18n="form.select">
                   Select an option…
                 </option>
@@ -2478,6 +2461,11 @@
                 </option>
                 <option value="other" data-i18n="form.opt5">Other</option>
               </select>
+            </div>
+            <div class="form-group" id="visit-time-group" style="display:none">
+              <label for="visit-time" data-i18n="form.visit_time">Preferred Visit Time</label>
+              <input type="time" id="visit-time" />
+              <p style="font-size:0.78rem;color:var(--text-light);margin-top:5px" data-i18n="form.visit_time_hint">Please indicate your preferred time for the visit</p>
             </div>
             <div class="form-group">
               <label for="message" data-i18n="form.message">Message</label
@@ -2688,7 +2676,7 @@
                 loading="lazy"
               />
               <div class="gallery-overlay">
-                <span>${escHtml(img.title || "")}</span>
+                ${img.description ? `<span>${escHtml(img.description)}</span>` : ''}
               </div>`;
             grid.appendChild(item);
           });
@@ -2741,6 +2729,7 @@
         const email = document.getElementById("email").value.trim();
         const phone = document.getElementById("phone").value.trim();
         const enquiry = document.getElementById("enquiry").value;
+        const visitTime = document.getElementById("visit-time").value;
         const message = document.getElementById("message").value.trim();
         const success = document.getElementById("form-success");
         const errorBox = document.getElementById("form-error");
@@ -2770,6 +2759,7 @@
                 email: email,
                 phone: phone,
                 enquiry_type: enquiry || "other",
+                visit_time: visitTime || "",
                 message: message,
               }),
             },
@@ -2827,22 +2817,22 @@
           "appt.btn": "Book Appointment",
           "hero.badge": "Anglican Diocese of Mauritius",
           "hero.tagline":
-            "Providing high quality, compassionate care to the elderly\nin the name of our Lord Jesus Christ — Rose Hill, Mauritius.",
+            "A warm and compassionate home for the elderly — where every resident is treated with hope, dignity, and respect, in the name of our Lord Jesus Christ. Rose Hill, Mauritius.",
           "hero.cta1": "Resident Enquiry",
           "hero.cta2": "Learn More",
           "hero.scroll": "Scroll",
-          "stats.capacity": "Resident Capacity",
+          "stats.capacity": "Residents",
           "stats.years": "Years of Service",
           "stats.care": "Care & Support",
           "stats.values": "Core Values",
           "about.label": "Who We Are",
           "about.founded": "Founded in Rose Hill",
           "about.p1":
-            "St Hugh's Home is a charitable institution of the Anglican Diocese of Mauritius. It is a 56-bed elderly home providing long-term care in a positive, compassionate, and unique setting.",
+            "St Hugh's Home is a charitable institution of the Anglican Diocese of Mauritius. We are a warm residential care home providing compassionate, long-term care for our elderly community — welcoming residents aged 60 and over in a loving and supportive environment.",
           "about.p2":
-            "Ideally located in Rose Hill, we have a large garden, easy access to public transport and local amenities. We cater for residents aged 60 and over — both private and government-supported.",
+            "Ideally located in Rose Hill, we have a beautiful garden, easy access to public transport and local amenities. We welcome both private and government-supported residents, offering a safe, dignified, and fulfilling home.",
           "about.p3":
-            "Since 2005, the home has enacted the Residential Care Home Act and the Protection for the Elderly Act, put in place by the Mauritian government.",
+            "Since 2005, we proudly uphold the Residential Care Home Act and the Protection for the Elderly Act, ensuring the highest standards of care, safety, and transparency for every resident and their family.",
           "pill.care": "Long-term Care",
           "pill.values": "Christian Values",
           "pill.gov": "Government Supported",
@@ -2882,7 +2872,7 @@
             "We offer a comprehensive range of services tailored to the individual needs of each resident, ensuring a comfortable and fulfilling life.",
           "s1.title": "Residential Long-Term Care",
           "s1.text":
-            "Full-time residential care in a warm, home-like environment with 24/7 professional support for up to 56 residents.",
+            "Full-time residential care in a warm, home-like environment with 24/7 professional support for all our residents.",
           "s2.title": "Personal Care Assistance",
           "s2.text":
             "Daily living support including bathing, dressing, grooming, and mobility assistance delivered with dignity and respect.",
@@ -2927,6 +2917,8 @@
           "form.opt3": "Volunteering",
           "form.opt4": "Donation / Support",
           "form.opt5": "Other",
+          "form.visit_time": "Preferred Visit Time",
+          "form.visit_time_hint": "Please indicate your preferred time for the visit",
           "form.message": "Message",
           "form.submit": "Send Message",
           "form.success":
@@ -2947,22 +2939,22 @@
           "appt.btn": "Prendre Rendez-vous",
           "hero.badge": "Diocèse Anglican de Maurice",
           "hero.tagline":
-            "Fournir des soins de qualité aux personnes âgées\nau nom de notre Seigneur Jésus-Christ — Rose Hill, Maurice.",
+            "Un foyer chaleureux et bienveillant pour les personnes âgées — où chaque résident est traité avec espoir, dignité et respect, au nom de notre Seigneur Jésus-Christ. Rose Hill, Maurice.",
           "hero.cta1": "Renseignement Résident",
           "hero.cta2": "En Savoir Plus",
           "hero.scroll": "Défiler",
-          "stats.capacity": "Capacité de Résidents",
+          "stats.capacity": "Résidents",
           "stats.years": "Années de Service",
           "stats.care": "Soins 24h/24",
           "stats.values": "Valeurs Fondamentales",
           "about.label": "Qui Sommes-Nous",
           "about.founded": "Fondé à Rose Hill",
           "about.p1":
-            "St Hugh's Home est une institution caritative du Diocèse Anglican de Maurice. C'est un home pour personnes âgées de 56 lits offrant des soins de longue durée dans un cadre positif et unique.",
+            "St Hugh's Home est une institution caritative du Diocèse Anglican de Maurice. Nous sommes un foyer résidentiel chaleureux offrant des soins de longue durée à notre communauté de personnes âgées, accueillant les résidents de 60 ans et plus.",
           "about.p2":
-            "Idéalement situé à Rose Hill, nous disposons d'un grand jardin et d'un accès facile aux transports en commun. Nous accueillons les résidents âgés de 60 ans et plus.",
+            "Idéalement situé à Rose Hill, nous disposons d'un beau jardin et d'un accès facile aux transports. Nous accueillons les résidents privés et soutenus par le gouvernement, offrant un foyer sûr et épanouissant.",
           "about.p3":
-            "Depuis 2005, le home applique la Loi sur les Maisons de Soins Résidentiels et la Loi sur la Protection des Personnes Âgées.",
+            "Depuis 2005, nous appliquons fièrement la Loi sur les Maisons de Soins et la Loi sur la Protection des Personnes Âgées, garantissant les meilleurs standards de soins pour chaque résident.",
           "pill.care": "Soins de Longue Durée",
           "pill.values": "Valeurs Chrétiennes",
           "pill.gov": "Soutenu par le Gouvernement",
@@ -3002,7 +2994,7 @@
             "Nous offrons une gamme complète de services adaptés aux besoins individuels de chaque résident.",
           "s1.title": "Soins Résidentiels de Longue Durée",
           "s1.text":
-            "Soins résidentiels à plein temps dans un environnement chaleureux avec un soutien professionnel 24h/24 pour jusqu'à 56 résidents.",
+            "Soins résidentiels à plein temps dans un environnement chaleureux avec un soutien professionnel 24h/24 pour tous nos résidents.",
           "s2.title": "Aide aux Soins Personnels",
           "s2.text":
             "Soutien quotidien incluant le bain, l'habillage, le toilettage et l'aide à la mobilité.",
@@ -3041,6 +3033,8 @@
           "form.opt3": "Bénévolat",
           "form.opt4": "Don / Soutien",
           "form.opt5": "Autre",
+          "form.visit_time": "Heure de visite souhaitée",
+          "form.visit_time_hint": "Veuillez indiquer votre heure préférée pour la visite",
           "form.message": "Message",
           "form.submit": "Envoyer le Message",
           "form.success":
@@ -3148,6 +3142,8 @@
           "form.opt3": "志愿服务",
           "form.opt4": "捐款/支持",
           "form.opt5": "其他",
+          "form.visit_time": "首选参观时间",
+          "form.visit_time_hint": "请注明您希望参观的时间",
           "form.message": "留言",
           "form.submit": "发送消息",
           "form.success": "✓ 感谢您的联系。我们将尽快回复您。",
@@ -3260,6 +3256,8 @@
           "form.opt3": "Volontariat",
           "form.opt4": "Don / Sipor",
           "form.opt5": "Lot",
+          "form.visit_time": "Ler Vizit Preferé",
+          "form.visit_time_hint": "Endike ler ou prefer pou vizit la",
           "form.message": "Mesaz",
           "form.submit": "Anvoye Mesaz",
           "form.success": "✓ Mersi pou kontakter nou. Nou pou reverter biento.",
@@ -3280,7 +3278,7 @@
           if (t[key] !== undefined) el.textContent = t[key];
         });
       }
-      function setLanguage(lang) {
+      async function setLanguage(lang) {
         currentLang = lang;
         const labels = { en: "EN", fr: "FR", zh: "中文", mu: "MU" };
         document.getElementById("lang-label").textContent = labels[lang];
@@ -3290,6 +3288,7 @@
         document
           .querySelector(`.lang-option[onclick="setLanguage('${lang}')"]`)
           ?.classList.add("active");
+        await loadSiteContent(lang);
         applyTranslations(lang);
         closeLangDropdown();
       }
@@ -3372,8 +3371,62 @@
         });
       });
 
+      // ── TOGGLE VISIT TIME FIELD ───────────────────────────────
+      function toggleVisitTime(val) {
+        const g = document.getElementById('visit-time-group');
+        if (g) g.style.display = val === 'visit' ? 'block' : 'none';
+      }
+
+      // ── DYNAMIC CONTENT FROM SUPABASE ────────────────────────
+      let dbContent = {};
+
+      async function loadSiteContent(lang) {
+        try {
+          const res = await sbFetch(
+            `site_content?select=key,value&lang=eq.${lang}&order=key.asc`
+          );
+          if (!res.ok) return;
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            dbContent = {};
+            data.forEach(r => { dbContent[r.key] = r.value; });
+          }
+        } catch (e) {
+          console.warn('site_content load failed, using static defaults');
+        }
+      }
+
+      async function loadStats() {
+        try {
+          const res = await sbFetch('site_stats?select=stat_key,value');
+          if (!res.ok) return;
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            data.forEach(s => {
+              const el = document.querySelector(`[data-stat="${s.stat_key}"] .stat-num`);
+              if (el) el.textContent = s.value;
+            });
+          }
+        } catch (e) {}
+      }
+
+      // ── OVERRIDE applyTranslations WITH DB CONTENT ───────────
+      const _applyTranslationsOrig = applyTranslations;
+      function applyTranslations(lang) {
+        const t = { ...(i18n[lang] || {}), ...dbContent };
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          if (t[key] !== undefined) el.textContent = t[key];
+        });
+      }
+
       // ── INITIALISE ────────────────────────────────────────────
-      loadGallery();
+      (async () => {
+        await loadSiteContent('en');
+        applyTranslations('en');
+        await loadStats();
+        loadGallery();
+      })();
     </script>
   </body>
 </html>
