@@ -2463,9 +2463,16 @@
               </select>
             </div>
             <div class="form-group" id="visit-time-group" style="display:none">
-              <label for="visit-time" data-i18n="form.visit_time">Preferred Visit Time</label>
-              <input type="time" id="visit-time" />
-              <p style="font-size:0.78rem;color:var(--text-light);margin-top:5px" data-i18n="form.visit_time_hint">Please indicate your preferred time for the visit</p>
+              <label data-i18n="form.visit_datetime">Preferred Visit Date & Time</label>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div>
+                  <input type="date" id="visit-date" style="width:100%" />
+                </div>
+                <div>
+                  <input type="time" id="visit-time" style="width:100%" />
+                </div>
+              </div>
+              <p style="font-size:0.78rem;color:var(--text-light);margin-top:5px" data-i18n="form.visit_time_hint">Please indicate your preferred date and time for the visit</p>
             </div>
             <div class="form-group">
               <label for="message" data-i18n="form.message">Message</label
@@ -2729,6 +2736,7 @@
         const email = document.getElementById("email").value.trim();
         const phone = document.getElementById("phone").value.trim();
         const enquiry = document.getElementById("enquiry").value;
+        const visitDate = document.getElementById("visit-date").value;
         const visitTime = document.getElementById("visit-time").value;
         const message = document.getElementById("message").value.trim();
         const success = document.getElementById("form-success");
@@ -2759,6 +2767,7 @@
                 email: email,
                 phone: phone,
                 enquiry_type: enquiry || "other",
+                visit_date: visitDate || "",
                 visit_time: visitTime || "",
                 message: message,
               }),
@@ -2917,8 +2926,8 @@
           "form.opt3": "Volunteering",
           "form.opt4": "Donation / Support",
           "form.opt5": "Other",
-          "form.visit_time": "Preferred Visit Time",
-          "form.visit_time_hint": "Please indicate your preferred time for the visit",
+          "form.visit_datetime": "Preferred Visit Date & Time",
+          "form.visit_time_hint": "Please indicate your preferred date and time for the visit",
           "form.message": "Message",
           "form.submit": "Send Message",
           "form.success":
@@ -3033,8 +3042,8 @@
           "form.opt3": "Bénévolat",
           "form.opt4": "Don / Soutien",
           "form.opt5": "Autre",
-          "form.visit_time": "Heure de visite souhaitée",
-          "form.visit_time_hint": "Veuillez indiquer votre heure préférée pour la visite",
+          "form.visit_datetime": "Date & heure de visite souhaitées",
+          "form.visit_time_hint": "Veuillez indiquer la date et l'heure préférées pour la visite",
           "form.message": "Message",
           "form.submit": "Envoyer le Message",
           "form.success":
@@ -3142,8 +3151,8 @@
           "form.opt3": "志愿服务",
           "form.opt4": "捐款/支持",
           "form.opt5": "其他",
-          "form.visit_time": "首选参观时间",
-          "form.visit_time_hint": "请注明您希望参观的时间",
+          "form.visit_datetime": "首选参观日期和时间",
+          "form.visit_time_hint": "请注明您希望参观的日期和时间",
           "form.message": "留言",
           "form.submit": "发送消息",
           "form.success": "✓ 感谢您的联系。我们将尽快回复您。",
@@ -3256,8 +3265,8 @@
           "form.opt3": "Volontariat",
           "form.opt4": "Don / Sipor",
           "form.opt5": "Lot",
-          "form.visit_time": "Ler Vizit Preferé",
-          "form.visit_time_hint": "Endike ler ou prefer pou vizit la",
+          "form.visit_datetime": "Dat & Ler Vizit Preferé",
+          "form.visit_time_hint": "Endike dat ek ler ou prefer pou vizit la",
           "form.message": "Mesaz",
           "form.submit": "Anvoye Mesaz",
           "form.success": "✓ Mersi pou kontakter nou. Nou pou reverter biento.",
