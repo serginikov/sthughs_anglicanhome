@@ -151,8 +151,12 @@
 
       /* ===== LAYOUT ===== */
       .container {
-        width: min(1200px, 92vw);
+        max-width: 1200px;
+        width: 100%;
+        padding-left: clamp(18px, 5vw, 64px);
+        padding-right: clamp(18px, 5vw, 64px);
         margin: 0 auto;
+        box-sizing: border-box;
       }
       .section-pad {
         padding: 90px 0;
@@ -194,35 +198,59 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        text-decoration: none;
+        min-width: 0;
+        flex-shrink: 0;
       }
       .nav-logo-img {
-        height: 44px;
+        height: 40px;
         width: auto;
         border-radius: 4px;
         background: white;
         padding: 3px;
         object-fit: contain;
+        flex-shrink: 0;
       }
       .nav-brand-text {
         color: var(--white);
+        min-width: 0;
       }
       .nav-brand-text strong {
         font-family: "Cormorant Garamond", serif;
-        font-size: 1.15rem;
+        font-size: 1.1rem;
         font-weight: 700;
         display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .nav-brand-text span {
-        font-size: 0.66rem;
+        font-size: 0.62rem;
         letter-spacing: 0.12em;
         text-transform: uppercase;
         opacity: 0.7;
+        display: block;
       }
 
       .nav-controls {
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        flex-shrink: 0;
+      }
+
+      /* Mobile nav overlay */
+      .nav-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        z-index: 998;
+        opacity: 0;
+        transition: opacity 0.35s;
+      }
+      .nav-overlay.open {
+        opacity: 1;
       }
 
       .lang-selector {
@@ -327,10 +355,21 @@
         display: none;
       }
 
+      /* ── DESKTOP NAV LINKS ── */
+      .nav-drawer {
+        display: flex;
+        align-items: center;
+      }
+      .drawer-header {
+        display: none; /* visible only on mobile */
+      }
       .nav-links {
         display: flex;
         gap: 1.8rem;
         list-style: none;
+        align-items: center;
+        margin: 0;
+        padding: 0;
       }
       .nav-links a {
         color: rgba(255, 255, 255, 0.85);
@@ -340,6 +379,7 @@
         text-transform: uppercase;
         transition: color 0.2s;
         position: relative;
+        white-space: nowrap;
       }
       .nav-links a::after {
         content: "";
@@ -351,55 +391,53 @@
         background: var(--gold-light);
         transition: width 0.3s;
       }
-      .nav-links a:hover {
-        color: var(--gold-light);
-      }
-      .nav-links a:hover::after {
-        width: 100%;
-      }
+      .nav-links a:hover { color: var(--gold-light); }
+      .nav-links a:hover::after { width: 100%; }
       .nav-cta {
         background: var(--gold) !important;
         color: var(--white) !important;
         padding: 7px 18px;
         border-radius: 2px;
       }
-      .nav-cta:hover {
-        background: var(--gold-light) !important;
-      }
-      .nav-cta::after {
-        display: none !important;
-      }
+      .nav-cta:hover { background: var(--gold-light) !important; }
+      .nav-cta::after { display: none !important; }
 
+      /* ── BURGER (☰ simple, toujours visible sur mobile) ── */
       .burger {
         display: none;
         flex-direction: column;
+        justify-content: center;
         gap: 5px;
         cursor: pointer;
-        padding: 6px;
+        padding: 8px 6px;
+        border: none;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        flex-shrink: 0;
       }
       .burger span {
         display: block;
-        width: 24px;
+        width: 22px;
         height: 2px;
         background: var(--white);
-        transition:
-          transform 0.3s,
-          opacity 0.3s;
+        border-radius: 2px;
       }
 
       /* ===== FLOATING APPOINTMENT BUTTON ===== */
+      /* ===== BOUTON FLOTTANT — BULLE DE MESSAGE ===== */
       #appt-btn {
         position: fixed;
-        bottom: 5.5rem;
-        right: 2rem;
+        bottom: 5rem;
+        right: 1.8rem;
         z-index: 900;
-        background: var(--teal-mid);
-        border: 2px solid var(--gold);
+        background: var(--teal-dark);
+        border: none;
         border-radius: 50px;
         display: flex;
         align-items: center;
-        gap: 9px;
-        padding: 11px 18px;
+        gap: 10px;
+        padding: 13px 20px;
         color: var(--white);
         font-family: "Jost", sans-serif;
         font-size: 0.78rem;
@@ -407,41 +445,20 @@
         letter-spacing: 0.06em;
         text-transform: uppercase;
         cursor: pointer;
-        box-shadow: 0 6px 24px rgba(18, 72, 72, 0.35);
-        transition:
-          transform 0.25s,
-          box-shadow 0.25s,
-          background 0.2s;
+        box-shadow: 0 8px 28px rgba(12, 48, 48, 0.55);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
         text-decoration: none;
         white-space: nowrap;
       }
       #appt-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 32px rgba(18, 72, 72, 0.45);
-        background: var(--teal-dark);
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 14px 40px rgba(12, 48, 48, 0.65);
       }
       #appt-btn svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
         fill: var(--gold-light);
         flex-shrink: 0;
-      }
-      #appt-btn .pulse {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #4ade80;
-        flex-shrink: 0;
-        animation: pulse 2s infinite;
-      }
-      @keyframes pulse {
-        0%,
-        100% {
-          box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
-        }
-        50% {
-          box-shadow: 0 0 0 5px rgba(74, 222, 128, 0);
-        }
       }
 
       /* ===== HERO ===== */
@@ -875,86 +892,221 @@
       }
 
       /* ===== HISTORY ===== */
+      /* ===== HISTORY — TIMELINE ALTERNÉE CENTRÉE ===== */
       #history {
-        background: var(--bg-alt);
-      }
-      .history-header {
-        margin-bottom: 56px;
-      }
-      .timeline {
+        background: linear-gradient(160deg, #0c3535 0%, #0f4040 40%, #0a2e2e 100%);
         position: relative;
-        padding-left: 80px;
+        overflow: hidden;
       }
-      .timeline::before {
-        content: "";
+      #firefly-canvas {
         position: absolute;
-        left: 20px;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: linear-gradient(
-          to bottom,
-          var(--teal-light),
-          var(--beige-dark)
-        );
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
       }
-      .timeline-item {
-        position: relative;
-        margin-bottom: 44px;
-        opacity: 0;
-        transform: translateX(-20px);
-        transition:
-          opacity 0.6s,
-          transform 0.6s;
-      }
-      .timeline-item.visible {
-        opacity: 1;
-        transform: translateX(0);
-      }
-      .timeline-dot {
-        position: absolute;
-        left: -68px;
-        top: 8px;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: var(--teal-dark);
-        border: 3px solid var(--bg-alt);
-        box-shadow: 0 0 0 2px var(--teal-light);
+      .history-inner { position: relative; z-index: 1; }
+      .history-header { margin-bottom: 52px; }
+      #history .section-label { color: var(--gold-light); }
+      #history .section-label .deco-line { background: var(--gold); }
+      #history .section-title { color: #fff; }
+      #history .section-title em { color: var(--gold-light); font-style: italic; }
+      #history .section-lead { color: rgba(255,255,255,0.62); }
+
+      /* ── Conteneur principal ── */
+      .tl-outer {
         display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        position: relative;
+        max-width: 1100px;
+        margin: 40px auto 0;
+        padding: 0 24px 40px;
+        min-height: 480px;
+        z-index: 1;
+      }
+      /* Axe horizontal centré */
+      .tl-outer::before {
+        content: '';
+        position: absolute;
+        left: 24px;
+        right: 24px;
+        top: calc(50% - 1px);
+        height: 2px;
+        background: linear-gradient(to right,
+          transparent,
+          rgba(184,150,62,.45) 8%,
+          rgba(42,144,144,.65) 50%,
+          rgba(184,150,62,.45) 92%,
+          transparent
+        );
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ── Chaque entrée ── */
+      .tl-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
+        padding: 0 10px;
+        z-index: 1;
       }
-      .timeline-dot svg {
-        width: 16px;
-        height: 16px;
-        fill: var(--gold-light);
+      /* HAUT (impair) : carte, connecteur, nœud — nœud ancré à l'axe par le bas */
+      .tl-item.tl-top {
+        justify-content: flex-end;
+        padding-bottom: 233px; /* (480/2) - 7 = 233 → centre du nœud à 240px = 50% */
       }
-      .timeline-year {
-        font-family: "Cormorant Garamond", serif;
-        font-size: 1.05rem;
+      .tl-item.tl-top .tl-card { order: 1; }
+      .tl-item.tl-top .tl-conn { order: 2; }
+      .tl-item.tl-top .tl-dot  { order: 3; }
+      /* BAS (pair) : nœud, connecteur, carte — nœud ancré à l'axe par le haut */
+      .tl-item.tl-bot {
+        justify-content: flex-start;
+        padding-top: 233px;
+      }
+      .tl-item.tl-bot .tl-dot  { order: 1; }
+      .tl-item.tl-bot .tl-conn { order: 2; }
+      .tl-item.tl-bot .tl-card { order: 3; }
+
+      /* ── Carte ── */
+      .tl-card {
+        width: 100%;
+        background: rgba(14, 50, 50, 0.9);
+        border: 1px solid rgba(184,150,62,.28);
+        border-radius: 10px;
+        padding: 20px 18px 16px;
+        backdrop-filter: blur(6px);
+        box-shadow: 4px 8px 28px rgba(0,0,0,.5);
+        transition: transform .4s cubic-bezier(.23,1,.32,1), box-shadow .4s, border-color .3s;
+      }
+      .tl-item.tl-top:hover .tl-card {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 52px rgba(0,0,0,.6), 0 0 28px rgba(184,150,62,.12);
+        border-color: rgba(184,150,62,.52);
+      }
+      .tl-item.tl-bot:hover .tl-card {
+        transform: translateY(8px);
+        box-shadow: 0 20px 52px rgba(0,0,0,.6), 0 0 28px rgba(184,150,62,.12);
+        border-color: rgba(184,150,62,.52);
+      }
+
+      /* ── Connecteur ── */
+      .tl-conn {
+        width: 2px;
+        height: 44px;
+        flex-shrink: 0;
+      }
+      .tl-item.tl-top .tl-conn {
+        background: linear-gradient(to bottom, rgba(184,150,62,.1), rgba(184,150,62,.6));
+      }
+      .tl-item.tl-bot .tl-conn {
+        background: linear-gradient(to bottom, rgba(184,150,62,.6), rgba(184,150,62,.1));
+      }
+
+      /* ── Nœud ── */
+      .tl-dot {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: var(--teal-mid);
+        border: 2px solid var(--gold);
+        box-shadow: 0 0 10px rgba(184,150,62,.4);
+        transition: all .35s ease;
+        z-index: 2;
+      }
+      .tl-item:hover .tl-dot {
+        background: var(--gold);
+        box-shadow: 0 0 22px rgba(184,150,62,.85);
+      }
+
+      /* ── Textes dans la carte ── */
+      .tl-year {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.75rem;
         font-weight: 700;
-        color: var(--gold);
-        letter-spacing: 0.06em;
-        margin-bottom: 6px;
+        color: var(--gold-light);
+        display: block;
+        line-height: 1;
+        margin-bottom: 5px;
       }
-      .timeline-card {
-        background: var(--card-bg);
-        border: 1px solid rgba(216, 202, 175, 0.5);
-        border-radius: 4px;
-        padding: 22px 26px;
-        box-shadow: 0 2px 16px rgba(18, 72, 72, 0.06);
-      }
-      .timeline-card h4 {
-        font-size: 1.05rem;
+      .tl-title {
+        font-size: 0.77rem;
         font-weight: 600;
-        color: var(--teal-dark);
-        margin-bottom: 8px;
+        color: rgba(255,255,255,.87);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        line-height: 1.45;
       }
-      .timeline-card p {
-        font-size: 0.93rem;
-        line-height: 1.8;
-        color: var(--text-mid);
+      .tl-desc {
+        font-size: 0.81rem;
+        line-height: 1.75;
+        color: rgba(255,255,255,.58);
+        margin-top: 10px;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height .5s ease, opacity .45s ease;
+      }
+      .tl-item:hover .tl-desc {
+        max-height: 260px;
+        opacity: 1;
+      }
+
+      /* ── MOBILE : liste verticale ── */
+      @media (max-width: 860px) {
+        .tl-outer {
+          flex-direction: column;
+          min-height: auto;
+          padding: 16px 16px 16px 56px;
+          max-width: 560px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        /* Ligne verticale gauche */
+        .tl-outer::before {
+          left: 28px;
+          right: auto;
+          top: 10px;
+          bottom: 10px;
+          width: 2px;
+          height: auto;
+          background: linear-gradient(to bottom,
+            transparent,
+            rgba(184,150,62,.4) 8%,
+            rgba(42,144,144,.55) 50%,
+            rgba(184,150,62,.4) 92%,
+            transparent
+          );
+          transform: none;
+        }
+        .tl-item,
+        .tl-item.tl-top,
+        .tl-item.tl-bot {
+          flex-direction: row !important;
+          justify-content: flex-start !important;
+          align-items: flex-start !important;
+          padding: 0 0 28px 0 !important;
+          min-height: auto !important;
+          position: relative;
+        }
+        .tl-conn { display: none; }
+        .tl-dot {
+          position: absolute;
+          left: -38px;
+          top: 8px;
+          order: 0 !important;
+          flex-shrink: 0;
+        }
+        .tl-card {
+          order: 1 !important;
+          width: 100%;
+          transform: none !important;
+        }
+        .tl-item:hover .tl-card { transform: none !important; }
       }
 
       /* ===== SERVICES ===== */
@@ -1624,111 +1776,319 @@
       }
 
       /* ===== MOBILE ===== */
+      /* ─── RESPONSIVE BREAKPOINTS ─── */
+
       @media (max-width: 1024px) {
-        .hero-armory img {
-          display: none;
-        }
+        .hero-armory img { display: none; }
+        .nav-brand-text span { display: none; }
       }
+
+      /* ══════════════════════════════════════════
+         MOBILE NAV DRAWER  ≤ 900px
+         Panneau glissant depuis la droite
+         ✕ à l'intérieur du panneau
+      ══════════════════════════════════════════ */
       @media (max-width: 900px) {
-        .nav-links {
+        /* Burger : visible */
+        .burger { display: flex; }
+
+        /* Overlay : activé */
+        .nav-overlay { display: block; }
+
+        /* ─── Le drawer = nav-drawer ─── */
+        .nav-drawer {
+          /* Panneau fixe, glisse depuis la droite, pleine hauteur */
           position: fixed;
           top: 0;
           right: -100%;
-          bottom: 0;
-          width: 280px;
+          width: min(280px, 80vw);
+          height: 100%;
+          min-height: 100svh;
           background: var(--teal-dark);
+          display: flex;
           flex-direction: column;
-          justify-content: center;
-          align-items: flex-start;
-          padding: 2rem;
-          gap: 1.5rem;
-          transition: right 0.35s ease;
+          align-items: stretch;
+          gap: 0;
           z-index: 999;
+          overflow-y: auto;
+          box-shadow: -6px 0 40px rgba(0, 0, 0, 0.4);
+          transition: right 0.38s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .nav-links.open {
-          right: 0;
+        .nav-drawer.open { right: 0; }
+
+        /* ─── En-tête du drawer : bouton ✕ ─── */
+        .drawer-header {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          padding: 14px 16px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          flex-shrink: 0;
+        }
+        .drawer-close-btn {
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.22);
+          color: var(--gold-light);
+          font-size: 1.1rem;
+          font-family: "Jost", sans-serif;
+          width: 38px;
+          height: 38px;
+          border-radius: 5px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.2s;
+          line-height: 1;
+        }
+        .drawer-close-btn:hover {
+          background: rgba(255, 255, 255, 0.18);
+        }
+
+        /* ─── Liens dans le drawer ─── */
+        .nav-links {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0;
+          flex: 1;
+        }
+        .nav-links li {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         }
         .nav-links a {
-          font-size: 1rem;
+          display: block;
+          padding: 15px 24px;
+          font-size: 0.88rem;
+          letter-spacing: 0.1em;
+          color: rgba(255, 255, 255, 0.88);
+          white-space: normal;
         }
-        .burger {
-          display: flex;
-          z-index: 1001;
+        .nav-links a::after { display: none; }
+        .nav-links a:hover,
+        .nav-links a.nav-link-active {
+          color: var(--gold-light);
+          background: rgba(255, 255, 255, 0.05);
         }
-        .hero-content {
-          flex-direction: column;
-          gap: 1.5rem;
+        .nav-cta {
+          background: transparent !important;
+          color: var(--gold-light) !important;
+          padding: 15px 24px !important;
+          border-radius: 0 !important;
+          font-weight: 600 !important;
         }
-        .stats-inner {
-          flex-wrap: wrap;
-        }
-        .stat-item {
-          max-width: none;
-          flex: 1 1 50%;
-        }
+        .nav-cta:hover { background: rgba(255,255,255,0.05) !important; }
+
+        /* ─── Layout sections ─── */
+        .hero-content { flex-direction: column; gap: 1.5rem; }
+        .stats-inner { flex-wrap: wrap; }
+        .stat-item { max-width: none; flex: 1 1 calc(50% - 12px); }
         .about-grid,
-        .contact-grid {
-          grid-template-columns: 1fr;
-          gap: 36px;
-        }
-        .about-img-card {
-          right: 0;
-        }
-        .mvv-grid {
-          grid-template-columns: 1fr;
-        }
-        .values-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        .services-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        .footer-top {
-          grid-template-columns: 1fr 1fr;
-        }
-        #appt-btn span.appt-label {
-          display: none;
-        }
+        .contact-grid { grid-template-columns: 1fr; gap: 36px; }
+        .about-img-card { right: 0; }
+        .mvv-grid { grid-template-columns: 1fr; }
+        .values-grid { grid-template-columns: 1fr 1fr; }
+        .services-grid { grid-template-columns: 1fr 1fr; }
+        .footer-top { grid-template-columns: 1fr 1fr; }
+
+        /* Bouton flottant : icône seulement sur tablette */
+        #appt-btn span[data-i18n] { display: none; }
         #appt-btn {
-          padding: 11px 14px;
+          padding: 0;
           border-radius: 50%;
-          width: 50px;
-          height: 50px;
-        }
-        #appt-btn .pulse {
-          display: none;
+          width: 52px;
+          height: 52px;
+          justify-content: center;
         }
       }
+
+      /* ── SMALL MOBILE ≤ 640px ── */
       @media (max-width: 640px) {
-        .section-pad {
-          padding: 60px 0;
-        }
+        .section-pad { padding: 56px 0; }
+        .nav-brand-text strong { font-size: 0.95rem; }
+        .hero-banner { height: 45vh; }
+        .hero-title { font-size: clamp(2rem, 8vw, 3.2rem); }
+        .hero-text { text-align: center; }
+        .hero-badge { font-size: 0.68rem; }
+        .hero-content-below { padding: 32px 0 16px; }
+        .about-img-wrap { min-height: 260px; }
+        .about-img-card { display: none; }
         .values-grid,
-        .services-grid {
-          grid-template-columns: 1fr;
-        }
-        .form-row {
-          grid-template-columns: 1fr;
-        }
-        .footer-top {
-          grid-template-columns: 1fr;
-        }
-        .footer-bottom {
-          flex-direction: column;
-          gap: 8px;
-          text-align: center;
-        }
-        .hero-title {
-          font-size: 2.5rem;
-        }
-        .lang-btn .lang-label {
-          display: none;
-        }
+        .services-grid { grid-template-columns: 1fr; }
+        .form-row { grid-template-columns: 1fr; }
+        .footer-top { grid-template-columns: 1fr; }
+        .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+        .stat-item { flex: 1 1 100%; }
+        .stat-num { font-size: 2.2rem; }
+        .section-label { font-size: 0.66rem; }
+        .gallery-album-card { flex: 0 0 260px; }
+        .lang-btn .lang-label { display: none; }
+        #appt-btn { width: 44px; height: 44px; bottom: 4.2rem; right: 1rem; }
+      }
+
+      /* ── TRÈS PETIT ≤ 380px ── */
+      @media (max-width: 380px) {
+        .nav-logo-img { height: 32px; }
+        .nav-brand-text strong { font-size: 0.85rem; }
+        .hero-title { font-size: 1.9rem; }
+        .gallery-album-card { flex: 0 0 240px; }
+      }
+
+      /* ===== GALLERY ALBUMS  PUBLIC ===== */
+      .gallery-albums-row {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 14px;
+        cursor: grab;
+      }
+      .gallery-albums-row:active { cursor: grabbing; }
+      .gallery-albums-row::-webkit-scrollbar { height: 6px; }
+      .gallery-albums-row::-webkit-scrollbar-track { background: var(--beige); border-radius: 4px; }
+      .gallery-albums-row::-webkit-scrollbar-thumb { background: var(--teal-light); border-radius: 4px; }
+      .gallery-album-card {
+        flex: 0 0 320px;
+        scroll-snap-align: start;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+        padding: 16px;
+        box-shadow: var(--shadow);
+      }
+      .album-card-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: var(--teal-dark);
+        margin-bottom: 12px;
+        text-align: center;
+        letter-spacing: 0.03em;
+      }
+      .album-grid-2col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .album-thumb {
+        aspect-ratio: 1;
+        border-radius: 7px;
+        overflow: hidden;
+        cursor: pointer;
+        background: var(--beige);
+      }
+      .album-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s;
+        display: block;
+      }
+      .album-thumb:hover img { transform: scale(1.07); }
+      .album-more-btn {
+        aspect-ratio: 1;
+        border-radius: 7px;
+        background: var(--beige);
+        border: 2px dashed var(--beige-dark);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--teal-light);
+        transition: all 0.2s;
+        gap: 4px;
+      }
+      .album-more-btn:hover {
+        background: var(--teal-pale);
+        border-color: var(--teal-light);
+        color: var(--teal-dark);
+      }
+      .album-more-btn .plus-icon { font-size: 2rem; font-weight: 300; line-height: 1; }
+      .album-more-btn .plus-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+      /* Album Modal */
+      #album-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1999;
+        background: rgba(0,0,0,0.72);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      #album-modal.open { display: flex; }
+      .album-modal-box {
+        background: var(--card-bg);
+        border-radius: 10px;
+        width: min(860px, 100%);
+        max-height: 88vh;
+        overflow-y: auto;
+        box-shadow: var(--shadow-deep);
+        position: relative;
+      }
+      .album-modal-header {
+        padding: 20px 24px 16px;
+        border-bottom: 1px solid var(--card-border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        background: var(--card-bg);
+        z-index: 1;
+      }
+      .album-modal-header h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.5rem;
+        color: var(--teal-dark);
+      }
+      .album-modal-close {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid var(--card-border);
+        background: transparent;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+      }
+      .album-modal-close:hover { background: var(--beige); }
+      .album-modal-close svg { width: 16px; height: 16px; stroke: var(--text-mid); fill: none; stroke-width: 2; }
+      .album-modal-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        padding: 16px 24px 24px;
+      }
+      .album-modal-img {
+        aspect-ratio: 1;
+        border-radius: 6px;
+        overflow: hidden;
+        cursor: pointer;
+        background: var(--beige);
+      }
+      .album-modal-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s;
+      }
+      .album-modal-img:hover img { transform: scale(1.05); }
+      @media (max-width: 600px) {
+        .gallery-album-card { flex: 0 0 270px; }
+        .album-modal-grid { grid-template-columns: repeat(2, 1fr); }
       }
     </style>
   </head>
   <body>
     <!-- NAVBAR -->
+    <!-- Mobile nav overlay (closes menu on click) -->
+    <div class="nav-overlay" id="nav-overlay"></div>
+
     <nav id="navbar">
       <div class="container nav-inner">
         <a href="#hero" class="nav-brand">
@@ -1743,19 +2103,22 @@
           </div>
         </a>
 
-        <ul class="nav-links" id="nav-links">
-          <li><a href="#hero" data-i18n="nav.home">Home</a></li>
-          <li><a href="#about" data-i18n="nav.about">About</a></li>
-          <li><a href="#mission" data-i18n="nav.mission">Mission</a></li>
-          <li><a href="#history" data-i18n="nav.history">History</a></li>
-          <li><a href="#services" data-i18n="nav.services">Services</a></li>
-          <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
-          <li>
-            <a href="#contact" class="nav-cta" data-i18n="nav.contact"
-              >Contact</a
-            >
-          </li>
-        </ul>
+        <!-- Drawer mobile + liens desktop -->
+        <div class="nav-drawer" id="nav-drawer">
+          <!-- Bouton ✕ visible uniquement en mobile, à l'intérieur du drawer -->
+          <div class="drawer-header">
+            <button class="drawer-close-btn" id="drawer-close-btn" aria-label="Fermer le menu">✕</button>
+          </div>
+          <ul class="nav-links" id="nav-links">
+            <li><a href="#hero" data-i18n="nav.home">Home</a></li>
+            <li><a href="#about" data-i18n="nav.about">About</a></li>
+            <li><a href="#mission" data-i18n="nav.mission">Mission</a></li>
+            <li><a href="#history" data-i18n="nav.history">History</a></li>
+            <li><a href="#services" data-i18n="nav.services">Services</a></li>
+            <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
+            <li><a href="#contact" class="nav-cta" data-i18n="nav.contact">Contact</a></li>
+          </ul>
+        </div>
 
         <div class="nav-controls">
           <div class="lang-selector" id="lang-selector">
@@ -1819,22 +2182,19 @@
               />
             </svg>
           </button>
-          <div class="burger" id="burger" aria-label="Toggle menu">
+          <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
             <span></span><span></span><span></span>
-          </div>
+          </button>
         </div>
       </div>
     </nav>
 
     <!-- FLOATING APPOINTMENT BUTTON -->
-    <a href="tel:4641124" id="appt-btn" title="Book an appointment / Call us">
-      <svg viewBox="0 0 24 24">
-        <path
-          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.76a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-        />
+    <a href="tel:4641124" id="appt-btn" aria-label="Prendre rendez-vous">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.62 3.38 2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.76a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
       </svg>
-      <span class="pulse"></span>
-      <span class="appt-label" data-i18n="appt.btn">Book Appointment</span>
+      <span data-i18n="appt.btn">Prendre rendez-vous</span>
     </a>
 
     <!-- HERO -->
@@ -1851,7 +2211,7 @@
             </div>
             <h1 class="hero-title">Hope, Dignity<br /><em>&amp; Respect</em></h1>
             <p class="hero-tagline" data-i18n="hero.tagline">
-              A warm and compassionate home for the elderly — where every resident
+              A warm and compassionate home for the elderly where every resident
               is treated with hope, dignity, and respect, in the name of our Lord
               Jesus Christ. Rose Hill, Mauritius.
             </p>
@@ -1927,7 +2287,7 @@
             <p data-i18n="about.p1">
               St Hugh's Home is a charitable institution of the Anglican Diocese
               of Mauritius. We are a warm residential care home providing
-              compassionate, long-term care for our elderly community —
+              compassionate, long-term care for our elderly community 
               welcoming residents aged 60 and over in a loving and supportive
               environment.
             </p>
@@ -2006,7 +2366,7 @@
             <p data-i18n="mission.text">
               To provide high quality care efficiently and effectively, meeting
               the physical, emotional, spiritual and social needs of our
-              residents — treating them with dignity and respect for the glory
+              residents  treating them with dignity and respect for the glory
               and in the name of our Lord Jesus Christ.
             </p>
           </div>
@@ -2069,115 +2429,79 @@
 
     <!-- HISTORY -->
     <section id="history" class="spa-section section-pad">
-      <div class="container">
+      <!-- Canvas lucioles animées -->
+      <canvas id="firefly-canvas" aria-hidden="true"></canvas>
+
+      <div class="history-inner container">
         <div class="history-header reveal">
           <p class="section-label">
-            <span class="deco-line"></span
-            ><span data-i18n="history.label">Our Story</span>
+            <span class="deco-line"></span>
+            <span data-i18n="history.label">Our Story</span>
           </p>
           <h2 class="section-title">A Rich <em>History of Service</em></h2>
           <p class="section-lead" data-i18n="history.lead">
-            From humble beginnings sheltering orphans and vulnerable women, St
-            Hugh's has evolved over decades into a leading residential care home
-            for the elderly in Mauritius.
+            From humble beginnings sheltering orphans and vulnerable women, St Hugh's has evolved over decades into a leading residential care home for the elderly in Mauritius.
           </p>
         </div>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                />
-              </svg>
-            </div>
-            <div class="timeline-year">Early Years</div>
-            <div class="timeline-card">
-              <h4>Anglican Diocese Shelters</h4>
-              <p>
-                The Anglican Diocese ran shelters for orphans, children from
-                poor families and single women. In spite of limited funds, the
-                Diocese kept these shelters running to serve the most vulnerable
-                in the community.
-              </p>
-            </div>
+      </div>
+
+      <div class="tl-outer" id="tl-outer">
+
+        <!-- 1900s : en haut -->
+        <div class="tl-item tl-top">
+          <div class="tl-card">
+            <span class="tl-year" data-i18n="h1.year">1900s</span>
+            <div class="tl-title" data-i18n="h1.title">Anglican Diocese Shelters</div>
+            <div class="tl-desc" data-i18n="h1.desc">The Anglican Diocese ran shelters for orphans, children from poor families and single women. In spite of limited funds, the Diocese kept these shelters running to serve the most vulnerable in the community.</div>
           </div>
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                />
-              </svg>
-            </div>
-            <div class="timeline-year">1960</div>
-            <div class="timeline-card">
-              <h4>Relocation After Cyclone Carol</h4>
-              <p>
-                After Cyclone Carol, the boys' orphanage was relocated to
-                Ambrose Street at the former St Paul's Theological College.
-                Girls and women were sheltered at the Rose Belle orphanage.
-              </p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                />
-              </svg>
-            </div>
-            <div class="timeline-year">1975</div>
-            <div class="timeline-card">
-              <h4>Cyclone Gervaise &amp; Consolidation</h4>
-              <p>
-                Cyclone Gervaise destroyed the Rose Belle orphanage building.
-                The women moved to Rose Hill to share the girls' block. The
-                Rachel and Evelyn Blocks were later constructed, named after two
-                devoted ladies.
-              </p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                />
-              </svg>
-            </div>
-            <div class="timeline-year">1980s</div>
-            <div class="timeline-card">
-              <h4>Focus Shifts to the Elderly</h4>
-              <p>
-                As demand for elderly shelter grew, the Diocese decided to
-                convert existing buildings into residential blocks for paying
-                residents. Rainbow Nursery School was also established in 1980
-                to serve working-class families.
-              </p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                />
-              </svg>
-            </div>
-            <div class="timeline-year">2010</div>
-            <div class="timeline-card">
-              <h4>Marthe &amp; Mary Block</h4>
-              <p>
-                In June 2010, during the episcopacy of Archbishop Ian Ernest,
-                four self-care flats were built. On 5th July 2014 they were
-                named Marthe and Mary by Mrs Caroline Welby, wife of Archbishop
-                Justin Welby of Canterbury.
-              </p>
-            </div>
-          </div>
+          <div class="tl-conn"></div>
+          <div class="tl-dot"></div>
         </div>
+
+        <!-- 1960 : en bas -->
+        <div class="tl-item tl-bot">
+          <div class="tl-card">
+            <span class="tl-year">1960</span>
+            <div class="tl-title" data-i18n="h2.title">Relocation After Cyclone Carol</div>
+            <div class="tl-desc" data-i18n="h2.desc">After Cyclone Carol, the boys' orphanage was relocated to Ambrose Street at the former St Paul's Theological College. Girls and women were sheltered at the Rose Belle orphanage.</div>
+          </div>
+          <div class="tl-conn"></div>
+          <div class="tl-dot"></div>
+        </div>
+
+        <!-- 1975 : en haut -->
+        <div class="tl-item tl-top">
+          <div class="tl-card">
+            <span class="tl-year">1975</span>
+            <div class="tl-title" data-i18n="h3.title">Cyclone Gervaise and Consolidation</div>
+            <div class="tl-desc" data-i18n="h3.desc">Cyclone Gervaise destroyed the Rose Belle orphanage building. The women moved to Rose Hill to share the girls' block. The Rachel and Evelyn Blocks were later constructed, named after two devoted ladies.</div>
+          </div>
+          <div class="tl-conn"></div>
+          <div class="tl-dot"></div>
+        </div>
+
+        <!-- 1980s : en bas -->
+        <div class="tl-item tl-bot">
+          <div class="tl-card">
+            <span class="tl-year" data-i18n="h4.year">1980s</span>
+            <div class="tl-title" data-i18n="h4.title">Focus Shifts to the Elderly</div>
+            <div class="tl-desc" data-i18n="h4.desc">As demand for elderly shelter grew, the Diocese decided to convert existing buildings into residential blocks for paying residents. Rainbow Nursery School was also established in 1980 to serve working-class families.</div>
+          </div>
+          <div class="tl-conn"></div>
+          <div class="tl-dot"></div>
+        </div>
+
+        <!-- 2010 : en haut -->
+        <div class="tl-item tl-top">
+          <div class="tl-card">
+            <span class="tl-year">2010</span>
+            <div class="tl-title" data-i18n="h5.title">Marthe and Mary Block</div>
+            <div class="tl-desc" data-i18n="h5.desc">In June 2010, during the episcopacy of Archbishop Ian Ernest, four self-care flats were built. On 5th July 2014 they were named Marthe and Mary by Mrs Caroline Welby, wife of Archbishop Justin Welby of Canterbury.</div>
+          </div>
+          <div class="tl-conn"></div>
+          <div class="tl-dot"></div>
+        </div>
+
       </div>
     </section>
 
@@ -2272,7 +2596,7 @@
       </div>
     </section>
 
-    <!-- GALLERY — dynamically loaded from Supabase -->
+    <!-- GALLERY  dynamically loaded from Supabase -->
     <section id="gallery" class="spa-section section-pad">
       <div class="container">
         <div class="gallery-header reveal">
@@ -2282,15 +2606,15 @@
           </p>
           <h2 class="section-title">Life at <em>St Hugh's</em></h2>
           <p class="section-lead" data-i18n="gallery.lead">
-            A glimpse into the warm, vibrant community we have built — where
+            A glimpse into the warm, vibrant community we have built  where
             every day is lived with purpose, joy, and dignity.
           </p>
         </div>
-        <!-- Gallery scroll populated by loadGallery() -->
-        <div class="gallery-scroll" id="gallery-grid">
-          <div class="gallery-skeleton"></div>
-          <div class="gallery-skeleton"></div>
-          <div class="gallery-skeleton"></div>
+        <!-- Albums row  populated by loadGallery() -->
+        <div class="gallery-albums-row" id="gallery-albums-row">
+          <div class="gallery-skeleton" style="flex:0 0 320px;min-height:320px;border-radius:10px"></div>
+          <div class="gallery-skeleton" style="flex:0 0 320px;min-height:320px;border-radius:10px"></div>
+          <div class="gallery-skeleton" style="flex:0 0 320px;min-height:320px;border-radius:10px"></div>
         </div>
         <div class="youtube-grid" id="youtube-video-grid">
           <div class="youtube-wrap">
@@ -2326,6 +2650,19 @@
         </div>
       </div>
     </section>
+
+    <!-- ALBUM MODAL -->
+    <div id="album-modal" role="dialog" aria-modal="true">
+      <div class="album-modal-box">
+        <div class="album-modal-header">
+          <h3 id="album-modal-title"></h3>
+          <button class="album-modal-close" onclick="closeAlbumModal()" aria-label="Fermer">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="album-modal-grid" id="album-modal-grid"></div>
+      </div>
+    </div>
 
     <!-- LIGHTBOX -->
     <div id="lightbox" role="dialog" aria-modal="true">
@@ -2415,10 +2752,20 @@
                   </svg>
                 </div>
                 <div class="contact-item-body">
-                  <strong data-i18n="c.admission">Admission</strong
-                  ><span data-i18n="c.admission.text"
-                    >Subject to availability, vacant place, contact us for details.</span
-                  >
+                  <strong data-i18n="c.admission">Admission</strong>
+                  <span data-i18n="c.admission.text">Subject to availability, vacant place, contact us for more details.</span>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-item-icon">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                </div>
+                <div class="contact-item-body">
+                  <strong data-i18n="contact.hours.label">Visiting Hours</strong>
+                  <span data-i18n="contact.hours">Monday to Friday: Morning 10:00 to 13:00 / Afternoon 16:00 to 19:00</span>
                 </div>
               </div>
             </div>
@@ -2588,7 +2935,7 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <!-- ✦ Dynamic year — updates automatically every year ✦ -->
+          <!-- ✦ Dynamic year  updates automatically every year ✦ -->
           <span
             >&copy; <span id="footer-year"></span> St Hugh's Anglican Home. All
             rights reserved.</span
@@ -2635,51 +2982,120 @@
       document.getElementById("footer-year").textContent =
         new Date().getFullYear();
 
-      // ── GALLERY – DYNAMIC LOAD FROM SUPABASE ────────────────
+      // ── GALLERY – ALBUMS FROM SUPABASE ──────────────────────
       let galleryImages = [];
       let currentLbIdx = 0;
-
+      let albumImagesMap = {};
 
       async function loadGallery() {
-        const grid = document.getElementById("gallery-grid");
-
+        const row = document.getElementById("gallery-albums-row");
         try {
-          const res = await sbFetch(
-            "gallery_images?select=id,image_url,title,description&is_active=eq.true&order=display_order.asc",
+          // 1. Load albums
+          const aRes = await sbFetch(
+            "gallery_albums?select=id,title,display_order&is_active=eq.true&order=display_order.asc"
           );
-          const data = await res.json();
+          const albums = await aRes.json();
 
-          galleryImages = data;
-
-          if (!Array.isArray(data) || data.length === 0) {
-            grid.innerHTML =
-              '<div class="gallery-empty">No gallery images yet. Check back soon!</div>';
+          if (!Array.isArray(albums) || albums.length === 0) {
+            row.innerHTML = '<div class="gallery-empty" style="flex:1;text-align:center;padding:52px;color:var(--text-light)">Aucune galerie pour le moment.</div>';
             return;
           }
 
-          grid.innerHTML = "";
-          data.forEach((img, i) => {
-            const item = document.createElement("div");
-            item.className = "gallery-item";
-            item.onclick = () => openLightbox(i);
-            item.innerHTML = `
-              <img
-                src="${escAttr(img.image_url)}"
-                alt="${escAttr(img.title || "Gallery image")}"
-                loading="lazy"
-              />
-              <div class="gallery-overlay">
-                ${img.description ? `<span>${escHtml(img.description)}</span>` : ''}
-              </div>`;
-            grid.appendChild(item);
+          // 2. Load all images for these albums in one query
+          const ids = albums.map(a => a.id).join(",");
+          const iRes = await sbFetch(
+            `gallery_images?select=id,image_url,title,description,album_id,display_order&is_active=eq.true&album_id=in.(${ids})&order=display_order.asc`
+          );
+          const allImgs = await iRes.json();
+
+          // 3. Group images by album
+          albumImagesMap = {};
+          (Array.isArray(allImgs) ? allImgs : []).forEach(img => {
+            if (!albumImagesMap[img.album_id]) albumImagesMap[img.album_id] = [];
+            albumImagesMap[img.album_id].push(img);
           });
+
+          // 4. Render album cards
+          row.innerHTML = "";
+          albums.forEach(album => {
+            const imgs = albumImagesMap[album.id] || [];
+            row.appendChild(buildAlbumCard(album, imgs));
+          });
+
+          // Drag scroll
+          enableDragScroll(row);
 
         } catch (err) {
           console.error("Gallery load error:", err);
-          grid.innerHTML =
-            '<div class="gallery-empty">Gallery temporarily unavailable.</div>';
+          row.innerHTML = '<div class="gallery-empty" style="flex:1;text-align:center;padding:52px;color:var(--text-light)">Galerie temporairement indisponible.</div>';
         }
       }
+
+      function buildAlbumCard(album, imgs) {
+        const card = document.createElement("div");
+        card.className = "gallery-album-card";
+        const preview = imgs.slice(0, 3);
+        const extraCount = imgs.length - 3;
+        const thumbsHTML = preview.map((img, i) =>
+          `<div class="album-thumb" onclick="openAlbumLightbox('${escAttr(album.id)}',${i})">
+            <img src="${escAttr(img.image_url)}" alt="${escAttr(img.title || '')}" loading="lazy"/>
+          </div>`
+        ).join("");
+        const moreBtnHTML = `
+          <div class="album-more-btn" onclick="openAlbumModal('${escAttr(album.id)}','${escAttr(album.title)}')">
+            <span class="plus-icon">${extraCount > 0 ? "+" + extraCount : "+"}</span>
+            <span class="plus-label">${extraCount > 0 ? "voir plus" : "voir tout"}</span>
+          </div>`;
+        card.innerHTML = `
+          <div class="album-card-title">${escHtml(album.title)}</div>
+          <div class="album-grid-2col">${thumbsHTML}${moreBtnHTML}</div>`;
+        return card;
+      }
+
+      function openAlbumModal(albumId, albumTitle) {
+        const imgs = albumImagesMap[albumId] || [];
+        document.getElementById("album-modal-title").textContent = albumTitle || "Galerie";
+        const grid = document.getElementById("album-modal-grid");
+        grid.innerHTML = imgs.length
+          ? imgs.map((img, i) =>
+              `<div class="album-modal-img" onclick="openAlbumLightbox('${escAttr(albumId)}',${i})">
+                <img src="${escAttr(img.image_url)}" alt="${escAttr(img.title||'')}" loading="lazy"/>
+              </div>`).join("")
+          : '<p style="padding:32px;color:var(--text-light);grid-column:1/-1;text-align:center">Aucune image.</p>';
+        document.getElementById("album-modal").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeAlbumModal() {
+        document.getElementById("album-modal").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      function openAlbumLightbox(albumId, idx) {
+        const imgs = albumImagesMap[albumId] || [];
+        if (!imgs.length) return;
+        galleryImages = imgs;
+        currentLbIdx = idx;
+        document.getElementById("lb-img").src = imgs[idx].image_url;
+        document.getElementById("lb-img").alt = imgs[idx].title || "";
+        document.getElementById("lightbox").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+
+      function enableDragScroll(el) {
+        let down = false, startX, scrollLeft;
+        el.addEventListener("mousedown", e => { down = true; startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft; });
+        el.addEventListener("mouseleave", () => down = false);
+        el.addEventListener("mouseup", () => down = false);
+        el.addEventListener("mousemove", e => { if (!down) return; e.preventDefault(); el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX); });
+      }
+
+      // Close album modal on backdrop click
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("album-modal").addEventListener("click", e => {
+          if (e.target === e.currentTarget) closeAlbumModal();
+        });
+      });
 
       // ── LIGHTBOX ─────────────────────────────────────────────
       function openLightbox(idx) {
@@ -2704,14 +3120,17 @@
         if (e.target === e.currentTarget) closeLightbox();
       });
       document.addEventListener("keydown", (e) => {
-        if (!document.getElementById("lightbox").classList.contains("open"))
-          return;
-        if (e.key === "Escape") closeLightbox();
-        if (e.key === "ArrowLeft") lbNav(-1);
-        if (e.key === "ArrowRight") lbNav(1);
+        if (e.key === "Escape") {
+          if (document.getElementById("lightbox").classList.contains("open")) closeLightbox();
+          else if (document.getElementById("album-modal").classList.contains("open")) closeAlbumModal();
+        }
+        if (document.getElementById("lightbox").classList.contains("open")) {
+          if (e.key === "ArrowLeft") lbNav(-1);
+          if (e.key === "ArrowRight") lbNav(1);
+        }
       });
 
-      // ── CONTACT FORM — SAVES TO SUPABASE ────────────────────
+      // ── CONTACT FORM  SAVES TO SUPABASE ────────────────────
       async function submitForm() {
         const fname = document.getElementById("fname").value.trim();
         const lname = document.getElementById("lname").value.trim();
@@ -2807,9 +3226,10 @@
           "nav.gallery": "Gallery",
           "nav.contact": "Contact Us",
           "appt.btn": "Book Appointment",
+          "contact.hours.label": "Visiting Hours",
           "hero.badge": "Anglican Diocese of Mauritius",
           "hero.tagline":
-            "A warm and compassionate home for the elderly — where every resident is treated with hope, dignity, and respect, in the name of our Lord Jesus Christ. Rose Hill, Mauritius.",
+            "A warm and compassionate home for the elderly  where every resident is treated with hope, dignity, and respect, in the name of our Lord Jesus Christ. Rose Hill, Mauritius.",
           "hero.cta1": "Resident Enquiry",
           "hero.cta2": "Learn More",
           "hero.scroll": "Scroll",
@@ -2820,7 +3240,7 @@
           "about.label": "Who We Are",
           "about.founded": "Founded in Rose Hill",
           "about.p1":
-            "St Hugh's Home is a charitable institution of the Anglican Diocese of Mauritius. We are a warm residential care home providing compassionate, long-term care for our elderly community — welcoming residents aged 60 and over in a loving and supportive environment.",
+            "St Hugh's Home is a charitable institution of the Anglican Diocese of Mauritius. We are a warm residential care home providing compassionate, long-term care for our elderly community  welcoming residents aged 60 and over in a loving and supportive environment.",
           "about.p2":
             "Ideally located in Rose Hill, we have a beautiful garden, easy access to public transport and local amenities. We welcome both private and government-supported residents, offering a safe, dignified, and fulfilling home.",
           "about.p3":
@@ -2836,7 +3256,7 @@
             "To provide high quality care and services to the geriatric population based on Christian principles, ensuring every resident lives with dignity, purpose, and joy.",
           "mission.title": "Our Mission",
           "mission.text":
-            "To provide high quality care efficiently and effectively, meeting the physical, emotional, spiritual and social needs of our residents — treating them with dignity and respect for the glory and in the name of our Lord Jesus Christ.",
+            "To provide high quality care efficiently and effectively, meeting the physical, emotional, spiritual and social needs of our residents  treating them with dignity and respect for the glory and in the name of our Lord Jesus Christ.",
           "values.title": "Our Core Values",
           "v1.title": "Good Stewardship",
           "v1.text":
@@ -2856,7 +3276,7 @@
           "v6.title": "Integrity",
           "v6.text":
             "We act with integrity and honesty in all our undertakings, fostering trust with residents, families, and the community.",
-          "contact.hours": "Mon – Fri: Morning 10:00 – 13:00 / Afternoon 16:00 – 19:00",
+          "contact.hours": "Monday to Friday: Morning 10:00 to 13:00 / Afternoon 16:00 to 19:00",
           "footer.hours.label": "Visiting Hours",
           "history.label": "Our Story",
           "history.lead":
@@ -2881,7 +3301,7 @@
             "Engaging social programmes, recreational activities, and community events to nurture mental and emotional wellbeing.",
           "gallery.label": "Our Residence",
           "gallery.lead":
-            "A glimpse into the warm, vibrant community we have built — where every day is lived with purpose, joy, and dignity.",
+            "A glimpse into the warm, vibrant community we have built  where every day is lived with purpose, joy, and dignity.",
           g1: "Community Dining",
           g2: "Pastoral Care",
           g3: "Creative Activities",
@@ -2895,7 +3315,7 @@
           "c.address": "Address",
           "c.phone": "Phone",
           "c.admission": "Admission",
-          "c.admission.text": "Subject to availability, vacant place, contact us for details.",
+          "c.admission.text": "Subject to availability, vacant place, contact us for more details.",
           "form.title": "Send Us a Message",
           "form.fname": "First Name",
           "form.lname": "Last Name",
@@ -2919,6 +3339,18 @@
           "footer.links": "Quick Links",
           "footer.services": "Our Services",
           "footer.contact": "Contact",
+          "h1.year": "1900s",
+          "h1.title": "Anglican Diocese Shelters",
+          "h1.desc": "The Anglican Diocese ran shelters for orphans, children from poor families and single women. In spite of limited funds, the Diocese kept these shelters running to serve the most vulnerable in the community.",
+          "h2.title": "Relocation After Cyclone Carol",
+          "h2.desc": "After Cyclone Carol, the boys' orphanage was relocated to Ambrose Street at the former St Paul's Theological College. Girls and women were sheltered at the Rose Belle orphanage.",
+          "h3.title": "Cyclone Gervaise and Consolidation",
+          "h3.desc": "Cyclone Gervaise destroyed the Rose Belle orphanage building. The women moved to Rose Hill to share the girls' block. The Rachel and Evelyn Blocks were later constructed, named after two devoted ladies.",
+          "h4.year": "1980s",
+          "h4.title": "Focus Shifts to the Elderly",
+          "h4.desc": "As demand for elderly shelter grew, the Diocese decided to convert existing buildings into residential blocks for paying residents. Rainbow Nursery School was also established in 1980 to serve working-class families.",
+          "h5.title": "Marthe and Mary Block",
+          "h5.desc": "In June 2010, during the episcopacy of Archbishop Ian Ernest, four self-care flats were built. On 5th July 2014 they were named Marthe and Mary by Mrs Caroline Welby, wife of Archbishop Justin Welby of Canterbury.",
         },
         fr: {
           "nav.home": "Accueil",
@@ -2931,7 +3363,7 @@
           "appt.btn": "Prendre Rendez-vous",
           "hero.badge": "Diocèse Anglican de Maurice",
           "hero.tagline":
-            "Un foyer chaleureux et bienveillant pour les personnes âgées — où chaque résident est traité avec espoir, dignité et respect, au nom de notre Seigneur Jésus-Christ. Rose Hill, Maurice.",
+            "Un foyer chaleureux et bienveillant pour les personnes âgées  où chaque résident est traité avec espoir, dignité et respect, au nom de notre Seigneur Jésus-Christ. Rose Hill, Maurice.",
           "hero.cta1": "Renseignement Résident",
           "hero.cta2": "En Savoir Plus",
           "hero.scroll": "Défiler",
@@ -2978,8 +3410,8 @@
           "v6.title": "Intégrité",
           "v6.text":
             "Nous agissons avec intégrité et honnêteté dans toutes nos entreprises, favorisant la confiance avec les résidents, les familles et la communauté.",
-          "contact.hours": "Lun – Ven : Matin 10h – 13h / Après-midi 16h – 19h",
-          "footer.hours.label": "Heures de visite",
+          "contact.hours": "Lundi à Vendredi : Matin 10h à 13h / Après-midi 16h à 19h",
+          "footer.hours.label": "Heures de Visite",
           "history.label": "Notre Histoire",
           "history.lead":
             "De modestes débuts abritant des orphelins et des femmes vulnérables, St Hugh's a évolué pour devenir un des premiers homes de soins résidentiels pour personnes âgées à Maurice.",
@@ -3010,8 +3442,9 @@
           "c.address": "Adresse",
           "c.phone": "Téléphone",
           "c.admission": "Admission",
-          "c.admission.text":
-            "Selon disponibilité, place vacante, contactez-nous pour plus de détails.",
+          "c.admission.text": "Selon disponibilité, place vacante, contactez-nous pour plus de détails.",
+          "contact.hours.label": "Heures de Visite",
+          "contact.hours": "Lundi à Vendredi : Matin 10h à 13h / Après-midi 16h à 19h",
           "form.title": "Envoyez-nous un Message",
           "form.fname": "Prénom",
           "form.lname": "Nom",
@@ -3035,6 +3468,18 @@
           "footer.links": "Liens Rapides",
           "footer.services": "Nos Services",
           "footer.contact": "Contact",
+          "h1.year": "Début 1900",
+          "h1.title": "Abris du Diocèse Anglican",
+          "h1.desc": "Le Diocèse Anglican gérait des abris pour les orphelins, les enfants de familles pauvres et les femmes seules. Malgré des ressources limitées, le Diocèse maintenait ces structures pour servir les plus vulnérables de la communauté.",
+          "h2.title": "Relocalisation Après le Cyclone Carol",
+          "h2.desc": "Après le Cyclone Carol, l'orphelinat des garçons fut transféré à Ambrose Street, à l'ancien Collège Théologique St Paul. Les filles et les femmes étaient hébergées à l'orphelinat de Rose Belle.",
+          "h3.title": "Cyclone Gervaise et Consolidation",
+          "h3.desc": "Le Cyclone Gervaise détruisit le bâtiment de l'orphelinat de Rose Belle. Les femmes rejoignirent Rose Hill pour partager le bloc des filles. Les blocs Rachel et Evelyn furent ensuite construits, nommés en l'honneur de deux dames dévouées.",
+          "h4.year": "Années 1980",
+          "h4.title": "Pivot vers les Personnes Âgées",
+          "h4.desc": "Face à la demande croissante d'hébergement pour personnes âgées, le Diocèse convertit les bâtiments existants en blocs résidentiels payants. L'École Maternelle Rainbow fut également fondée en 1980 pour les familles des travailleurs.",
+          "h5.title": "Bloc Marthe et Marie",
+          "h5.desc": "En juin 2010, sous l'épiscopat de l'Archevêque Ian Ernest, quatre appartements autonomes furent construits. Le 5 juillet 2014, ils furent nommés Marthe et Marie par Mme Caroline Welby, épouse de l'Archevêque Justin Welby de Canterbury.",
         },
         zh: {
           "nav.home": "首页",
@@ -3047,7 +3492,7 @@
           "appt.btn": "预约",
           "hero.badge": "毛里求斯英国圣公会教区",
           "hero.tagline":
-            "以主耶稣基督之名，为老人提供高质量、富有同情心的关怀\n— 毛里求斯玫瑰山。",
+            "以主耶稣基督之名，为老人提供高质量、富有同情心的关怀\n 毛里求斯玫瑰山。",
           "hero.cta1": "居民咨询",
           "hero.cta2": "了解更多",
           "hero.scroll": "向下滚动",
@@ -3060,7 +3505,7 @@
           "about.p1":
             "圣休之家是毛里求斯英国圣公会教区的慈善机构，是一所拥有56个床位的老年护理院，提供积极、富有同情心的长期护理。",
           "about.p2":
-            "位于玫瑰山，我们拥有宽阔的花园，交通便利。我们接收60岁及以上的居民——包括自费和政府资助。",
+            "位于玫瑰山，我们拥有宽阔的花园，交通便利。我们接收60岁及以上的居民包括自费和政府资助。",
           "about.p3":
             "自2005年起，本院执行毛里求斯政府制定的《住宅护理院法》和《老年人保护法》。",
           "pill.care": "长期护理",
@@ -3073,7 +3518,7 @@
             "基于基督教原则，为老年群体提供高质量护理和服务，确保每位居民有尊严、有目标、快乐地生活。",
           "mission.title": "我们的使命",
           "mission.text":
-            "高效提供高质量护理，满足居民的身体、情感、精神和社会需求——以尊严和尊重对待他们，为主耶稣基督的荣耀。",
+            "高效提供高质量护理，满足居民的身体、情感、精神和社会需求以尊严和尊重对待他们，为主耶稣基督的荣耀。",
           "values.title": "我们的核心价值观",
           "v1.title": "良好管理",
           "v1.text": "我们善用托付给我们的所有资源，提供高质量的护理和服务。",
@@ -3090,7 +3535,7 @@
           "v6.title": "诚信",
           "v6.text":
             "我们在所有工作中以诚信和正直行事，与居民、家属和社区建立信任。",
-          "contact.hours": "周一至周五：上午 10:00 – 13:00 / 下午 16:00 – 19:00",
+          "contact.hours": "周一至周五：上午 10:00 至 13:00 / 下午 16:00 至 19:00",
           "footer.hours.label": "探访时间",
           "history.label": "我们的故事",
           "history.lead":
@@ -3113,7 +3558,7 @@
           "s6.text": "丰富的社交计划、娱乐活动和社区活动，培育精神和情感健康。",
           "gallery.label": "我们的居所",
           "gallery.lead":
-            "一瞥我们所建立的温暖、充满活力的社区——每天都充满目标、快乐和尊严。",
+            "一瞥我们所建立的温暖、充满活力的社区每天都充满目标、快乐和尊严。",
           "contact.label": "联系我们",
           "contact.intro":
             "无论您是为自己还是为亲人咨询，我们的团队都准备好以温暖和关怀欢迎您，解答您的所有问题。",
@@ -3121,6 +3566,8 @@
           "c.phone": "电话",
           "c.admission": "入住",
           "c.admission.text": "视空位情况而定，如有空位，请联系我们了解详情。",
+          "contact.hours.label": "探访时间",
+          "contact.hours": "周一至周五：上午 10:00 至 13:00 / 下午 16:00 至 19:00",
           "form.title": "发送消息",
           "form.fname": "名",
           "form.lname": "姓",
@@ -3143,6 +3590,18 @@
           "footer.links": "快速链接",
           "footer.services": "我们的服务",
           "footer.contact": "联系方式",
+          "h1.year": "1900年代",
+          "h1.title": "英国国教教区庇护所",
+          "h1.desc": "英国国教教区为孤儿、贫困家庭儿童及单身女性提供庇护所。尽管资金有限，教区仍坚持运营这些庇护所，为社区中最弱势的群体提供帮助。",
+          "h2.title": "卡罗飓风后迁址",
+          "h2.desc": "卡罗飓风过后，男孤儿院迁至安布罗斯街原圣保罗神学院旧址。女孩和妇女则在罗斯贝尔孤儿院获得庇护。",
+          "h3.title": "热尔维斯飓风与整合",
+          "h3.desc": "热尔维斯飓风摧毁了罗斯贝尔孤儿院建筑。妇女们迁往罗斯希尔与女孩宿舍共住。后来建起的雷切尔楼和伊芙琳楼，以两位杰出女士命名。",
+          "h4.year": "1980年代",
+          "h4.title": "转向老年护理",
+          "h4.desc": "随着老年庇护需求的增长，教区决定将现有建筑改造为付费居民住宅楼。1980年还创办了彩虹托儿所，服务工薪家庭。",
+          "h5.title": "马塔和玛丽楼",
+          "h5.desc": "2010年6月，在伊恩·欧内斯特大主教任期内建造了四套自理公寓。2014年7月5日，由坎特伯雷大主教贾斯汀·韦尔比之妻卡罗琳·韦尔比女士命名为马塔和玛丽。",
         },
         mu: {
           "nav.home": "Lakaz",
@@ -3155,7 +3614,7 @@
           "appt.btn": "Pran Randevou",
           "hero.badge": "Dioses Anglikan Moris",
           "hero.tagline":
-            "Ofrir swen kalite ek konpasyon pou bann vie dimoune\ndan nom Bondie Jezikri nou — Rose Hill, Moris.",
+            "Ofrir swen kalite ek konpasyon pou bann vie dimoune\ndan nom Bondie Jezikri nou  Rose Hill, Moris.",
           "hero.cta1": "Demande Rezidan",
           "hero.cta2": "Aprann Plis",
           "hero.scroll": "Desann",
@@ -3201,7 +3660,7 @@
           "v6.title": "Intégrité",
           "v6.text":
             "Nou azi ek intégrité ek onèteté dan tou not aksion, fonn konfians ek rezidan, famiy ek kominoté.",
-          "contact.hours": "Lin – Van : Matin 10h – 13h / Laprémidi 16h – 19h",
+          "contact.hours": "Lindi ziska Vandredi : Matin 10h ziska 13h / Laprémidi 16h ziska 19h",
           "footer.hours.label": "Ler Vizit",
           "history.label": "Not Listwar",
           "history.lead":
@@ -3233,8 +3692,9 @@
           "c.address": "Adres",
           "c.phone": "Telefonn",
           "c.admission": "Admision",
-          "c.admission.text":
-            "Selon disponibilité, plas lib, kontakte nou pou plis detay.",
+          "c.admission.text": "Selon disponibilité, plas lib, kontakte nou pou plis detay.",
+          "contact.hours.label": "Ler Vizit",
+          "contact.hours": "Lindi ziska Vandredi : Matin 10h ziska 13h / Laprémidi 16h ziska 19h",
           "form.title": "Anvoye Nou enn Mesaz",
           "form.fname": "Prenon",
           "form.lname": "Non",
@@ -3257,6 +3717,18 @@
           "footer.links": "Lien Rapid",
           "footer.services": "Not Servis",
           "footer.contact": "Kontakt",
+          "h1.year": "1900s",
+          "h1.title": "Lakazmanman Dioses Anglikan",
+          "h1.desc": "Dioses Anglikan ti koz bann lakazmanman pou orfelin, zanfan fami pov ek madam sel. Avek resours limite, Dioses ti kontinie servi bann pli vilnerab dan kominote.",
+          "h2.title": "Deplasman Apre Siklón Carol",
+          "h2.desc": "Apre Siklón Carol, lakazmanman garson ti deplase ver Ambrose Street dan lansia College Teolozik St Paul. Bann tifi ek madam ti eberze dan lakazmanman Rose Belle.",
+          "h3.title": "Siklón Gervaise ek Konsolidasyon",
+          "h3.desc": "Siklón Gervaise ti detrir batiman lakazmanman Rose Belle. Bann madam ti ale Rose Hill pou partaze blok bann tifi. Blok Rachel ek Evelyn ti konstwi plitar, nome daprés de madam devwe.",
+          "h4.year": "Bann lane 1980",
+          "h4.title": "Fokis lor Bann Vié Dimoune",
+          "h4.desc": "Avek demánd kresant pou lakazmanman vié dimoune, Dioses ti konverte bann batiman pou rezidan ki pey. Lékol Maternal Rainbow finn osi fondet an 1980 pou bann fami travayer.",
+          "h5.title": "Blok Marthe ek Mary",
+          "h5.desc": "An zin 2010, pandan episkopa Arsevek Ian Ernest, kat apparteman otonom ti finn konstrir. Le 5 ziyé 2014, zot ti nome Marthe ek Mary par Madam Caroline Welby, madam Arsevek Justin Welby Canterbury.",
         },
       };
 
@@ -3318,15 +3790,44 @@
         }
       });
 
-      // ── BURGER MENU ───────────────────────────────────────────
-      const burger = document.getElementById("burger");
-      const navLinks = document.getElementById("nav-links");
-      burger.addEventListener("click", () => navLinks.classList.toggle("open"));
-      navLinks
-        .querySelectorAll("a")
-        .forEach((a) =>
-          a.addEventListener("click", () => navLinks.classList.remove("open")),
-        );
+      // ── MOBILE NAV DRAWER ─────────────────────────────────────
+      const burger        = document.getElementById("burger");
+      const navDrawer     = document.getElementById("nav-drawer");
+      const navOverlay    = document.getElementById("nav-overlay");
+      const drawerCloseBtn = document.getElementById("drawer-close-btn");
+
+      function openMobileNav() {
+        navDrawer.classList.add("open");
+        navOverlay.classList.add("open");
+        burger.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMobileNav() {
+        navDrawer.classList.remove("open");
+        navOverlay.classList.remove("open");
+        burger.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+      }
+
+      // ☰ ouvre le drawer
+      burger.addEventListener("click", openMobileNav);
+
+      // ✕ interne ferme le drawer
+      drawerCloseBtn.addEventListener("click", closeMobileNav);
+
+      // Clic sur l'overlay ferme le drawer
+      navOverlay.addEventListener("click", closeMobileNav);
+
+      // Clic sur un lien ferme le drawer
+      document.getElementById("nav-links").querySelectorAll("a").forEach(a =>
+        a.addEventListener("click", closeMobileNav)
+      );
+
+      // Touche Échap ferme le drawer
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape" && navDrawer.classList.contains("open")) closeMobileNav();
+      });
 
       // ── SCROLL REVEAL ─────────────────────────────────────────
       const observer = new IntersectionObserver(
@@ -3342,11 +3843,88 @@
       );
 
       document
-        .querySelectorAll(".reveal, .timeline-item")
+        .querySelectorAll(".reveal")
         .forEach((el) => observer.observe(el));
-      document.querySelectorAll(".timeline-item").forEach((el, i) => {
-        el.style.transitionDelay = `${i * 0.08}s`;
-      });
+
+      // ── LUCIOLES — CANVAS ANIMATION ──────────────────────────
+      (function() {
+        const canvas = document.getElementById('firefly-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const COUNT = 38;
+        const flies = [];
+        let running = false;
+
+        function resize() {
+          const section = document.getElementById('history');
+          canvas.width = section.offsetWidth;
+          canvas.height = section.offsetHeight;
+        }
+
+        function createFly() {
+          const isGold = Math.random() > 0.45;
+          return {
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: 0.8 + Math.random() * 1.8,
+            vx: (Math.random() - 0.5) * 0.25,
+            vy: (Math.random() - 0.5) * 0.18,
+            drift: (Math.random() - 0.5) * 0.008,
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.008 + Math.random() * 0.018,
+            color: isGold ? [212, 175, 80] : [80, 190, 190],
+          };
+        }
+
+        resize();
+        for (let i = 0; i < COUNT; i++) flies.push(createFly());
+        window.addEventListener('resize', resize);
+
+        function step() {
+          if (!running) return;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          const now = performance.now() * 0.001;
+          flies.forEach(f => {
+            f.phase += f.speed;
+            f.vx += f.drift; f.drift = (Math.random() - 0.5) * 0.006;
+            f.x += f.vx; f.y += f.vy;
+            if (f.x < -10) f.x = canvas.width + 10;
+            if (f.x > canvas.width + 10) f.x = -10;
+            if (f.y < -10) f.y = canvas.height + 10;
+            if (f.y > canvas.height + 10) f.y = -10;
+
+            const alpha = 0.08 + 0.32 * (0.5 + 0.5 * Math.sin(f.phase));
+            const [r, g, b] = f.color;
+            const glowR = f.r * 5;
+            const grad = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, glowR);
+            grad.addColorStop(0, `rgba(${r},${g},${b},${alpha})`);
+            grad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, glowR, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(alpha * 2.5, 0.7)})`;
+            ctx.fill();
+          });
+          requestAnimationFrame(step);
+        }
+
+        const historySection = document.getElementById('history');
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              resize(); // recalc quand section devient visible (SPA)
+              if (!running) { running = true; step(); }
+            } else {
+              running = false;
+            }
+          });
+        }, { threshold: 0.05 });
+        io.observe(historySection);
+      })();
 
       // ── SPA NAVIGATION ────────────────────────────────────────
       function showPage(id) {
@@ -3400,8 +3978,27 @@
             dbContent = {};
             data.forEach(r => { dbContent[r.key] = r.value; });
           }
+          // Also load image URLs (language-independent, stored as lang=en)
+          if (lang !== 'en') {
+            const imgRes = await sbFetch('site_content?select=key,value&section=eq.images&lang=eq.en');
+            if (imgRes.ok) {
+              const imgData = await imgRes.json();
+              if (Array.isArray(imgData)) imgData.forEach(r => { dbContent[r.key] = r.value; });
+            }
+          }
         } catch (e) {
           console.warn('site_content load failed, using static defaults');
+        }
+      }
+
+      function applySiteImages() {
+        if (dbContent['hero.image_url']) {
+          const el = document.querySelector('.hero-banner img');
+          if (el) el.src = dbContent['hero.image_url'];
+        }
+        if (dbContent['about.image_url']) {
+          const el = document.querySelector('.about-img-wrap img');
+          if (el) el.src = dbContent['about.image_url'];
         }
       }
 
@@ -3422,14 +4019,15 @@
       // ── OVERRIDE applyTranslations WITH DB CONTENT ───────────
       const _applyTranslationsOrig = applyTranslations;
       function applyTranslations(lang) {
-        const t = { ...(i18n[lang] || {}), ...dbContent };
+        const t = { ...dbContent, ...(i18n[lang] || {}) };
         document.querySelectorAll('[data-i18n]').forEach(el => {
           const key = el.getAttribute('data-i18n');
           if (t[key] !== undefined) el.textContent = t[key];
         });
+        applySiteImages();
       }
 
-      // ── YOUTUBE VIDEOS — DYNAMIQUE ────────────────────────────
+      // ── YOUTUBE VIDEOS  DYNAMIQUE ────────────────────────────
       async function loadYoutubeVideos() {
         const grid = document.getElementById('youtube-video-grid');
         if (!grid) return;
@@ -3452,7 +4050,7 @@
               ></iframe>
             </div>`).join('');
         } catch (e) {
-          // Supabase table not yet created — les vidéos hardcodées restent
+          // Supabase table not yet created  les vidéos hardcodées restent
         }
       }
 
@@ -3460,6 +4058,7 @@
       (async () => {
         await loadSiteContent('en');
         applyTranslations('en');
+        applySiteImages();
         await loadStats();
         loadGallery();
         loadYoutubeVideos();
