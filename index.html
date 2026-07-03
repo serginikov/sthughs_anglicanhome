@@ -2082,6 +2082,46 @@
         .gallery-album-card { flex: 0 0 270px; }
         .album-modal-grid { grid-template-columns: repeat(2, 1fr); }
       }
+
+      /* ── Réservation de visite ─────────────────────────────── */
+      .resa-overlay {
+        position: fixed; inset: 0; z-index: 3000;
+        background: rgba(15, 42, 42, 0.55);
+        display: none; align-items: center; justify-content: center;
+        padding: 1rem;
+      }
+      .resa-overlay.open { display: flex; }
+      .resa-box {
+        background: var(--card-bg); color: var(--text-dark);
+        border-radius: 14px; box-shadow: var(--shadow-deep);
+        width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto;
+        padding: 1.75rem 1.75rem 1.5rem;
+      }
+      .resa-head {
+        display: flex; align-items: flex-start; justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+      .resa-head h3 {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 1.45rem; color: var(--teal-dark); margin: 0;
+      }
+      .resa-head p { font-size: 0.85rem; color: var(--text-light); margin: 0.2rem 0 0; }
+      .resa-close {
+        background: none; border: none; font-size: 1.3rem; cursor: pointer;
+        color: var(--text-light); line-height: 1; padding: 0.2rem;
+      }
+      .resa-close:hover { color: var(--teal-dark); }
+      .resa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+      @media (max-width: 540px) { .resa-grid { grid-template-columns: 1fr; } }
+      .resa-hp { position: absolute; left: -6000px; top: -6000px; height: 1px; overflow: hidden; }
+      .resa-success, .resa-error {
+        display: none; border-radius: 8px; padding: 0.7rem 1rem;
+        font-size: 0.88rem; margin-top: 0.75rem;
+      }
+      .resa-success { background: #f0fdf4; color: #15803d; border: 1px solid #86efac; }
+      .resa-error   { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+      [data-theme="dark"] .resa-success { background: #1d3d2a; color: #9fdfb8; border-color: #2e5c40; }
+      [data-theme="dark"] .resa-error   { background: #4a1d1d; color: #f3a8a8; border-color: #7a3535; }
     </style>
   </head>
   <body>
@@ -2190,7 +2230,7 @@
     </nav>
 
     <!-- FLOATING APPOINTMENT BUTTON -->
-    <a href="tel:4641124" id="appt-btn" aria-label="Prendre rendez-vous">
+    <a href="#" id="appt-btn" aria-label="Prendre rendez-vous" onclick="openResaModal(); return false;">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.62 3.38 2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.76a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
       </svg>
@@ -2852,6 +2892,80 @@
       </div>
     </section>
 
+    <!-- RESERVATION DE VISITE -->
+    <div class="resa-overlay" id="resa-overlay">
+      <div class="resa-box" role="dialog" aria-modal="true" aria-labelledby="resa-title">
+        <div class="resa-head">
+          <div>
+            <h3 id="resa-title" data-i18n="resa.title">Réserver une visite</h3>
+            <p data-i18n="resa.subtitle">Notre équipe confirmera votre venue.</p>
+          </div>
+          <button class="resa-close" onclick="closeResaModal()" aria-label="Fermer">✕</button>
+        </div>
+        <div class="resa-grid">
+          <div class="form-group">
+            <label for="resa-fname" data-i18n="resa.fname">Prénom *</label>
+            <input type="text" id="resa-fname" autocomplete="given-name" />
+          </div>
+          <div class="form-group">
+            <label for="resa-lname" data-i18n="resa.lname">Nom *</label>
+            <input type="text" id="resa-lname" autocomplete="family-name" />
+          </div>
+        </div>
+        <div class="resa-grid">
+          <div class="form-group">
+            <label for="resa-email" data-i18n="resa.email">Email *</label>
+            <input type="email" id="resa-email" autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <label for="resa-phone" data-i18n="resa.phone">Téléphone *</label>
+            <input type="tel" id="resa-phone" placeholder="+230 5XXX XXXX" autocomplete="tel" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="resa-resident" data-i18n="resa.resident">Résident visité *</label>
+          <input type="text" id="resa-resident" />
+          <p style="font-size:0.76rem;color:var(--text-light);margin-top:4px" data-i18n="resa.residentHint">Indiquez son nom : notre équipe fera le rapprochement.</p>
+        </div>
+        <div class="form-group">
+          <label for="resa-relation" data-i18n="resa.relation">Lien de parenté</label>
+          <input type="text" id="resa-relation" />
+        </div>
+        <div class="resa-grid">
+          <div class="form-group">
+            <label for="resa-date" data-i18n="resa.date">Date souhaitée *</label>
+            <input type="date" id="resa-date" />
+            <p style="font-size:0.76rem;color:var(--text-light);margin-top:4px" data-i18n="resa.dateHint">Du lundi au vendredi.</p>
+          </div>
+          <div class="form-group">
+            <label for="resa-slot" data-i18n="resa.slot">Créneau *</label>
+            <select id="resa-slot">
+              <option value="matin" data-i18n="resa.slotMorning">Matin (10h – 13h)</option>
+              <option value="apres_midi" data-i18n="resa.slotAfternoon">Après-midi (16h – 19h)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="resa-visitors" data-i18n="resa.visitors">Nombre de visiteurs *</label>
+          <select id="resa-visitors">
+            <option>1</option><option>2</option><option>3</option>
+            <option>4</option><option>5</option><option>6</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="resa-message" data-i18n="resa.message">Message</label>
+          <textarea id="resa-message" rows="3"></textarea>
+        </div>
+        <div class="resa-hp" aria-hidden="true">
+          <label for="resa-website">Website</label>
+          <input type="text" id="resa-website" tabindex="-1" autocomplete="off" />
+        </div>
+        <button type="button" class="form-submit" id="resa-submit" onclick="submitResa()" data-i18n="resa.submit">Envoyer la demande</button>
+        <div class="resa-success" id="resa-success" data-i18n="resa.success">Votre demande a bien été envoyée. Notre équipe vous confirmera la visite.</div>
+        <div class="resa-error" id="resa-error"></div>
+      </div>
+    </div>
+
     <!-- FOOTER -->
     <footer>
       <div class="container">
@@ -3226,6 +3340,30 @@
           "nav.gallery": "Gallery",
           "nav.contact": "Contact Us",
           "appt.btn": "Book Appointment",
+          "resa.title": "Book a visit",
+          "resa.subtitle": "Our team will confirm your visit.",
+          "resa.fname": "First name *",
+          "resa.lname": "Last name *",
+          "resa.email": "Email *",
+          "resa.phone": "Phone *",
+          "resa.resident": "Resident you are visiting *",
+          "resa.residentHint": "Type their name: our team will match the record.",
+          "resa.relation": "Relationship",
+          "resa.date": "Preferred date *",
+          "resa.dateHint": "Monday to Friday.",
+          "resa.slot": "Time slot *",
+          "resa.slotMorning": "Morning (10am – 1pm)",
+          "resa.slotAfternoon": "Afternoon (4pm – 7pm)",
+          "resa.visitors": "Number of visitors *",
+          "resa.message": "Message",
+          "resa.submit": "Send request",
+          "resa.sending": "Sending…",
+          "resa.success": "Your request has been sent. Our team will confirm the visit.",
+          "resa.errRequired": "Please fill in all required fields.",
+          "resa.errDate": "Please pick a future date.",
+          "resa.errWeekday": "Visits take place Monday to Friday.",
+          "resa.errDuplicate": "A request already exists for this date.",
+          "resa.errGeneric": "Something went wrong. Please try again or call us on 4641124.",
           "contact.hours.label": "Visiting Hours",
           "hero.badge": "Anglican Diocese of Mauritius",
           "hero.tagline":
@@ -3361,6 +3499,30 @@
           "nav.gallery": "Galerie",
           "nav.contact": "Nous Contacter",
           "appt.btn": "Prendre Rendez-vous",
+          "resa.title": "Réserver une visite",
+          "resa.subtitle": "Notre équipe confirmera votre venue.",
+          "resa.fname": "Prénom *",
+          "resa.lname": "Nom *",
+          "resa.email": "Email *",
+          "resa.phone": "Téléphone *",
+          "resa.resident": "Résident visité *",
+          "resa.residentHint": "Indiquez son nom : notre équipe fera le rapprochement.",
+          "resa.relation": "Lien de parenté",
+          "resa.date": "Date souhaitée *",
+          "resa.dateHint": "Du lundi au vendredi.",
+          "resa.slot": "Créneau *",
+          "resa.slotMorning": "Matin (10h – 13h)",
+          "resa.slotAfternoon": "Après-midi (16h – 19h)",
+          "resa.visitors": "Nombre de visiteurs *",
+          "resa.message": "Message",
+          "resa.submit": "Envoyer la demande",
+          "resa.sending": "Envoi…",
+          "resa.success": "Votre demande a bien été envoyée. Notre équipe vous confirmera la visite.",
+          "resa.errRequired": "Merci de remplir tous les champs obligatoires.",
+          "resa.errDate": "Choisissez une date à venir.",
+          "resa.errWeekday": "Les visites ont lieu du lundi au vendredi.",
+          "resa.errDuplicate": "Une demande existe déjà pour cette date.",
+          "resa.errGeneric": "Une erreur est survenue. Réessayez ou appelez le 4641124.",
           "hero.badge": "Diocèse Anglican de Maurice",
           "hero.tagline":
             "Un foyer chaleureux et bienveillant pour les personnes âgées  où chaque résident est traité avec espoir, dignité et respect, au nom de notre Seigneur Jésus-Christ. Rose Hill, Maurice.",
@@ -3490,6 +3652,30 @@
           "nav.gallery": "图库",
           "nav.contact": "联系我们",
           "appt.btn": "预约",
+          "resa.title": "预约探访",
+          "resa.subtitle": "我们的团队将确认您的探访。",
+          "resa.fname": "名字 *",
+          "resa.lname": "姓氏 *",
+          "resa.email": "电子邮箱 *",
+          "resa.phone": "电话 *",
+          "resa.resident": "探访的住户 *",
+          "resa.residentHint": "请填写住户姓名，我们的团队会进行核对。",
+          "resa.relation": "与住户关系",
+          "resa.date": "期望日期 *",
+          "resa.dateHint": "周一至周五。",
+          "resa.slot": "时间段 *",
+          "resa.slotMorning": "上午（10点–13点）",
+          "resa.slotAfternoon": "下午（16点–19点）",
+          "resa.visitors": "访客人数 *",
+          "resa.message": "留言",
+          "resa.submit": "提交预约",
+          "resa.sending": "提交中…",
+          "resa.success": "您的预约已提交，我们的团队将确认探访。",
+          "resa.errRequired": "请填写所有必填项。",
+          "resa.errDate": "请选择将来的日期。",
+          "resa.errWeekday": "探访时间为周一至周五。",
+          "resa.errDuplicate": "该日期已有一条预约。",
+          "resa.errGeneric": "出现错误，请重试或致电 4641124。",
           "hero.badge": "毛里求斯英国圣公会教区",
           "hero.tagline":
             "以主耶稣基督之名，为老人提供高质量、富有同情心的关怀\n 毛里求斯玫瑰山。",
@@ -3612,6 +3798,30 @@
           "nav.gallery": "Galeri",
           "nav.contact": "Kontakte Nou",
           "appt.btn": "Pran Randevou",
+          "resa.title": "Rezerv enn vizit",
+          "resa.subtitle": "Nou lekip pou konfirm ou vizit.",
+          "resa.fname": "Prenon *",
+          "resa.lname": "Non fami *",
+          "resa.email": "Imel *",
+          "resa.phone": "Telefonn *",
+          "resa.resident": "Rezidan ou pe vizite *",
+          "resa.residentHint": "Ekrir so non : nou lekip pou fer koresponn dosie-la.",
+          "resa.relation": "Lien fami",
+          "resa.date": "Dat ou anvi *",
+          "resa.dateHint": "Lindi ziska vandredi.",
+          "resa.slot": "Peryod *",
+          "resa.slotMorning": "Gramatin (10er – 13er)",
+          "resa.slotAfternoon": "Apremidi (16er – 19er)",
+          "resa.visitors": "Komie viziter *",
+          "resa.message": "Mesaz",
+          "resa.submit": "Avoy demann",
+          "resa.sending": "Pe avoye…",
+          "resa.success": "Ou demann finn avoye. Nou lekip pou konfirm vizit-la.",
+          "resa.errRequired": "Silvouple ranpli tou bann ka obligatwar.",
+          "resa.errDate": "Swazir enn dat pli devan.",
+          "resa.errWeekday": "Vizit fer lindi ziska vandredi.",
+          "resa.errDuplicate": "Ena deza enn demann pou sa dat-la.",
+          "resa.errGeneric": "Enn erer finn arive. Re-esaye ou apel 4641124.",
           "hero.badge": "Dioses Anglikan Moris",
           "hero.tagline":
             "Ofrir swen kalite ek konpasyon pou bann vie dimoune\ndan nom Bondie Jezikri nou  Rose Hill, Moris.",
@@ -3960,8 +4170,14 @@
 
       // ── TOGGLE VISIT TIME FIELD ───────────────────────────────
       function toggleVisitTime(val) {
-        const g = document.getElementById('visit-time-group');
-        if (g) g.style.display = val === 'visit' ? 'block' : 'none';
+        if (val === "visit") {
+          const sel = document.getElementById("enquiry");
+          if (sel) sel.value = "";
+          openResaModal();
+          return;
+        }
+        const g = document.getElementById("visit-time-group");
+        if (g) g.style.display = "none";
       }
 
       // ── DYNAMIC CONTENT FROM SUPABASE ────────────────────────
@@ -4064,6 +4280,119 @@
         loadYoutubeVideos();
         showPage(location.hash ? location.hash.slice(1) : 'hero');
       })();
+
+      // ── RESERVATION DE VISITE ────────────────────────────────
+      function openResaModal() {
+        const overlay = document.getElementById("resa-overlay");
+        const dateEl = document.getElementById("resa-date");
+        const min = new Date();
+        min.setDate(min.getDate() + 1);
+        dateEl.min = min.toISOString().slice(0, 10);
+        document.getElementById("resa-success").style.display = "none";
+        document.getElementById("resa-error").style.display = "none";
+        overlay.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeResaModal() {
+        document.getElementById("resa-overlay").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      document.getElementById("resa-overlay").addEventListener("click", (e) => {
+        if (e.target.id === "resa-overlay") closeResaModal();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeResaModal();
+      });
+
+      function resaT(key) {
+        return (i18n[currentLang] || {})[key] || i18n.fr[key] || key;
+      }
+
+      function resaError(msg) {
+        const el = document.getElementById("resa-error");
+        el.textContent = msg;
+        el.style.display = "block";
+      }
+
+      async function submitResa() {
+        const val = (id) => document.getElementById(id).value.trim();
+        const prenom = val("resa-fname");
+        const nom = val("resa-lname");
+        const email = val("resa-email");
+        const phone = val("resa-phone");
+        const resident = val("resa-resident");
+        const relation = val("resa-relation");
+        const date = val("resa-date");
+        const slot = document.getElementById("resa-slot").value;
+        const visitors = parseInt(document.getElementById("resa-visitors").value, 10);
+        const message = val("resa-message");
+        const website = val("resa-website");
+
+        const errEl = document.getElementById("resa-error");
+        const okEl = document.getElementById("resa-success");
+        errEl.style.display = "none";
+        okEl.style.display = "none";
+
+        if (!prenom || !nom || !email || !phone || !resident || !date) {
+          resaError(resaT("resa.errRequired"));
+          return;
+        }
+        const d = new Date(date + "T00:00:00");
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (isNaN(d.getTime()) || d <= today) {
+          resaError(resaT("resa.errDate"));
+          return;
+        }
+        const wd = d.getDay();
+        if (wd === 0 || wd === 6) {
+          resaError(resaT("resa.errWeekday"));
+          return;
+        }
+
+        const btn = document.getElementById("resa-submit");
+        btn.disabled = true;
+        const label = btn.textContent;
+        btn.textContent = resaT("resa.sending");
+
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/reservation-visite`, {
+            method: "POST",
+            headers: {
+              apikey: ANON_KEY,
+              Authorization: `Bearer ${ANON_KEY}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              prenom, nom, email,
+              telephone: phone,
+              resident_saisi: resident,
+              lien_parente: relation || null,
+              date_visite: date,
+              creneau: slot,
+              nb_visiteurs: visitors,
+              message: message || null,
+              website,
+            }),
+          });
+
+          if (res.status === 409) {
+            resaError(resaT("resa.errDuplicate"));
+            return;
+          }
+          if (!res.ok) throw new Error("HTTP " + res.status);
+
+          okEl.style.display = "block";
+          ["resa-fname","resa-lname","resa-email","resa-phone","resa-resident","resa-relation","resa-date","resa-message"]
+            .forEach((id) => (document.getElementById(id).value = ""));
+        } catch (err) {
+          console.error("Réservation :", err);
+          resaError(resaT("resa.errGeneric"));
+        } finally {
+          btn.disabled = false;
+          btn.textContent = label;
+        }
+      }
     </script>
   </body>
 </html>

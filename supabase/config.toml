@@ -1,0 +1,5 @@
+# Configuration des Edge Functions (projet du site mgbfcznrpiwobsxxryhl)
+
+[functions.reservation-visite]
+# Appelée depuis le navigateur avec la clé publique (JWT anon accepté).
+verify_jwt = true
