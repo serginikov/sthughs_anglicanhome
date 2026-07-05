@@ -425,7 +425,7 @@
       }
 
       /* ===== FLOATING APPOINTMENT BUTTON ===== */
-      /* ===== BOUTON FLOTTANT — BULLE DE MESSAGE ===== */
+      /* Bouton flottant : bulle de message */
       #appt-btn {
         position: fixed;
         bottom: 5rem;
@@ -892,7 +892,7 @@
       }
 
       /* ===== HISTORY ===== */
-      /* ===== HISTORY — TIMELINE ALTERNÉE CENTRÉE ===== */
+      /* History : timeline alternée centrée */
       #history {
         background: linear-gradient(160deg, #0c3535 0%, #0f4040 40%, #0a2e2e 100%);
         position: relative;
@@ -954,7 +954,7 @@
         padding: 0 10px;
         z-index: 1;
       }
-      /* HAUT (impair) : carte, connecteur, nœud — nœud ancré à l'axe par le bas */
+      /* HAUT (impair) : carte, connecteur, nœud (ancré à l'axe par le bas) */
       .tl-item.tl-top {
         justify-content: flex-end;
         padding-bottom: 233px; /* (480/2) - 7 = 233 → centre du nœud à 240px = 50% */
@@ -962,7 +962,7 @@
       .tl-item.tl-top .tl-card { order: 1; }
       .tl-item.tl-top .tl-conn { order: 2; }
       .tl-item.tl-top .tl-dot  { order: 3; }
-      /* BAS (pair) : nœud, connecteur, carte — nœud ancré à l'axe par le haut */
+      /* BAS (pair) : nœud, connecteur, carte (ancré à l'axe par le haut) */
       .tl-item.tl-bot {
         justify-content: flex-start;
         padding-top: 233px;
@@ -3071,9 +3071,7 @@
       <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
     </button>
 
-    <!-- ============================================================
-         JAVASCRIPT
-    ============================================================ -->
+    <!-- Scripts -->
     <script>
       // ── SUPABASE CONFIG ──────────────────────────────────────
       const SUPABASE_URL = "https://mgbfcznrpiwobsxxryhl.supabase.co";
@@ -4020,10 +4018,10 @@
         document.body.style.overflow = "";
       }
 
-      // ☰ ouvre le drawer
+      // Le bouton burger ouvre le drawer
       burger.addEventListener("click", openMobileNav);
 
-      // ✕ interne ferme le drawer
+      // La croix interne ferme le drawer
       drawerCloseBtn.addEventListener("click", closeMobileNav);
 
       // Clic sur l'overlay ferme le drawer
@@ -4056,7 +4054,7 @@
         .querySelectorAll(".reveal")
         .forEach((el) => observer.observe(el));
 
-      // ── LUCIOLES — CANVAS ANIMATION ──────────────────────────
+      // ── Lucioles : animation canvas ──
       (function() {
         const canvas = document.getElementById('firefly-canvas');
         if (!canvas) return;
