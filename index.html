@@ -2083,45 +2083,8 @@
         .album-modal-grid { grid-template-columns: repeat(2, 1fr); }
       }
 
-      /* ── Réservation de visite ─────────────────────────────── */
-      .resa-overlay {
-        position: fixed; inset: 0; z-index: 3000;
-        background: rgba(15, 42, 42, 0.55);
-        display: none; align-items: center; justify-content: center;
-        padding: 1rem;
-      }
-      .resa-overlay.open { display: flex; }
-      .resa-box {
-        background: var(--card-bg); color: var(--text-dark);
-        border-radius: 14px; box-shadow: var(--shadow-deep);
-        width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto;
-        padding: 1.75rem 1.75rem 1.5rem;
-      }
-      .resa-head {
-        display: flex; align-items: flex-start; justify-content: space-between;
-        margin-bottom: 1rem;
-      }
-      .resa-head h3 {
-        font-family: "Cormorant Garamond", Georgia, serif;
-        font-size: 1.45rem; color: var(--teal-dark); margin: 0;
-      }
-      .resa-head p { font-size: 0.85rem; color: var(--text-light); margin: 0.2rem 0 0; }
-      .resa-close {
-        background: none; border: none; font-size: 1.3rem; cursor: pointer;
-        color: var(--text-light); line-height: 1; padding: 0.2rem;
-      }
-      .resa-close:hover { color: var(--teal-dark); }
-      .resa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
-      @media (max-width: 540px) { .resa-grid { grid-template-columns: 1fr; } }
+      /* ── Réservation de visite (champs intégrés au formulaire contact) ── */
       .resa-hp { position: absolute; left: -6000px; top: -6000px; height: 1px; overflow: hidden; }
-      .resa-success, .resa-error {
-        display: none; border-radius: 8px; padding: 0.7rem 1rem;
-        font-size: 0.88rem; margin-top: 0.75rem;
-      }
-      .resa-success { background: #f0fdf4; color: #15803d; border: 1px solid #86efac; }
-      .resa-error   { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
-      [data-theme="dark"] .resa-success { background: #1d3d2a; color: #9fdfb8; border-color: #2e5c40; }
-      [data-theme="dark"] .resa-error   { background: #4a1d1d; color: #f3a8a8; border-color: #7a3535; }
     </style>
   </head>
   <body>
@@ -2230,7 +2193,7 @@
     </nav>
 
     <!-- FLOATING APPOINTMENT BUTTON -->
-    <a href="#" id="appt-btn" aria-label="Prendre rendez-vous" onclick="openResaModal(); return false;">
+    <a href="#" id="appt-btn" aria-label="Prendre rendez-vous" onclick="gotoVisitForm(); return false;">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.62 3.38 2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.76a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
       </svg>
@@ -2853,17 +2816,40 @@
                 <option value="other" data-i18n="form.opt5">Other</option>
               </select>
             </div>
-            <div class="form-group" id="visit-time-group" style="display:none">
-              <label data-i18n="form.visit_datetime">Preferred Visit Date & Time</label>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-                <div>
-                  <input type="date" id="visit-date" style="width:100%" />
+            <!-- Champs visite : dépliés quand « Réserver une visite » est
+                 choisi ci-dessus. Même formulaire, mêmes nom/email/téléphone :
+                 aucun doublon, pas de fenêtre séparée. -->
+            <div id="visit-fields" style="display:none">
+              <div class="form-group">
+                <label for="visit-resident" data-i18n="resa.resident">Résident visité *</label>
+                <input type="text" id="visit-resident" />
+                <p style="font-size:0.76rem;color:var(--text-light);margin-top:4px" data-i18n="resa.residentHint">Indiquez son nom : notre équipe fera le rapprochement.</p>
+              </div>
+              <div class="form-group">
+                <label for="visit-relation" data-i18n="resa.relation">Lien de parenté</label>
+                <input type="text" id="visit-relation" />
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="visit-date" data-i18n="resa.date">Date souhaitée *</label>
+                  <input type="date" id="visit-date" />
+                  <p style="font-size:0.76rem;color:var(--text-light);margin-top:4px" data-i18n="resa.dateHint">Du lundi au vendredi.</p>
                 </div>
-                <div>
-                  <input type="time" id="visit-time" style="width:100%" />
+                <div class="form-group">
+                  <label for="visit-slot" data-i18n="resa.slot">Créneau *</label>
+                  <select id="visit-slot">
+                    <option value="matin" data-i18n="resa.slotMorning">Matin (10h – 13h)</option>
+                    <option value="apres_midi" data-i18n="resa.slotAfternoon">Après-midi (16h – 19h)</option>
+                  </select>
                 </div>
               </div>
-              <p style="font-size:0.78rem;color:var(--text-light);margin-top:5px" data-i18n="form.visit_time_hint">Please indicate your preferred date and time for the visit</p>
+              <div class="form-group">
+                <label for="visit-visitors" data-i18n="resa.visitors">Nombre de visiteurs *</label>
+                <select id="visit-visitors">
+                  <option>1</option><option>2</option><option>3</option>
+                  <option>4</option><option>5</option><option>6</option>
+                </select>
+              </div>
             </div>
             <div class="form-group">
               <label for="message" data-i18n="form.message">Message</label
@@ -2871,6 +2857,10 @@
                 id="message"
                 placeholder="How can we help you?"
               ></textarea>
+            </div>
+            <div class="resa-hp" aria-hidden="true">
+              <label for="cf-website">Website</label>
+              <input type="text" id="cf-website" tabindex="-1" autocomplete="off" />
             </div>
             <button
               type="button"
@@ -2881,7 +2871,7 @@
             >
               Send Message
             </button>
-            <div id="form-success" data-i18n="form.success">
+            <div id="form-success">
               ✓ Thank you for reaching out. We will get back to you shortly.
             </div>
             <div id="form-error">
@@ -2891,80 +2881,6 @@
         </div>
       </div>
     </section>
-
-    <!-- RESERVATION DE VISITE -->
-    <div class="resa-overlay" id="resa-overlay">
-      <div class="resa-box" role="dialog" aria-modal="true" aria-labelledby="resa-title">
-        <div class="resa-head">
-          <div>
-            <h3 id="resa-title" data-i18n="resa.title">Réserver une visite</h3>
-            <p data-i18n="resa.subtitle">Notre équipe confirmera votre venue.</p>
-          </div>
-          <button class="resa-close" onclick="closeResaModal()" aria-label="Fermer">✕</button>
-        </div>
-        <div class="resa-grid">
-          <div class="form-group">
-            <label for="resa-fname" data-i18n="resa.fname">Prénom *</label>
-            <input type="text" id="resa-fname" autocomplete="given-name" />
-          </div>
-          <div class="form-group">
-            <label for="resa-lname" data-i18n="resa.lname">Nom *</label>
-            <input type="text" id="resa-lname" autocomplete="family-name" />
-          </div>
-        </div>
-        <div class="resa-grid">
-          <div class="form-group">
-            <label for="resa-email" data-i18n="resa.email">Email *</label>
-            <input type="email" id="resa-email" autocomplete="email" />
-          </div>
-          <div class="form-group">
-            <label for="resa-phone" data-i18n="resa.phone">Téléphone *</label>
-            <input type="tel" id="resa-phone" placeholder="+230 5XXX XXXX" autocomplete="tel" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="resa-resident" data-i18n="resa.resident">Résident visité *</label>
-          <input type="text" id="resa-resident" />
-          <p style="font-size:0.76rem;color:var(--text-light);margin-top:4px" data-i18n="resa.residentHint">Indiquez son nom : notre équipe fera le rapprochement.</p>
-        </div>
-        <div class="form-group">
-          <label for="resa-relation" data-i18n="resa.relation">Lien de parenté</label>
-          <input type="text" id="resa-relation" />
-        </div>
-        <div class="resa-grid">
-          <div class="form-group">
-            <label for="resa-date" data-i18n="resa.date">Date souhaitée *</label>
-            <input type="date" id="resa-date" />
-            <p style="font-size:0.76rem;color:var(--text-light);margin-top:4px" data-i18n="resa.dateHint">Du lundi au vendredi.</p>
-          </div>
-          <div class="form-group">
-            <label for="resa-slot" data-i18n="resa.slot">Créneau *</label>
-            <select id="resa-slot">
-              <option value="matin" data-i18n="resa.slotMorning">Matin (10h – 13h)</option>
-              <option value="apres_midi" data-i18n="resa.slotAfternoon">Après-midi (16h – 19h)</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="resa-visitors" data-i18n="resa.visitors">Nombre de visiteurs *</label>
-          <select id="resa-visitors">
-            <option>1</option><option>2</option><option>3</option>
-            <option>4</option><option>5</option><option>6</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="resa-message" data-i18n="resa.message">Message</label>
-          <textarea id="resa-message" rows="3"></textarea>
-        </div>
-        <div class="resa-hp" aria-hidden="true">
-          <label for="resa-website">Website</label>
-          <input type="text" id="resa-website" tabindex="-1" autocomplete="off" />
-        </div>
-        <button type="button" class="form-submit" id="resa-submit" onclick="submitResa()" data-i18n="resa.submit">Envoyer la demande</button>
-        <div class="resa-success" id="resa-success" data-i18n="resa.success">Votre demande a bien été envoyée. Notre équipe vous confirmera la visite.</div>
-        <div class="resa-error" id="resa-error"></div>
-      </div>
-    </div>
 
     <!-- FOOTER -->
     <footer>
@@ -3243,70 +3159,134 @@
       });
 
       // ── CONTACT FORM  SAVES TO SUPABASE ────────────────────
+      // Un seul bouton : selon le type de demande, le formulaire part
+      // vers contact_messages ou vers l'Edge Function reservation-visite.
       async function submitForm() {
         const fname = document.getElementById("fname").value.trim();
         const lname = document.getElementById("lname").value.trim();
         const email = document.getElementById("email").value.trim();
         const phone = document.getElementById("phone").value.trim();
         const enquiry = document.getElementById("enquiry").value;
-        const visitDate = document.getElementById("visit-date").value;
-        const visitTime = document.getElementById("visit-time").value;
         const message = document.getElementById("message").value.trim();
+        const website = document.getElementById("cf-website").value.trim();
         const success = document.getElementById("form-success");
         const errorBox = document.getElementById("form-error");
         const btn = document.getElementById("form-submit-btn");
+        const isVisit = enquiry === "visit";
 
         success.style.display = "none";
         errorBox.style.display = "none";
+        const showError = (msg) => {
+          errorBox.textContent = "✕ " + msg;
+          errorBox.style.display = "block";
+        };
 
         if (!fname || !email) {
-          errorBox.textContent = "Please enter your name and email address.";
-          errorBox.style.display = "block";
+          showError("Please enter your name and email address.");
           return;
+        }
+
+        let visit = null;
+        if (isVisit) {
+          visit = {
+            resident: document.getElementById("visit-resident").value.trim(),
+            relation: document.getElementById("visit-relation").value.trim(),
+            date: document.getElementById("visit-date").value,
+            slot: document.getElementById("visit-slot").value,
+            visitors: parseInt(document.getElementById("visit-visitors").value, 10),
+          };
+          if (!lname || !phone || !visit.resident || !visit.date) {
+            showError(resaT("resa.errRequired"));
+            return;
+          }
+          const d = new Date(visit.date + "T00:00:00");
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          if (isNaN(d.getTime()) || d <= today) {
+            showError(resaT("resa.errDate"));
+            return;
+          }
+          const wd = d.getDay();
+          if (wd === 0 || wd === 6) {
+            showError(resaT("resa.errWeekday"));
+            return;
+          }
         }
 
         // Loading state
         btn.disabled = true;
-        btn.innerHTML = '<span class="spinner"></span> Sending…';
+        btn.innerHTML = '<span class="spinner"></span> ' + resaT("resa.sending");
 
         try {
-          const res = await sbFetch(
-            "contact_messages",
-            {
+          let res;
+          if (isVisit) {
+            res = await fetch(`${SUPABASE_URL}/functions/v1/reservation-visite`, {
               method: "POST",
+              headers: {
+                apikey: ANON_KEY,
+                Authorization: `Bearer ${ANON_KEY}`,
+                "Content-Type": "application/json",
+              },
               body: JSON.stringify({
-                first_name: fname,
-                last_name: lname,
+                prenom: fname,
+                nom: lname,
                 email: email,
-                phone: phone,
-                enquiry_type: enquiry || "other",
-                visit_date: visitDate || "",
-                visit_time: visitTime || "",
-                message: message,
+                telephone: phone,
+                resident_saisi: visit.resident,
+                lien_parente: visit.relation || null,
+                date_visite: visit.date,
+                creneau: visit.slot,
+                nb_visiteurs: visit.visitors,
+                message: message || null,
+                website,
               }),
-            },
-            "return=minimal",
-          );
-
-          if (!res.ok && res.status !== 201)
-            throw new Error("Server error " + res.status);
+            });
+            if (res.status === 409) {
+              showError(resaT("resa.errDuplicate"));
+              return;
+            }
+            if (!res.ok) throw new Error("HTTP " + res.status);
+          } else {
+            res = await sbFetch(
+              "contact_messages",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  first_name: fname,
+                  last_name: lname,
+                  email: email,
+                  phone: phone,
+                  enquiry_type: enquiry || "other",
+                  visit_date: "",
+                  visit_time: "",
+                  message: message,
+                }),
+              },
+              "return=minimal",
+            );
+            if (!res.ok && res.status !== 201)
+              throw new Error("Server error " + res.status);
+          }
 
           // Success
+          success.textContent = isVisit
+            ? "✓ " + resaT("resa.success")
+            : resaT("form.success");
           success.style.display = "block";
-          ["fname", "lname", "email", "phone", "enquiry", "message"].forEach(
-            (id) => {
-              const el = document.getElementById(id);
-              if (el) el.value = "";
-            },
-          );
+          [
+            "fname", "lname", "email", "phone", "enquiry", "message",
+            "visit-resident", "visit-relation", "visit-date",
+          ].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.value = "";
+          });
+          if (isVisit) toggleVisitTime("");
           setTimeout(() => {
             success.style.display = "none";
           }, 7000);
         } catch (err) {
           console.error("Form error:", err);
-          errorBox.textContent =
-            "✕ Something went wrong. Please try again or call us directly on 464 1124.";
-          errorBox.style.display = "block";
+          showError(resaT("resa.errGeneric"));
         } finally {
           btn.disabled = false;
           btn.innerHTML = '<span data-i18n="form.submit">Send Message</span>';
@@ -4166,16 +4146,31 @@
         showPage(location.hash ? location.hash.slice(1) : 'hero');
       });
 
-      // ── TOGGLE VISIT TIME FIELD ───────────────────────────────
+      // ── CHAMPS VISITE DANS LE FORMULAIRE CONTACT ─────────────
       function toggleVisitTime(val) {
+        const g = document.getElementById("visit-fields");
+        if (!g) return;
         if (val === "visit") {
-          const sel = document.getElementById("enquiry");
-          if (sel) sel.value = "";
-          openResaModal();
-          return;
+          const dateEl = document.getElementById("visit-date");
+          const min = new Date();
+          min.setDate(min.getDate() + 1);
+          dateEl.min = min.toISOString().slice(0, 10);
+          g.style.display = "block";
+        } else {
+          g.style.display = "none";
         }
-        const g = document.getElementById("visit-time-group");
-        if (g) g.style.display = "none";
+      }
+
+      // Bouton flottant « Prendre rendez-vous » : va au formulaire de
+      // contact et présélectionne la demande de visite.
+      function gotoVisitForm() {
+        const sel = document.getElementById("enquiry");
+        if (sel) {
+          sel.value = "visit";
+          toggleVisitTime("visit");
+        }
+        showPage("contact");
+        history.pushState(null, null, "#contact");
       }
 
       // ── DYNAMIC CONTENT FROM SUPABASE ────────────────────────
@@ -4279,117 +4274,9 @@
         showPage(location.hash ? location.hash.slice(1) : 'hero');
       })();
 
-      // ── RESERVATION DE VISITE ────────────────────────────────
-      function openResaModal() {
-        const overlay = document.getElementById("resa-overlay");
-        const dateEl = document.getElementById("resa-date");
-        const min = new Date();
-        min.setDate(min.getDate() + 1);
-        dateEl.min = min.toISOString().slice(0, 10);
-        document.getElementById("resa-success").style.display = "none";
-        document.getElementById("resa-error").style.display = "none";
-        overlay.classList.add("open");
-        document.body.style.overflow = "hidden";
-      }
-      function closeResaModal() {
-        document.getElementById("resa-overlay").classList.remove("open");
-        document.body.style.overflow = "";
-      }
-      document.getElementById("resa-overlay").addEventListener("click", (e) => {
-        if (e.target.id === "resa-overlay") closeResaModal();
-      });
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeResaModal();
-      });
-
+      // ── TRADUCTIONS DES MESSAGES DE VISITE ───────────────────
       function resaT(key) {
         return (i18n[currentLang] || {})[key] || i18n.fr[key] || key;
-      }
-
-      function resaError(msg) {
-        const el = document.getElementById("resa-error");
-        el.textContent = msg;
-        el.style.display = "block";
-      }
-
-      async function submitResa() {
-        const val = (id) => document.getElementById(id).value.trim();
-        const prenom = val("resa-fname");
-        const nom = val("resa-lname");
-        const email = val("resa-email");
-        const phone = val("resa-phone");
-        const resident = val("resa-resident");
-        const relation = val("resa-relation");
-        const date = val("resa-date");
-        const slot = document.getElementById("resa-slot").value;
-        const visitors = parseInt(document.getElementById("resa-visitors").value, 10);
-        const message = val("resa-message");
-        const website = val("resa-website");
-
-        const errEl = document.getElementById("resa-error");
-        const okEl = document.getElementById("resa-success");
-        errEl.style.display = "none";
-        okEl.style.display = "none";
-
-        if (!prenom || !nom || !email || !phone || !resident || !date) {
-          resaError(resaT("resa.errRequired"));
-          return;
-        }
-        const d = new Date(date + "T00:00:00");
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        if (isNaN(d.getTime()) || d <= today) {
-          resaError(resaT("resa.errDate"));
-          return;
-        }
-        const wd = d.getDay();
-        if (wd === 0 || wd === 6) {
-          resaError(resaT("resa.errWeekday"));
-          return;
-        }
-
-        const btn = document.getElementById("resa-submit");
-        btn.disabled = true;
-        const label = btn.textContent;
-        btn.textContent = resaT("resa.sending");
-
-        try {
-          const res = await fetch(`${SUPABASE_URL}/functions/v1/reservation-visite`, {
-            method: "POST",
-            headers: {
-              apikey: ANON_KEY,
-              Authorization: `Bearer ${ANON_KEY}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              prenom, nom, email,
-              telephone: phone,
-              resident_saisi: resident,
-              lien_parente: relation || null,
-              date_visite: date,
-              creneau: slot,
-              nb_visiteurs: visitors,
-              message: message || null,
-              website,
-            }),
-          });
-
-          if (res.status === 409) {
-            resaError(resaT("resa.errDuplicate"));
-            return;
-          }
-          if (!res.ok) throw new Error("HTTP " + res.status);
-
-          okEl.style.display = "block";
-          ["resa-fname","resa-lname","resa-email","resa-phone","resa-resident","resa-relation","resa-date","resa-message"]
-            .forEach((id) => (document.getElementById(id).value = ""));
-        } catch (err) {
-          console.error("Réservation :", err);
-          resaError(resaT("resa.errGeneric"));
-        } finally {
-          btn.disabled = false;
-          btn.textContent = label;
-        }
       }
     </script>
   </body>
