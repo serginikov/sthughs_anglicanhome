@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://serginikov.github.io/sthughs_anglicanhome/sitemap.xml

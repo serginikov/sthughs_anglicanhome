@@ -4,6 +4,70 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>St Hugh's Anglican Home</title>
+
+    <!-- SEO : la description est resynchronisée par setLanguage() -->
+    <meta
+      name="description"
+      content="St Hugh's Anglican Home, Rose Hill, Mauritius - a warm residential home for the elderly run by the Diocese of Mauritius. Care with dignity, faith and community."
+    />
+    <link
+      rel="canonical"
+      href="https://serginikov.github.io/sthughs_anglicanhome/"
+    />
+
+    <!-- Open Graph (aperçus WhatsApp / Facebook) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="St Hugh's Anglican Home" />
+    <meta property="og:title" content="St Hugh's Anglican Home" />
+    <meta
+      property="og:description"
+      content="A warm residential home for the elderly in Rose Hill, Mauritius - care with dignity, faith and community."
+    />
+    <meta
+      property="og:url"
+      content="https://serginikov.github.io/sthughs_anglicanhome/"
+    />
+    <meta
+      property="og:image"
+      content="https://serginikov.github.io/sthughs_anglicanhome/image_6.jpg"
+    />
+    <meta property="og:locale" content="en_MU" />
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="St Hugh's Anglican Home" />
+    <meta
+      name="twitter:description"
+      content="A warm residential home for the elderly in Rose Hill, Mauritius."
+    />
+    <meta
+      name="twitter:image"
+      content="https://serginikov.github.io/sthughs_anglicanhome/image_6.jpg"
+    />
+
+    <!-- Fiche Google : données structurées -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "St Hugh's Anglican Home",
+        "description": "Residential home for the elderly run by the Anglican Diocese of Mauritius.",
+        "url": "https://serginikov.github.io/sthughs_anglicanhome/",
+        "image": "https://serginikov.github.io/sthughs_anglicanhome/image_6.jpg",
+        "logo": "https://serginikov.github.io/sthughs_anglicanhome/logo.png",
+        "telephone": "+230 464 1124",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Rose Hill",
+          "addressCountry": "MU"
+        },
+        "parentOrganization": {
+          "@type": "Organization",
+          "name": "Diocese of Mauritius"
+        }
+      }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -2085,9 +2149,107 @@
 
       /* ── Réservation de visite (champs intégrés au formulaire contact) ── */
       .resa-hp { position: absolute; left: -6000px; top: -6000px; height: 1px; overflow: hidden; }
+
+      /* ── Lien d'évitement : invisible tant qu'il n'a pas le focus ── */
+      .skip-link {
+        position: absolute;
+        left: -6000px;
+        top: 0;
+        z-index: 3000;
+        padding: 12px 20px;
+        background: var(--mission);
+        color: var(--submit-text);
+        font-weight: 600;
+        border-radius: 0 0 8px 0;
+      }
+      .skip-link:focus {
+        left: 0;
+      }
+
+      /* ── Sélecteur de langue : les options sont de vrais boutons ── */
+      button.lang-option {
+        background: none;
+        border: 0;
+        width: 100%;
+        font: inherit;
+        text-align: left;
+      }
+      .lang-option:focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: -2px;
+      }
+
+      /* ── Façade YouTube : miniature cliquable, l'iframe ne se
+             charge qu'au clic (performance + vie privée) ── */
+      .yt-facade {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        border: 0;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+        background: #000;
+      }
+      .yt-facade img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.85;
+        transition: opacity 0.25s, transform 0.35s;
+      }
+      .yt-facade:hover img,
+      .yt-facade:focus-visible img {
+        opacity: 1;
+        transform: scale(1.03);
+      }
+      .yt-play {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 64px;
+        height: 46px;
+        border-radius: 12px;
+        background: rgba(18, 72, 72, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+      }
+      .yt-facade:hover .yt-play,
+      .yt-facade:focus-visible .yt-play {
+        background: var(--gold);
+      }
+      .yt-play svg {
+        width: 22px;
+        height: 22px;
+        fill: #fff;
+        margin-left: 3px;
+      }
+
+      /* ── Respect de prefers-reduced-motion ── */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
     </style>
   </head>
   <body>
+    <!-- Lien d'évitement clavier / lecteur d'écran -->
+    <a class="skip-link" href="#main-content" data-i18n="a11y.skip"
+      >Skip to content</a
+    >
+
     <!-- NAVBAR -->
     <!-- Mobile nav overlay (closes menu on click) -->
     <div class="nav-overlay" id="nav-overlay"></div>
@@ -2140,18 +2302,18 @@
               <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" /></svg>
             </button>
             <div class="lang-dropdown" id="lang-dropdown">
-              <div class="lang-option active" onclick="setLanguage('en')">
+              <button type="button" class="lang-option active" onclick="setLanguage('en')">
                 <span class="lang-flag">🇬🇧</span> English
-              </div>
-              <div class="lang-option" onclick="setLanguage('fr')">
+              </button>
+              <button type="button" class="lang-option" onclick="setLanguage('fr')">
                 <span class="lang-flag">🇫🇷</span> Français
-              </div>
-              <div class="lang-option" onclick="setLanguage('zh')">
+              </button>
+              <button type="button" class="lang-option" onclick="setLanguage('zh')">
                 <span class="lang-flag">🇨🇳</span> 中文
-              </div>
-              <div class="lang-option" onclick="setLanguage('mu')">
+              </button>
+              <button type="button" class="lang-option" onclick="setLanguage('mu')">
                 <span class="lang-flag">🇲🇺</span> Morisyen
-              </div>
+              </button>
             </div>
           </div>
           <button
@@ -2201,6 +2363,7 @@
     </a>
 
     <!-- HERO -->
+    <main id="main-content">
     <section id="hero" class="spa-section active">
       <div class="hero-banner">
         <img src="image_9.jpeg" alt="St Hugh's Anglican Home" />
@@ -2619,36 +2782,62 @@
           <div class="gallery-skeleton" style="flex:0 0 320px;min-height:320px;border-radius:10px"></div>
           <div class="gallery-skeleton" style="flex:0 0 320px;min-height:320px;border-radius:10px"></div>
         </div>
+        <!-- Façades : l'iframe YouTube (youtube-nocookie) n'est
+             injectée qu'au clic, voir initYtFacades() -->
         <div class="youtube-grid" id="youtube-video-grid">
           <div class="youtube-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/HmcLLCwqjf4"
-              title="St Hugh's Anglican Home"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
+            <button
+              type="button"
+              class="yt-facade"
+              data-yt-id="HmcLLCwqjf4"
+              data-yt-title="St Hugh's Anglican Home"
+              aria-label="Play video - St Hugh's Anglican Home"
+            >
+              <img
+                src="https://i.ytimg.com/vi/HmcLLCwqjf4/hqdefault.jpg"
+                alt=""
+                loading="lazy"
+              />
+              <span class="yt-play" aria-hidden="true"
+                ><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg
+              ></span>
+            </button>
           </div>
           <div class="youtube-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/otubg2eERm4"
-              title="St Hugh's Anglican Home"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
+            <button
+              type="button"
+              class="yt-facade"
+              data-yt-id="otubg2eERm4"
+              data-yt-title="St Hugh's Anglican Home"
+              aria-label="Play video - St Hugh's Anglican Home"
+            >
+              <img
+                src="https://i.ytimg.com/vi/otubg2eERm4/hqdefault.jpg"
+                alt=""
+                loading="lazy"
+              />
+              <span class="yt-play" aria-hidden="true"
+                ><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg
+              ></span>
+            </button>
           </div>
           <div class="youtube-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/Hoyo6JMJRB0"
-              title="St Hugh's Anglican Home"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
+            <button
+              type="button"
+              class="yt-facade"
+              data-yt-id="Hoyo6JMJRB0"
+              data-yt-title="St Hugh's Anglican Home"
+              aria-label="Play video - St Hugh's Anglican Home"
+            >
+              <img
+                src="https://i.ytimg.com/vi/Hoyo6JMJRB0/hqdefault.jpg"
+                alt=""
+                loading="lazy"
+              />
+              <span class="yt-play" aria-hidden="true"
+                ><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg
+              ></span>
+            </button>
           </div>
         </div>
       </div>
@@ -2881,6 +3070,7 @@
         </div>
       </div>
     </section>
+    </main>
 
     <!-- FOOTER -->
     <footer>
@@ -3310,6 +3500,7 @@
       // ── TRANSLATIONS ─────────────────────────────────────────
       const i18n = {
         en: {
+          "a11y.skip": "Skip to content",
           "nav.home": "Home",
           "nav.about": "About",
           "nav.mission": "Mission",
@@ -3469,6 +3660,7 @@
           "h5.desc": "In June 2010, during the episcopacy of Archbishop Ian Ernest, four self-care flats were built. On 5th July 2014 they were named Marthe and Mary by Mrs Caroline Welby, wife of Archbishop Justin Welby of Canterbury.",
         },
         fr: {
+          "a11y.skip": "Aller au contenu",
           "nav.home": "Accueil",
           "nav.about": "À Propos",
           "nav.mission": "Mission",
@@ -3622,6 +3814,7 @@
           "h5.desc": "En juin 2010, sous l'épiscopat de l'Archevêque Ian Ernest, quatre appartements autonomes furent construits. Le 5 juillet 2014, ils furent nommés Marthe et Marie par Mme Caroline Welby, épouse de l'Archevêque Justin Welby de Canterbury.",
         },
         zh: {
+          "a11y.skip": "跳转到主要内容",
           "nav.home": "首页",
           "nav.about": "关于我们",
           "nav.mission": "使命",
@@ -3768,6 +3961,7 @@
           "h5.desc": "2010年6月，在伊恩·欧内斯特大主教任期内建造了四套自理公寓。2014年7月5日，由坎特伯雷大主教贾斯汀·韦尔比之妻卡罗琳·韦尔比女士命名为马塔和玛丽。",
         },
         mu: {
+          "a11y.skip": "Al direk lor kontni",
           "nav.home": "Lakaz",
           "nav.about": "Lor Nou",
           "nav.mission": "Misyon",
@@ -3929,10 +4123,27 @@
           if (t[key] !== undefined) el.textContent = t[key];
         });
       }
+      // Descriptions par langue, resservies à la balise meta (SEO
+      // + aperçus de partage cohérents avec la langue affichée)
+      const metaDescriptions = {
+        en: "St Hugh's Anglican Home, Rose Hill, Mauritius - a warm residential home for the elderly run by the Diocese of Mauritius. Care with dignity, faith and community.",
+        fr: "St Hugh's Anglican Home, Rose Hill, île Maurice - une maison de retraite chaleureuse du diocèse de Maurice. Des soins dans la dignité, la foi et la communauté.",
+        zh: "圣休安立甘养老院，位于毛里求斯玫瑰山，由毛里求斯教区管理，为长者提供有尊严、有信仰、有社区温暖的照护。",
+        mu: "St Hugh's Anglican Home, Rose Hill, Moris - enn lakaz retret akeyan ki diosez Moris pe zere. Swin avek dignite, lafwa ek kominote.",
+      };
+
       async function setLanguage(lang) {
         currentLang = lang;
         const labels = { en: "EN", fr: "FR", zh: "中文", mu: "MU" };
         document.getElementById("lang-label").textContent = labels[lang];
+        // Balise html : lecteurs d'écran et moteurs de recherche
+        // (mfe = code ISO 639-3 du créole mauricien)
+        document.documentElement.lang = lang === "mu" ? "mfe" : lang;
+        document
+          .querySelector('meta[name="description"]')
+          ?.setAttribute("content", metaDescriptions[lang] || metaDescriptions.en);
+        // La langue choisie survit au rechargement (comme le thème)
+        localStorage.setItem("lang", lang);
         document
           .querySelectorAll(".lang-option")
           .forEach((o) => o.classList.remove("active"));
@@ -4236,7 +4447,45 @@
         applySiteImages();
       }
 
-      // ── YOUTUBE VIDEOS  DYNAMIQUE ────────────────────────────
+      // ── YOUTUBE : façades (l'iframe ne se charge qu'au clic) ──
+      function ytVideoId(url) {
+        const m = String(url || '').match(
+          /(?:embed\/|v=|youtu\.be\/|shorts\/)([\w-]{11})/
+        );
+        return m ? m[1] : null;
+      }
+
+      // Délégation : un clic sur une façade la remplace par
+      // l'iframe youtube-nocookie en autoplay
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.yt-facade');
+        if (!btn) return;
+        const id = btn.getAttribute('data-yt-id');
+        if (!id) return;
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+        iframe.title = btn.getAttribute('data-yt-title') || "St Hugh's Anglican Home";
+        iframe.setAttribute(
+          'allow',
+          'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+        );
+        iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        iframe.setAttribute('allowfullscreen', '');
+        btn.replaceWith(iframe);
+      });
+
+      function ytFacadeHTML(id, title) {
+        return `
+          <div class="youtube-wrap">
+            <button type="button" class="yt-facade" data-yt-id="${escAttr(id)}"
+                    data-yt-title="${escAttr(title)}"
+                    aria-label="Play video - ${escAttr(title)}">
+              <img src="https://i.ytimg.com/vi/${escAttr(id)}/hqdefault.jpg" alt="" loading="lazy" />
+              <span class="yt-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+            </button>
+          </div>`;
+      }
+
       async function loadYoutubeVideos() {
         const grid = document.getElementById('youtube-video-grid');
         if (!grid) return;
@@ -4247,17 +4496,26 @@
           if (!res.ok) return;
           const data = await res.json();
           if (!Array.isArray(data) || !data.length) return;
-          grid.innerHTML = data.map(v => `
+          grid.innerHTML = data
+            .map((v) => {
+              const id = ytVideoId(v.youtube_url);
+              const title = v.title || "St Hugh's Anglican Home";
+              if (id) return ytFacadeHTML(id, title);
+              // URL non reconnue : iframe directe en secours
+              return `
             <div class="youtube-wrap">
               <iframe
                 src="${escAttr(v.youtube_url)}"
-                title="${escAttr(v.title || "St Hugh's Anglican Home")}"
+                title="${escAttr(title)}"
                 frameborder="0"
+                loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen
               ></iframe>
-            </div>`).join('');
+            </div>`;
+            })
+            .join('');
         } catch (e) {
           // Supabase table not yet created  les vidéos hardcodées restent
         }
@@ -4265,8 +4523,10 @@
 
       // ── INITIALISE ────────────────────────────────────────────
       (async () => {
-        await loadSiteContent('en');
-        applyTranslations('en');
+        // Reprendre la langue choisie à la visite précédente
+        const saved = localStorage.getItem('lang');
+        const initLang = ['en', 'fr', 'zh', 'mu'].includes(saved) ? saved : 'en';
+        await setLanguage(initLang);
         applySiteImages();
         await loadStats();
         loadGallery();
